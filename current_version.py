@@ -46,14 +46,12 @@ page_4_layout = pages.deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗ�
 page_5_layout = pages.update_database()  # РАЗМЕТКА СТРАНИЦЫ 'ОБНОВИТЬ БАЗУ'
 suspicious_deals_layout = pages.suspicious_deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗА ПО СОМНИТЕЛЬНЫМ СДЕЛКАМ'
 
-'''
-Функция кнопки скрытия элементов интерфейса
-Эта функция введена искуственно для возможности скрыть блок кода
-'''
+'''Функция кнопки скрытия элементов интерфейса
+   Эта функция введена искуственно для возможности скрыть блок кода '''
 
 
 def interface_button():
-    @app.callback(dash.dependencies.Output('interface-bar', 'style'),  # на вход принимается событие нажатия кнопки <<
+    @app.callback(dash.dependencies.Output('interface-columns-bar', 'style'),  # на вход принимается событие нажатия кнопки <<
                   [dash.dependencies.Input('interface-arrow-left', 'n_clicks')
                    # если кнопка нажата, то скрывается элемент настройки интерфейса
                    ])
@@ -201,16 +199,16 @@ interface_button()
 
 '''
 Отображение tree-like блока со списком
-На вход принимается значение чеклиста 'colums'
+На вход принимается значение чеклиста 'select columns'
 Если значение выбрано, то отрисовывается новый блок со списком, как в дереве
 '''
 
 
-@app.callback(dash.dependencies.Output('interface', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
-              [dash.dependencies.Input('tree-checklist', 'values')
+@app.callback(dash.dependencies.Output('interface-columns', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
+              [dash.dependencies.Input('tree-checklist-columns', 'values')
                # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
                ])
-def show_tree(val):
+def show_tree_columns(val):
     if 'Show' in val:
         children = {'display': 'block',
                     'width': '192px',
@@ -228,10 +226,10 @@ def show_tree(val):
 '''
 
 
-def select_drop_from_check():
+def select_drop_from_check_columns():
     @app.callback(dash.dependencies.Output('Include_in_Market_Share_Div', 'style'),
                   # проверка checklist со значениями выбранных столбов в таблице
-                  [dash.dependencies.Input('interface', 'values')  # при выборе столбца добавляется выпадающий список
+                  [dash.dependencies.Input('interface-columns', 'values')  # при выборе столбца добавляется выпадающий список
                    ])
     def update_drop_include(val):
         try:
@@ -251,7 +249,7 @@ def select_drop_from_check():
         return style_include
 
     @app.callback(dash.dependencies.Output('Agency_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_agency(val):
         try:
@@ -271,7 +269,7 @@ def select_drop_from_check():
         return style_agency
 
     @app.callback(dash.dependencies.Output('Country_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_country(val):
         try:
@@ -291,7 +289,7 @@ def select_drop_from_check():
         return style_country
 
     @app.callback(dash.dependencies.Output('City_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_city(val):
         try:
@@ -311,7 +309,7 @@ def select_drop_from_check():
         return style_city
 
     @app.callback(dash.dependencies.Output('Property_name_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_property_name(val):
         try:
@@ -331,7 +329,7 @@ def select_drop_from_check():
         return style_property_name
 
     @app.callback(dash.dependencies.Output('Class_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_class(val):
         try:
@@ -351,7 +349,7 @@ def select_drop_from_check():
         return style_class
 
     @app.callback(dash.dependencies.Output('SQM_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_SQM(val):
         try:
@@ -371,7 +369,7 @@ def select_drop_from_check():
         return style_SQM
 
     @app.callback(dash.dependencies.Output('Company_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Company(val):
         try:
@@ -391,7 +389,7 @@ def select_drop_from_check():
         return style_Company
 
     @app.callback(dash.dependencies.Output('Business_Sector_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Business_Sector(val):
         try:
@@ -411,7 +409,7 @@ def select_drop_from_check():
         return style_Business_Sector
 
     @app.callback(dash.dependencies.Output('Type_of_Deal_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Type_of_Deal(val):
         try:
@@ -431,7 +429,7 @@ def select_drop_from_check():
         return style_Type_of_Deal
 
     @app.callback(dash.dependencies.Output('Type_of_Consultancy_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Type_of_Consultancy(val):
         try:
@@ -451,7 +449,7 @@ def select_drop_from_check():
         return style_Type_of_Consultancy
 
     @app.callback(dash.dependencies.Output('LLR/TR_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Type_of_Consultancy(val):
         try:
@@ -471,7 +469,7 @@ def select_drop_from_check():
         return style_LLR_TR
 
     @app.callback(dash.dependencies.Output('Year_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Year(val):
         try:
@@ -491,7 +489,7 @@ def select_drop_from_check():
         return style_Year
 
     @app.callback(dash.dependencies.Output('Quarter_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Quarter(val):
         try:
@@ -510,7 +508,7 @@ def select_drop_from_check():
         return style_Quarter
 
     @app.callback(dash.dependencies.Output('Address_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Address(val):
         try:
@@ -530,7 +528,7 @@ def select_drop_from_check():
         return style_Addres
 
     @app.callback(dash.dependencies.Output('Submarket_Large_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Submarket_large(val):
         try:
@@ -550,7 +548,7 @@ def select_drop_from_check():
         return style_Submarket_Large
 
     @app.callback(dash.dependencies.Output('Owner_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Owner(val):
         try:
@@ -570,7 +568,7 @@ def select_drop_from_check():
         return style_Owner
 
     @app.callback(dash.dependencies.Output('Date_of_acquiring_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Date_of_acquiring(val):
         try:
@@ -590,7 +588,7 @@ def select_drop_from_check():
         return style_Date_of_acquiring
 
     @app.callback(dash.dependencies.Output('Class_Colliers_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Class_Colliers(val):
         try:
@@ -610,7 +608,7 @@ def select_drop_from_check():
         return style_Class_Colliers
 
     @app.callback(dash.dependencies.Output('Floor_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Floor(val):
         try:
@@ -630,7 +628,7 @@ def select_drop_from_check():
         return style_Floor
 
     @app.callback(dash.dependencies.Output('Deal_Size_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Deal_Size(val):
         try:
@@ -650,7 +648,7 @@ def select_drop_from_check():
         return style_Deal_Size
 
     @app.callback(dash.dependencies.Output('Sublease_Agent_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Sublease_Agent(val):
         try:
@@ -670,7 +668,7 @@ def select_drop_from_check():
         return style_Sublease_Agent
 
     @app.callback(dash.dependencies.Output('LLR_Only_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_LLR_Only(val):
         try:
@@ -690,7 +688,7 @@ def select_drop_from_check():
         return style_LLR_Only
 
     @app.callback(dash.dependencies.Output('E_TR_Only_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_E_TR_Only(val):
         try:
@@ -710,7 +708,7 @@ def select_drop_from_check():
         return style_E_TR_Only
 
     @app.callback(dash.dependencies.Output('LLR/E_TR_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_LLR_E_TR(val):
         try:
@@ -730,7 +728,7 @@ def select_drop_from_check():
         return style_LLR_E_TR
 
     @app.callback(dash.dependencies.Output('Month_Div', 'style'),
-                  [dash.dependencies.Input('interface', 'values')
+                  [dash.dependencies.Input('interface-columns', 'values')
                    ])
     def update_drop_Month(val):
         try:
@@ -750,7 +748,201 @@ def select_drop_from_check():
         return style_Month
 
 
-select_drop_from_check()  # вызов функции с отображением выпадающих списков
+select_drop_from_check_columns()  # вызов функции с отображением выпадающих списков
+
+'''
+Отображение tree-like блока со списком
+На вход принимается значение чеклиста 'select graphics'
+'''
+@app.callback(dash.dependencies.Output('interface-graphics', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
+              [dash.dependencies.Input('tree-checklist-graphics', 'values')
+               # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
+               ])
+def show_tree_columns(val):
+    if 'Show' in val:
+        children = {'display': 'block',
+                    'width': '192px',
+                    'margin': '0 0 0 10px',
+                    }
+    else:
+        children = {'display': 'none'
+                    }
+    return children
+
+
+'''
+Функция отображения графиков по значению checklist`а
+Эта функция введена искуственно для возможности скрыть блок кода
+'''
+
+
+def select_graph_from_check_graphics():
+    @app.callback(dash.dependencies.Output('market-graph-tab', 'style'),
+                  # проверка checklist со значениями выбранных столбов в таблице
+                  [dash.dependencies.Input('interface-graphics', 'values')  # при выборе столбца добавляется выпадающий список
+                   ])
+    def update_bar_stacked_graph(val):
+        try:
+            if 'Bar-stacked' in val:
+                show_graph = {'display': 'inline-block'
+                                 }
+
+            if 'Bar-stacked' not in val:
+                show_graph = {'display': 'none',
+                                 }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('market-graph-non-stack-tab', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bar_unstacked_graph(val):
+        try:
+            if 'Bar-unstacked' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'Bar-unstacked' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('market-graph-horizontal-tab', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bar_stacked_horizontal_graph(val):
+        try:
+            if 'Bar-stacked-horizontal' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'Bar-stacked-horizontal' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('market-pie-graph-tab', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_pie_graph(val):
+        try:
+            if 'Pie-chart' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'Pie-chart' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('market-graph-percent-tab', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bar_stacked_percent_graph(val):
+        try:
+            if 'Bar-stacked-percent' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'Bar-stacked-percent' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('market-graph-horizontal-total-tab', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bar_horizontal_graph(val):
+        try:
+            if 'Bar-horizontal' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'Bar-horizontal' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('llr-etr-pie-2017', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_graph(val):
+        try:
+            if 'llr-etr-pie-2017' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'llr-etr-pie-2017' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('llr-etr-pie-1q-2018', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_1q_2018_graph(val):
+        try:
+            if 'llr-etr-pie-1q-2018' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'llr-etr-pie-1q-2018' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('llr-etr-pie-five-years', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_five_years_graph(val):
+        try:
+            if 'llr-etr-pie-five-years' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'llr-etr-pie-five-years' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+
+select_graph_from_check_graphics()    # вызов функции с отображением графиков
+
 
 '''
 Вывод строк таблицы
@@ -787,7 +979,7 @@ select_drop_from_check()  # вызов функции с отображение�
                dash.dependencies.Input('E_TR_Only', 'value'),
                dash.dependencies.Input('LLR/E_TR', 'value'),
                dash.dependencies.Input('Month', 'value'),
-               dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+               dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
                ])
 def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
@@ -859,7 +1051,7 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                dash.dependencies.Input('E_TR_Only', 'value'),
                dash.dependencies.Input('LLR/E_TR', 'value'),
                dash.dependencies.Input('Month', 'value'),
-               dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+               dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
                ])
 def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large, Owner,
@@ -963,7 +1155,7 @@ def update_download_all_link(Year, Country, Agency, City, Property_name, Class, 
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_download_link(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
@@ -1045,7 +1237,7 @@ Callback`и, отрисовывающие графики, принимают н�
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values'),
+     dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
      dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
      dash.dependencies.Input('market-graph-tab-slider-height', 'value')
@@ -1455,7 +1647,7 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values'),
+     dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
      dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
      dash.dependencies.Input('market-graph-tab-slider-height', 'value')
@@ -1514,6 +1706,131 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
     return format_index + format_data
 
 
+
+'''Функция по отрисовке трёх pie графиков по LLR, ETR, LLT/ETR'''
+
+def three_pie_graph():
+    @app.callback(
+        dash.dependencies.Output('market-pie-graph-tab', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                         Owner,
+                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
+                         Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+
+
+        width = 700
+        height = 500
+
+        pv = pd.pivot_table(
+            df_plot,
+            index=["Agency"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_grey_40,
+                      color.colliers_yellow, color.colliers_red, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['Colliers', 'CW', 'CBRE', 'JLL', 'KF', 'SAR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+
+        list_of_ind = []
+        for i in range(len(list_of_values_copy)):
+            ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+            list_of_ind.append(ind)
+
+        if len(list_of_values_copy) == 0:
+            format_data = 'All deals'
+            format_year = 'All years'
+
+        if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
+            list_of_values_copy_chain = list(chain(*list_of_values_copy))
+            format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
+            format_year = 'all years'
+
+        if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
+            list_of_values_copy_chain = list(chain(*list_of_values_copy))
+            for i in Year:
+                list_of_values_copy_chain.remove('{}'.format(i))
+            format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
+            format_year = ', '.join(Year)
+
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='{}<br>'
+                      'in {}'.format(format_data, format_year),
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+
+
+
 ''' Начало блока по отрисовке статических изображений. Код закомментирован до обсуждения  '''
 
 
@@ -1545,7 +1862,7 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 #      dash.dependencies.Input('E_TR_Only', 'value'),
 #      dash.dependencies.Input('LLR/E_TR', 'value'),
 #      dash.dependencies.Input('Month', 'value'),
-#      dash.dependencies.Input('interface', 'values'),  # значение чеклиста из дерева с выбором столбцов
+#      dash.dependencies.Input('interface-columns', 'values'),  # значение чеклиста из дерева с выбором столбцов
 #      #dash.dependencies.Input('interval-component', 'n_intervals')
 #      ])
 # def update_graph_tab_pic(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
@@ -1861,7 +2178,7 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                                 Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
@@ -2126,7 +2443,7 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                             Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
@@ -2338,7 +2655,7 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                             textfont=dict(
                                 color=color.white,
                                 size=12,
-                                autosize=False))
+                                ))
             data.append(trace6)
 
     list_of_ind = []
@@ -2446,7 +2763,7 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
@@ -2580,7 +2897,7 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
@@ -2816,7 +3133,7 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
      dash.dependencies.Input('E_TR_Only', 'value'),
      dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                                   Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
