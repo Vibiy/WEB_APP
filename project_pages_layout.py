@@ -380,10 +380,10 @@ def deals_page():
                     html.Div(
                         [
                             dcc.Checklist(  # чеклист с одним значением для имитации дерева параметров
-                                id='tree-checklist',
+                                id='tree-checklist-columns',
                                 # при выборе параметра, открывается список для отображения столбцов
                                 options=[
-                                    {'label': 'Columns', 'value': 'Show'}
+                                    {'label': 'Select columns', 'value': 'Show'}
                                 ],
                                 values=[],
                                 labelStyle={'display': 'block',
@@ -399,13 +399,51 @@ def deals_page():
                     html.Div(
                         [
                             dcc.Checklist(  # чеклист для выбора столбцов в таблице
-                                id='interface',
+                                id='interface-columns',
                                 options=[{'label': i, 'value': j} for i, j in  # все возможные значения
                                          zip(static.list_of_columns_for_gui, static.list_of_columns)],
                                 values=['Agency', 'Country', 'City', 'Property_Name',
                                         # значения по умолчанию при первй загрузке страницы
                                         'Class', 'SQM', "Company", "Business_Sector",
                                         'Type_of_Deal', 'Type_of_Consultancy', 'LLR_TR', 'Year', 'Quarter'],
+                                labelStyle={
+                                    'display': 'none',
+                                    'padding-left:': '90px'
+                                }
+                            )
+                        ],
+                        style={
+                            'display': 'inline',
+
+                        }
+                    ),
+
+                    html.Div(
+                        [
+                            dcc.Checklist(  # чеклист с одним значением для дерева выбора графиков
+                                id='tree-checklist-graphics',
+                                # при выборе параметра, открывается список для отрисовки графиков
+                                options=[
+                                    {'label': 'Select graphics', 'value': 'Show'}
+                                ],
+                                values=[],
+                                labelStyle={'display': 'block',
+                                            'width': '192px'
+                                            }
+                            )
+                        ],
+                        style={
+                            'display': 'inline'
+                        }
+                    ),
+
+                    html.Div(
+                        [
+                            dcc.Checklist(  # чеклист для выбора графиков на странице
+                                id='interface-graphics',
+                                options=[{'label': i, 'value': i} for i in  # все возможные значения из списка грфиков
+                                         static.list_of_graphics_for_gui],
+                                values=["Bar-stacked", "Bar-stacked-percent"],
                                 labelStyle={
                                     'display': 'none',
                                     'padding-left:': '90px'
@@ -1464,6 +1502,35 @@ def deals_page():
 
                             html.Div(
                                 [
+                                    dcc.Graph(id='llr-etr-pie-2017', style={'display': 'none'}),
+                                ],
+                                #className='three columns',
+                                style={'width': '30.3%',
+                                       'display': 'row',
+                                       'float': 'left'}
+                            ),
+                            html.Div(
+                                [
+                                    dcc.Graph(id='llr-etr-pie-1q-2018', style={'display': 'none'}),
+
+                                ],
+                                #className='three columns',
+                                style={'width': '30.3%',
+                                       'display': 'row',
+                                       'float': 'left'}
+                            ),
+                            html.Div(
+                                [
+                                    dcc.Graph(id='llr-etr-pie-five-years', style={'display': 'none'}),
+                                ],
+                                #className='three columns',
+                                style={'width': '30.3%',
+                                       'display': 'row',
+                                       'float': 'left'}
+                            ),
+
+                            html.Div(
+                                [
                                     html.Div(
                                         [
                                             dcc.Slider(  # настройка ширины графика
@@ -1474,7 +1541,8 @@ def deals_page():
                                                 value=700,
                                                 marks={
                                                     700: {'label': '700px', 'style': {'color': color.colliers_color}},
-                                                }
+                                                },
+
                                             ),
                                             html.Br(),
                                             dcc.Slider(  # настройка высоты графика
@@ -1485,12 +1553,13 @@ def deals_page():
                                                 value=500,
                                                 marks={
                                                     500: {'label': '500px', 'style': {'color': color.colliers_color}},
-                                                }),
+                                                }
+                                            ),
                                             html.Br(),
-                                            dcc.Graph(id='market-graph-tab'),
-                                            html.H6(id='market-graph-tab-string'),
-                                            dcc.Graph(id='market-graph-non-stack-tab'),
-                                            dcc.Graph(id='market-graph-horizontal-tab'),
+                                            dcc.Graph(id='market-graph-tab', style={'display': 'inline-block'}),
+                                            html.H6(id='market-graph-tab-string', style={'display': 'none'}),
+                                            dcc.Graph(id='market-graph-non-stack-tab', style={'display': 'none'}),
+                                            dcc.Graph(id='market-graph-horizontal-tab', style={'display': 'none'}),
                                         ],
                                         className='six columns',
                                         # style={'backgroundColor': color.colliers_pale_blue,
@@ -1501,11 +1570,11 @@ def deals_page():
                                         [
                                             # html.Img(id='market-graph-tab-png'),
                                             # dcc.Graph(id='all-years-horizontal'),
-                                            dcc.Graph(id='market-pie-graph-tab'),
-                                            dcc.Graph(id='market-graph-percent-tab'),
-                                            dcc.Graph(id='market-graph-horizontal-total-tab')
+                                            dcc.Graph(id='market-pie-graph-tab', style={'display': 'none'}),
+                                            dcc.Graph(id='market-graph-percent-tab', style={'inline-block': 'none'}),
+                                            dcc.Graph(id='market-graph-horizontal-total-tab', style={'display': 'none'})
                                         ],
-                                        className='six columns  ',
+                                        className='six columns',
                                         # style={'backgroundColor': color.colliers_pale_blue,
                                         #       'display': 'inline-block'
                                         #       }
