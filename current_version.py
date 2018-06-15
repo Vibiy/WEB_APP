@@ -51,7 +51,7 @@ suspicious_deals_layout = pages.suspicious_deals_page()  # РАЗМЕТКА СТ
 
 
 def interface_button():
-    @app.callback(dash.dependencies.Output('interface-columns-bar', 'style'),  # на вход принимается событие нажатия кнопки <<
+    @app.callback(dash.dependencies.Output('interface-bar', 'style'),  # на вход принимается событие нажатия кнопки <<
                   [dash.dependencies.Input('interface-arrow-left', 'n_clicks')
                    # если кнопка нажата, то скрывается элемент настройки интерфейса
                    ])
@@ -69,6 +69,7 @@ def interface_button():
                 'display': 'block',
             }
         if n_clicks is not None and n_clicks % 2 != 0:
+            print(n_clicks)
             style = {
                 'transition': 'left 0.1s',
                 '-webkit-transition': 'left 0.1s',
@@ -886,16 +887,16 @@ def select_graph_from_check_graphics():
             ])
         return show_graph
 
-    @app.callback(dash.dependencies.Output('llr-etr-pie-2017', 'style'),
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-total', 'style'),
                   [dash.dependencies.Input('interface-graphics', 'values')
                    ])
-    def update_llr_etr_pie_2017_graph(val):
+    def update_llr_etr_pie_2017_graph_total(val):
         try:
-            if 'llr-etr-pie-2017' in val:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' in val:
                 show_graph = {'display': 'inline-block',
                                 }
 
-            if 'llr-etr-pie-2017' not in val:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' not in val:
                 show_graph = {'display': 'none',
                                 }
         except Exception as e:
@@ -904,16 +905,35 @@ def select_graph_from_check_graphics():
             ])
         return show_graph
 
-    @app.callback(dash.dependencies.Output('llr-etr-pie-1q-2018', 'style'),
+    @app.callback(dash.dependencies.Output('pie-1-text', 'style'),
                   [dash.dependencies.Input('interface-graphics', 'values')
                    ])
-    def update_llr_etr_pie_1q_2018_graph(val):
+    def update_llr_etr_pie_2017_text_total(val):
         try:
-            if 'llr-etr-pie-1q-2018' in val:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_1q_2018_graph_total(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' in val:
                 show_graph = {'display': 'inline-block',
                                 }
 
-            if 'llr-etr-pie-1q-2018' not in val:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' not in val:
                 show_graph = {'display': 'none',
                                 }
         except Exception as e:
@@ -922,16 +942,35 @@ def select_graph_from_check_graphics():
             ])
         return show_graph
 
-    @app.callback(dash.dependencies.Output('llr-etr-pie-five-years', 'style'),
+    @app.callback(dash.dependencies.Output('pie-2-text', 'style'),
                   [dash.dependencies.Input('interface-graphics', 'values')
                    ])
-    def update_llr_etr_pie_five_years_graph(val):
+    def update_llr_etr_pie_2017_text_total(val):
         try:
-            if 'llr-etr-pie-five-years' in val:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-total', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_five_years_graph_total(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' in val:
                 show_graph = {'display': 'inline-block',
                                 }
 
-            if 'llr-etr-pie-five-years' not in val:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' not in val:
                 show_graph = {'display': 'none',
                                 }
         except Exception as e:
@@ -940,8 +979,249 @@ def select_graph_from_check_graphics():
             ])
         return show_graph
 
+    @app.callback(dash.dependencies.Output('pie-3-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_total(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
 
-select_graph_from_check_graphics()    # вызов функции с отображением графиков
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-RU', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_graph_ru(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-4-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_ru(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_1q_2018_graph_ru(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-5-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_ru(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-RU', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_five_years_graph_ru(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-6-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_ru(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-MOS', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_graph_mos(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-7-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_mos(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_1q_2018_graph_mos(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-8-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_mos(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_five_years_graph_mos(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
+                show_graph = {'display': 'inline-block',
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
+                show_graph = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-9-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_mos(val):
+        try:
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                                }
+
+            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
+                show_text = {'display': 'none',
+                                }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+
+select_graph_from_check_graphics()    # вызов функции с отображением графиков и подписей к ним
 
 
 '''
@@ -1620,7 +1900,7 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     }
 
 @app.callback(
-    dash.dependencies.Output('market-graph-tab-string', 'children'),
+    dash.dependencies.Output('market-graph-tab-string', 'children'),  # подпись под графиком (возможно стоит перенесть в Div на странице)
     [dash.dependencies.Input('Year', 'value'),
      dash.dependencies.Input('Country', 'value'),
      dash.dependencies.Input('Agency', 'value'),
@@ -1706,12 +1986,12 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
     return format_index + format_data
 
 
+'''Функция по отрисовке девяти pie графиков по LLR, ETR, LLT/ETR'''
 
-'''Функция по отрисовке трёх pie графиков по LLR, ETR, LLT/ETR'''
 
-def three_pie_graph():
+def default_pie_graphics():
     @app.callback(
-        dash.dependencies.Output('market-pie-graph-tab', 'figure'),
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-total', 'figure'),
         [dash.dependencies.Input('Year', 'value'),
          dash.dependencies.Input('Country', 'value'),
          dash.dependencies.Input('Agency', 'value'),
@@ -1740,7 +2020,7 @@ def three_pie_graph():
          dash.dependencies.Input('Month', 'value'),
          dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
          ])
-    def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+    def update_pie_graph_1(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
                          Owner,
                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
@@ -1766,21 +2046,28 @@ def three_pie_graph():
         list_of_values_copy = list(filter(None, list_of_values))
 
         df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2017']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only','LLR/(E)TR'], 'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum() ]}
+        df_graph = pd.DataFrame(data=d)
 
-
-        width = 700
-        height = 500
+        width = 600
+        height = 450
 
         pv = pd.pivot_table(
-            df_plot,
-            index=["Agency"],
+            df_graph,
+            index=["Type"],
             values=["SQM"],
             aggfunc=sum,
             fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_grey_40,
-                      color.colliers_yellow, color.colliers_red, color.colliers_light_blue]
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
         pie1 = go.Pie(values=pv["SQM"],
-                      labels=['Colliers', 'CW', 'CBRE', 'JLL', 'KF', 'SAR'],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
                       hoverinfo='label+value+percent',
                       textinfo='label+percent',
                       textposition='outside',
@@ -1794,33 +2081,857 @@ def three_pie_graph():
                                   )
                                   )
                       )
-
-        list_of_ind = []
-        for i in range(len(list_of_values_copy)):
-            ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-            list_of_ind.append(ind)
-
-        if len(list_of_values_copy) == 0:
-            format_data = 'All deals'
-            format_year = 'All years'
-
-        if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
-            list_of_values_copy_chain = list(chain(*list_of_values_copy))
-            format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-            format_year = 'all years'
-
-        if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
-            list_of_values_copy_chain = list(chain(*list_of_values_copy))
-            for i in Year:
-                list_of_values_copy_chain.remove('{}'.format(i))
-            format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-            format_year = ', '.join(Year)
-
         return {
             'data': [pie1],
             'layout': go.Layout(
-                title='{}<br>'
-                      'in {}'.format(format_data, format_year),
+                title='2017',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_2(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                         Owner,
+                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
+                         Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2018'])) & (df_plot['Quarter'].isin(['1']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='1q 2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-total', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_3(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                         Owner,
+                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
+                         Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only','LLR/(E)TR'], 'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum() ]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2013-2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-RU', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_4(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2017']))& (df_plot['Country'].isin(['RU']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2017',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_5(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2018']))& (df_plot['Country'].isin(['RU'])) & (df_plot['Quarter'].isin(['1']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='1q 2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-RU', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_6(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Country'].isin(['RU']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes'])) & (df_plot['Country'].isin(['RU']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2013-2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-MOS', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_7(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2017'])) & (df_plot['City'].isin(['Moscow']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2017',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_8(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2018']))& (df_plot['City'].isin(['Moscow'])) & (df_plot['Quarter'].isin(['1']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='1q 2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS', 'figure'),
+        [dash.dependencies.Input('Year', 'value'),
+         dash.dependencies.Input('Country', 'value'),
+         dash.dependencies.Input('Agency', 'value'),
+         dash.dependencies.Input('City', 'value'),
+         dash.dependencies.Input('Property_name', 'value'),
+         dash.dependencies.Input('Class', 'value'),
+         dash.dependencies.Input('SQM', 'value'),
+         dash.dependencies.Input('Business_Sector', 'value'),
+         dash.dependencies.Input('Type_of_Deal', 'value'),
+         dash.dependencies.Input('Type_of_Consultancy', 'value'),
+         dash.dependencies.Input('LLR/TR', 'value'),
+         dash.dependencies.Input('Quarter', 'value'),
+         dash.dependencies.Input('Company', 'value'),
+         dash.dependencies.Input('Include_in_Market_Share', 'value'),
+         dash.dependencies.Input('Address', 'value'),
+         dash.dependencies.Input('Submarket_Large', 'value'),
+         dash.dependencies.Input('Owner', 'value'),
+         dash.dependencies.Input('Date_of_acquiring', 'value'),
+         dash.dependencies.Input('Class_Colliers', 'value'),
+         dash.dependencies.Input('Floor', 'value'),
+         dash.dependencies.Input('Deal_Size', 'value'),
+         dash.dependencies.Input('Sublease_Agent', 'value'),
+         dash.dependencies.Input('LLR_Only', 'value'),
+         dash.dependencies.Input('E_TR_Only', 'value'),
+         dash.dependencies.Input('LLR/E_TR', 'value'),
+         dash.dependencies.Input('Month', 'value'),
+         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+         ])
+    def update_pie_graph_9(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
+        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
+                    City=[City], Property_Name=[Property_Name], Class=[Class],
+                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
+                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                    Submarket_Large=[Submarket_Large],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
+                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
+                    LLR_E_TR=[LLR_E_TR], Month=[Month])
+
+        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
+                          Owner,
+                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                          LLR_E_TR,
+                          Month)
+        cond_1 = cond.copy()
+        list_of_values_copy = list(filter(None, list_of_values))
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['City'].isin(['Moscow']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2013-2018',
                 width=width,
                 height=height,
                 legend=dict(orientation="h",
@@ -1829,7 +2940,7 @@ def three_pie_graph():
         }
 
 
-
+default_pie_graphics()  # вызов функции с отображением базовых pie графиков
 
 ''' Начало блока по отрисовке статических изображений. Код закомментирован до обсуждения  '''
 
@@ -4105,4 +5216,4 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='10.168.207.102')
