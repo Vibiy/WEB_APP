@@ -1309,9 +1309,7 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     cond_1 = cond.copy()  # копия словаря
     list_of_values_copy = list(filter(None,
                                       list_of_values))  # очистка кортежа от пустых элементов (при не выбранном значении value, значение по умолчанию = None
-    print('data_in',data_in)
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             return static.all_deals_query_df[col].to_dict('records')
         # ____________________________________________________________#
@@ -1326,7 +1324,6 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
             return data_to_table[col].to_dict('records')
 
     if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             return data_to_table[col].to_dict('records')
@@ -1344,7 +1341,6 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
             return data_to_table[col].to_dict('records')
 
     if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             return data_to_table[col].to_dict('records')
@@ -1362,7 +1358,6 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
             return data_to_table[col].to_dict('records')
 
     if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             return data_to_table[col].to_dict('records')
@@ -1894,17 +1889,17 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                 size=12))
             data.append(trace5)
 
-            if 'SAR' in list_of_unique:
-                trace6 = go.Bar(x=pv.index, y=pv[("SQM", 'SAR')],
-                                name='SAR',
-                                marker=dict(
-                                    color=color.colliers_light_blue),
-                                width=0.4,
-                                text=list(((pv[("SQM", 'SAR')] / 1000).round()).apply(np.int64)),
-                                textposition='inside',
-                                textfont=dict(
-                                    color=color.white,
-                                    size=12))
+        if 'SAR' in list_of_unique:
+            trace6 = go.Bar(x=pv.index, y=pv[("SQM", 'SAR')],
+                            name='SAR',
+                            marker=dict(
+                                color=color.colliers_light_blue),
+                            width=0.4,
+                            text=list(((pv[("SQM", 'SAR')] / 1000).round()).apply(np.int64)),
+                            textposition='inside',
+                            textfont=dict(
+                                color=color.white,
+                                size=12))
 
             data.append(trace6)
 
@@ -2046,8 +2041,6 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
         format_year = 'All years'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
-        print('list_of_ind BEFORE', list_of_ind)
-        print('list_of_ind AFTER', list_of_ind)
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_index = ', '.join(str(e) for e in list_of_ind)
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
@@ -2055,7 +2048,6 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         my_method.replace_index(list_of_ind)
-        print('list_of_ind', list_of_ind)
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         for i in Year:
             list_of_values_copy_chain.remove('{}'.format(i))
@@ -2129,9 +2121,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only','LLR/(E)TR'], 'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum() ]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2231,9 +2220,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2334,9 +2320,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only','LLR/(E)TR'], 'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum() ]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2440,9 +2423,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2547,9 +2527,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2654,9 +2631,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes'])) & (df_plot['Country'].isin(['RU']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2761,9 +2735,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2868,9 +2839,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2975,9 +2943,6 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
