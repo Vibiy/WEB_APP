@@ -29,11 +29,11 @@ import project_deals_graphics
 app = dash.Dash(__name__)
 server = app.server
 app.config.suppress_callback_exceptions = True
-app.css.append_css({
-                       'external_url': 'https://rawgit.com/Wittgensteen/work_stuff/master/new_buttons.css'})  # Мой файл с гитхаба на rawgit с измененной разметкой
+''' Мой файл с гитхаба на rawgit с измененной css разметкой'''
+app.css.append_css({'external_url': 'https://rawgit.com/Wittgensteen/work_stuff/master/new_buttons.css'})
 
-py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
-# py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
+#py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
+py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
 
 app.layout = pages.serve_layout()  # ОСНОВНАЯ СТРАНИЦА ПРИЛОЖЕНИЯ
 
@@ -46,11 +46,11 @@ page_4_layout = pages.deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗ�
 page_5_layout = pages.update_database()  # РАЗМЕТКА СТРАНИЦЫ 'ОБНОВИТЬ БАЗУ'
 suspicious_deals_layout = pages.suspicious_deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗА ПО СОМНИТЕЛЬНЫМ СДЕЛКАМ'
 
-'''Функция кнопки скрытия элементов интерфейса
-   Эта функция введена искуственно для возможности скрыть блок кода '''
+'''Функция кнопки скрытия элементов интерфейса'''
 
 
 def interface_button():
+    """ Эта функция введена искуственно для возможности скрыть блок кода """
     @app.callback(dash.dependencies.Output('interface-bar', 'style'),  # на вход принимается событие нажатия кнопки <<
                   [dash.dependencies.Input('interface-arrow-left', 'n_clicks')
                    # если кнопка нажата, то скрывается элемент настройки интерфейса
@@ -752,14 +752,36 @@ def select_drop_from_check_columns():
 select_drop_from_check_columns()  # вызов функции с отображением выпадающих списков
 
 '''
-Отображение tree-like блока со списком
+Отображение tree-like блока со списком графиков
 На вход принимается значение чеклиста 'select graphics'
 '''
 @app.callback(dash.dependencies.Output('interface-graphics', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
               [dash.dependencies.Input('tree-checklist-graphics', 'values')
                # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
                ])
-def show_tree_columns(val):
+def show_graphics_tree(val):
+    if 'Show' in val:
+        children = {'display': 'block',
+                    'width': '192px',
+                    'margin': '0 0 0 10px',
+                    }
+    else:
+        children = {'display': 'none'
+                    }
+    return children
+
+
+'''
+Отображение tree-like блока со списком типов сделок
+На вход принимается значение чеклиста 'select data'
+'''
+
+
+@app.callback(dash.dependencies.Output('interface-data', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
+              [dash.dependencies.Input('tree-checklist-data', 'values')
+               # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
+               ])
+def show_graphics_tree(val):
     if 'Show' in val:
         children = {'display': 'block',
                     'width': '192px',
@@ -1226,7 +1248,7 @@ select_graph_from_check_graphics()    # вызов функции с отобр�
 
 '''
 Вывод строк таблицы
-На вход принимается значение выпадающих списков и выбрвнных элементов в списке слева
+На вход принимается значение выпадающих списков и выбранных элементов в списке слева
 На основе этих значение формируется dataframe, поещаемый в таблицу
 '''
 
@@ -1259,13 +1281,14 @@ select_graph_from_check_graphics()    # вызов функции с отобр�
                dash.dependencies.Input('E_TR_Only', 'value'),
                dash.dependencies.Input('LLR/E_TR', 'value'),
                dash.dependencies.Input('Month', 'value'),
-               dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-               ])
+               dash.dependencies.Input('interface-columns', 'values'),
+               dash.dependencies.Input('interface-data', 'values')# значение чеклиста из дерева с выбором столбцов interface-data
+                ])
 def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
                      Owner,
                      Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                     Month, col):
+                     Month, col, data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -1286,19 +1309,75 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     cond_1 = cond.copy()  # копия словаря
     list_of_values_copy = list(filter(None,
                                       list_of_values))  # очистка кортежа от пустых элементов (при не выбранном значении value, значение по умолчанию = None
+    print('data_in',data_in)
+    if 'All deals' in data_in:
+        print('Yes, "All deals" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            return static.all_deals_query_df[col].to_dict('records')
+        # ____________________________________________________________#
 
-    if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-        return static.all_deals_query_df[col].to_dict('records')
-    # ____________________________________________________________#
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
+                else:
+                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
+            return data_to_table[col].to_dict('records')
 
-    if len(list_of_values_copy) != 0:
-        for i in range(len(list_of_values_copy)):
-            ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-            if i == 0:
-                data = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-            else:
-                data = data[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-        return data[col].to_dict('records')
+    if 'LLR only' in data_in:
+        print('Yes, "LLR only" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+            return data_to_table[col].to_dict('records')
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                else:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+            return data_to_table[col].to_dict('records')
+
+    if '(E)TR only' in data_in:
+        print('Yes, "(E)TR only" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+            return data_to_table[col].to_dict('records')
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                else:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+            return data_to_table[col].to_dict('records')
+
+    if 'LLR/(E)TR only' in data_in:
+        print('Yes, "LLR/E_TR only" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+            return data_to_table[col].to_dict('records')
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                else:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+            return data_to_table[col].to_dict('records')
 
 
 '''  Подсчёт суммы по отфильтрованным данным  '''
@@ -1519,14 +1598,14 @@ Callback`и, отрисовывающие графики, принимают н�
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
-     dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
-     dash.dependencies.Input('market-graph-tab-slider-height', 'value')
+     #dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
+     #dash.dependencies.Input('market-graph-tab-slider-height', 'value')
      ])
 def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
                      Owner,
                      Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                     Month, col, width, height):
+                     Month, col):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -1538,8 +1617,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                 Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
                 LLR_E_TR=[LLR_E_TR], Month=[Month])
 
-    width = width
-    height = height
+    width = 700
+    height = 500
     # print('WxH=', width, height)
 
     list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
@@ -1929,14 +2008,14 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
-     dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
-     dash.dependencies.Input('market-graph-tab-slider-height', 'value')
+     #dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
+     #dash.dependencies.Input('market-graph-tab-slider-height', 'value')
      ])
 def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
                      Owner,
                      Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                     Month, col, width, height):
+                     Month, col):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -5216,4 +5295,4 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, host='10.168.207.102')
+    app.run_server(debug=True)

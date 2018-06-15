@@ -32,10 +32,15 @@ list_of_columns_for_gui = [
     "Type of deal", "Type of consultancy", "LLR/TR", "LLR only",
     "(E)TR only", "LLR/(E)TR", "Month", "Year", "Quarter"]
 
-list_of_graphics_for_gui = ["Bar-stacked", "Bar-stacked-horizontal", "Bar-unstacked", # список чеклиста для выбора графика из дерева
-                            "Pie-chart","Bar-stacked-percent", "Bar-horizontal",
-                            "llr-etr-pie-2017", 'llr-etr-pie-1q-2018', "llr-etr-pie-five-years"]
+list_of_graphics_for_gui = ["Bar-stacked", "Bar-stacked-horizontal", "Bar-unstacked",  # список чеклиста для выбора графика из дерева
+                            "Pie-chart", "Bar-stacked-percent", "Bar-horizontal",
+                            "LLR,(E)TR, LLR/(E)TR-pie-2017-total", 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total',
+                            "LLR,(E)TR, LLR/(E)TR-pie-five-years-total", "LLR,(E)TR, LLR/(E)TR-pie-2017-RU",
+                            'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', "LLR,(E)TR, LLR/(E)TR-pie-five-years-RU",
+                            "LLR,(E)TR, LLR/(E)TR-pie-2017-MOS", 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS',
+                            "LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS"]
 
+list_of_deals_type = ["All deals", "LLR only", "(E)TR only", "LLR/(E)TR only"]  # список чеклиста для сортировки сделок из дерева
 
 dbname = 'postgres'  # название базы данных
 host = '10.168.207.102'  # IP адрес хоста, если сервер локальный, "localhost"

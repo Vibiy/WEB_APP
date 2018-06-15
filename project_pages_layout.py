@@ -443,7 +443,8 @@ def deals_page():
                                 id='interface-graphics',
                                 options=[{'label': i, 'value': i} for i in  # все возможные значения из списка грфиков
                                          static.list_of_graphics_for_gui],
-                                values=["Bar-stacked", "Bar-stacked-percent"],
+                                values=["Bar-stacked", "Bar-stacked-percent", "LLR,(E)TR, LLR/(E)TR-pie-2017-RU",
+                                        'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', "LLR,(E)TR, LLR/(E)TR-pie-five-years-RU"],
                                 labelStyle={
                                     'display': 'none',
                                     'padding-left:': '90px'
@@ -455,6 +456,47 @@ def deals_page():
 
                         }
                     ),
+
+                    html.Div(
+                        [
+                            dcc.Checklist(  # чеклист с одним значением для раскрытия дерева по типам сделок
+                                id='tree-checklist-data',
+                                # при выборе параметра, открывается список для выбора данных
+                                options=[
+                                    {'label': 'Select data', 'value': 'Show'}
+                                ],
+                                values=[],
+                                labelStyle={'display': 'block',
+                                            'width': '192px'
+                                            }
+                            )
+                        ],
+                        style={
+                            'display': 'inline'
+                        }
+                    ),
+
+                    html.Div(
+                        [
+                            dcc.Checklist(  # чеклист для выбора типов сделок
+                                id='interface-data',
+                                options=[{'label': i, 'value': i} for i in  # все возможные значения из списка типов сделок
+                                         static.list_of_deals_type],
+                                values=["All deals"],
+                                labelStyle={
+                                    'display': 'none',
+                                    'padding-left:': '90px'
+                                }
+                            )
+                        ],
+                        style={
+                            'display': 'inline',
+
+                        }
+                    ),
+
+
+
 
                 ],
                 id='interface-bar',
@@ -1500,61 +1542,184 @@ def deals_page():
 
                             html.Br(),
 
-                            html.Div(
-                                [
-                                    dcc.Graph(id='llr-etr-pie-2017', style={'display': 'none'}),
-                                ],
-                                #className='three columns',
-                                style={'width': '30.3%',
-                                       'display': 'row',
-                                       'float': 'left'}
-                            ),
-                            html.Div(
-                                [
-                                    dcc.Graph(id='llr-etr-pie-1q-2018', style={'display': 'none'}),
 
-                                ],
-                                #className='three columns',
-                                style={'width': '30.3%',
-                                       'display': 'row',
-                                       'float': 'left'}
-                            ),
-                            html.Div(
+
+
+                            html.Div(                           # три pie по всем странам
                                 [
-                                    dcc.Graph(id='llr-etr-pie-five-years', style={'display': 'none'}),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-2017-total', style={'display': 'none'}),
+                                            html.Div(id='pie-1-text', children='LLR,(E)TR and LLR/(E)TR deals in all countries in 2017',
+                                                      style={'padding-left': '50px',
+                                                             'display': 'none'}
+                                                     )
+                                        ],
+                                         className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total', style={'display': 'none'}),
+                                            html.Div(id='pie-2-text',children='LLR,(E)TR and LLR/(E)TR deals in all countries in 1Q 2018',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+
+                                        ],
+                                         className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-five-years-total', style={'display': 'none'}),
+                                            html.Div(id='pie-3-text', children='LLR,(E)TR and LLR/(E)TR deals in all countries in 2013-2018 years',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
                                 ],
-                                #className='three columns',
-                                style={'width': '30.3%',
-                                       'display': 'row',
-                                       'float': 'left'}
-                            ),
+                                className='twelve columns'),
+
+                            html.Div(                           # три pie по России
+                                [
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-2017-RU',
+                                                      style={'display': 'none'}),
+                                            html.Div(id='pie-4-text',
+                                                     children='LLR,(E)TR and LLR/(E)TR deals in Russia in 2017',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU',
+                                                      style={'display': 'none'}),
+                                            html.Div(id='pie-5-text',
+                                                     children='LLR,(E)TR and LLR/(E)TR deals in Russia in 1Q 2018',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-five-years-RU',
+                                                      style={'display': 'none'}),
+                                            html.Div(id='pie-6-text',
+                                                     children='LLR,(E)TR and LLR/(E)TR deals in Russia in 2013-2018 years',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                ],
+                                className='twelve columns'),
+
+                            html.Div(                           # три pie по Москве
+                                [
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-2017-MOS',
+                                                      style={'display': 'none'}),
+                                            html.Div(id='pie-7-text',
+                                                     children='LLR,(E)TR and LLR/(E)TR deals in Moscow in 2017',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS',
+                                                      style={'display': 'none'}),
+                                            html.Div(id='pie-8-text',
+                                                     children='LLR,(E)TR and LLR/(E)TR deals in Moscow in 1Q 2018',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                    html.Div(
+                                        [
+                                            dcc.Graph(id='LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS',
+                                                      style={'display': 'none'}),
+                                            html.Div(id='pie-9-text',
+                                                     children='LLR,(E)TR and LLR/(E)TR deals in Moscow in 2013-2018 years',
+                                                     style={'padding-left': '50px',
+                                                            'display': 'none'}
+                                                     )
+                                        ],
+                                        className='four columns',
+                                        # style={'width': '30.3%',
+                                        #        'display': 'row',
+                                        #        'float': 'left'}
+                                    ),
+                                ],
+                                className='twelve columns'),
+
+
 
                             html.Div(
                                 [
                                     html.Div(
                                         [
-                                            dcc.Slider(  # настройка ширины графика
-                                                id='market-graph-tab-slider-width',
-                                                min=1,
-                                                max=1000,
-                                                step=5,
-                                                value=700,
-                                                marks={
-                                                    700: {'label': '700px', 'style': {'color': color.colliers_color}},
-                                                },
-
-                                            ),
-                                            html.Br(),
-                                            dcc.Slider(  # настройка высоты графика
-                                                id='market-graph-tab-slider-height',
-                                                min=1,
-                                                max=1000,
-                                                step=5,
-                                                value=500,
-                                                marks={
-                                                    500: {'label': '500px', 'style': {'color': color.colliers_color}},
-                                                }
-                                            ),
+                                            # dcc.Slider(  # настройка ширины графика
+                                            #     id='market-graph-tab-slider-width',
+                                            #     min=1,
+                                            #     max=1000,
+                                            #     step=5,
+                                            #     value=700,
+                                            #     marks={
+                                            #         700: {'label': '700px', 'style': {'color': color.colliers_color}},
+                                            #     },
+                                            #
+                                            # ),
+                                            # html.Br(),
+                                            # dcc.Slider(  # настройка высоты графика
+                                            #     id='market-graph-tab-slider-height',
+                                            #     min=1,
+                                            #     max=1000,
+                                            #     step=5,
+                                            #     value=500,
+                                            #     marks={
+                                            #         500: {'label': '500px', 'style': {'color': color.colliers_color}},
+                                            #     }
+                                            # ),
                                             html.Br(),
                                             dcc.Graph(id='market-graph-tab', style={'display': 'inline-block'}),
                                             html.H6(id='market-graph-tab-string', style={'display': 'none'}),
