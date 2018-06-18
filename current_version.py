@@ -32,7 +32,7 @@ app.config.suppress_callback_exceptions = True
 ''' Мой файл с гитхаба на rawgit с измененной css разметкой'''
 app.css.append_css({'external_url': 'https://rawgit.com/Wittgensteen/work_stuff/master/new_buttons.css'})
 
-#py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
+# py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
 py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
 
 app.layout = pages.serve_layout()  # ОСНОВНАЯ СТРАНИЦА ПРИЛОЖЕНИЯ
@@ -51,6 +51,7 @@ suspicious_deals_layout = pages.suspicious_deals_page()  # РАЗМЕТКА СТ
 
 def interface_button():
     """ Эта функция введена искуственно для возможности скрыть блок кода """
+
     @app.callback(dash.dependencies.Output('interface-bar', 'style'),  # на вход принимается событие нажатия кнопки <<
                   [dash.dependencies.Input('interface-arrow-left', 'n_clicks')
                    # если кнопка нажата, то скрывается элемент настройки интерфейса
@@ -205,7 +206,8 @@ interface_button()
 '''
 
 
-@app.callback(dash.dependencies.Output('interface-columns', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
+@app.callback(dash.dependencies.Output('interface-columns', 'labelStyle'),
+              # на вход принимается значение чеклиста 'colums'
               [dash.dependencies.Input('tree-checklist-columns', 'values')
                # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
                ])
@@ -230,7 +232,8 @@ def show_tree_columns(val):
 def select_drop_from_check_columns():
     @app.callback(dash.dependencies.Output('Include_in_Market_Share_Div', 'style'),
                   # проверка checklist со значениями выбранных столбов в таблице
-                  [dash.dependencies.Input('interface-columns', 'values')  # при выборе столбца добавляется выпадающий список
+                  [dash.dependencies.Input('interface-columns', 'values')
+                   # при выборе столбца добавляется выпадающий список
                    ])
     def update_drop_include(val):
         try:
@@ -755,7 +758,10 @@ select_drop_from_check_columns()  # вызов функции с отображ�
 Отображение tree-like блока со списком графиков
 На вход принимается значение чеклиста 'select graphics'
 '''
-@app.callback(dash.dependencies.Output('interface-graphics', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
+
+
+@app.callback(dash.dependencies.Output('interface-graphics', 'labelStyle'),
+              # на вход принимается значение чеклиста 'colums'
               [dash.dependencies.Input('tree-checklist-graphics', 'values')
                # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
                ])
@@ -777,7 +783,8 @@ def show_graphics_tree(val):
 '''
 
 
-@app.callback(dash.dependencies.Output('interface-data', 'labelStyle'),  # на вход принимается значение чеклиста 'colums'
+@app.callback(dash.dependencies.Output('interface-data', 'labelStyle'),
+              # на вход принимается значение чеклиста 'colums'
               [dash.dependencies.Input('tree-checklist-data', 'values')
                # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
                ])
@@ -802,17 +809,18 @@ def show_graphics_tree(val):
 def select_graph_from_check_graphics():
     @app.callback(dash.dependencies.Output('market-graph-tab', 'style'),
                   # проверка checklist со значениями выбранных столбов в таблице
-                  [dash.dependencies.Input('interface-graphics', 'values')  # при выборе столбца добавляется выпадающий список
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   # при выборе столбца добавляется выпадающий список
                    ])
     def update_bar_stacked_graph(val):
         try:
             if 'Bar-stacked' in val:
                 show_graph = {'display': 'inline-block'
-                                 }
+                              }
 
             if 'Bar-stacked' not in val:
                 show_graph = {'display': 'none',
-                                 }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -826,11 +834,11 @@ def select_graph_from_check_graphics():
         try:
             if 'Bar-unstacked' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'Bar-unstacked' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -844,11 +852,11 @@ def select_graph_from_check_graphics():
         try:
             if 'Bar-stacked-horizontal' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'Bar-stacked-horizontal' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -862,11 +870,11 @@ def select_graph_from_check_graphics():
         try:
             if 'Pie-chart' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'Pie-chart' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -880,11 +888,11 @@ def select_graph_from_check_graphics():
         try:
             if 'Bar-stacked-percent' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'Bar-stacked-percent' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -898,11 +906,11 @@ def select_graph_from_check_graphics():
         try:
             if 'Bar-horizontal' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'Bar-horizontal' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -916,11 +924,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -935,11 +943,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-total' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -953,11 +961,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -972,11 +980,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-total' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -990,11 +998,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1009,11 +1017,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-total' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1027,11 +1035,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1046,11 +1054,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1064,11 +1072,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1083,11 +1091,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1101,11 +1109,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1120,11 +1128,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1138,11 +1146,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1157,11 +1165,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1175,11 +1183,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1194,11 +1202,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1212,11 +1220,11 @@ def select_graph_from_check_graphics():
         try:
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
                 show_graph = {'display': 'inline-block',
-                                }
+                              }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
                 show_graph = {'display': 'none',
-                                }
+                              }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1231,11 +1239,11 @@ def select_graph_from_check_graphics():
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
                 show_text = {'display': 'inline-block',
                              'padding-left': '50px'
-                                }
+                             }
 
             if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
                 show_text = {'display': 'none',
-                                }
+                             }
         except Exception as e:
             return html.Div([
                 'There was an error'
@@ -1243,8 +1251,7 @@ def select_graph_from_check_graphics():
         return show_text
 
 
-select_graph_from_check_graphics()    # вызов функции с отображением графиков и подписей к ним
-
+select_graph_from_check_graphics()  # вызов функции с отображением графиков и подписей к ним
 
 '''
 Вывод строк таблицы
@@ -1282,8 +1289,9 @@ select_graph_from_check_graphics()    # вызов функции с отобр�
                dash.dependencies.Input('LLR/E_TR', 'value'),
                dash.dependencies.Input('Month', 'value'),
                dash.dependencies.Input('interface-columns', 'values'),
-               dash.dependencies.Input('interface-data', 'values')# значение чеклиста из дерева с выбором столбцов interface-data
-                ])
+               dash.dependencies.Input('interface-data', 'values')
+               # значение чеклиста из дерева с выбором столбцов interface-data
+               ])
 def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
                      Owner,
@@ -1318,7 +1326,8 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
             for i in range(len(list_of_values_copy)):
                 ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
                 if i == 0:
-                    data_to_table = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = static.all_deals_query_df[
+                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                 else:
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
             return data_to_table[col].to_dict('records')
@@ -1593,8 +1602,8 @@ Callback`и, отрисовывающие графики, принимают н�
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
-     #dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
-     #dash.dependencies.Input('market-graph-tab-slider-height', 'value')
+     # dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
+     # dash.dependencies.Input('market-graph-tab-slider-height', 'value')
      ])
 def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
@@ -1973,8 +1982,10 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
             )
     }
 
+
 @app.callback(
-    dash.dependencies.Output('market-graph-tab-string', 'children'),  # подпись под графиком (возможно стоит перенесть в Div на странице)
+    dash.dependencies.Output('market-graph-tab-string', 'children'),
+    # подпись под графиком (возможно стоит перенесть в Div на странице)
     [dash.dependencies.Input('Year', 'value'),
      dash.dependencies.Input('Country', 'value'),
      dash.dependencies.Input('Agency', 'value'),
@@ -2003,14 +2014,16 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
-     #dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
-     #dash.dependencies.Input('market-graph-tab-slider-height', 'value')
+     # dash.dependencies.Input('market-graph-tab-slider-width', 'value'),
+     # dash.dependencies.Input('market-graph-tab-slider-height', 'value')
      ])
 def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                     Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                     Owner,
-                     Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                     Month, col):
+                            Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                            Submarket_Large,
+                            Owner,
+                            Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                            LLR_E_TR,
+                            Month, col):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -2034,7 +2047,6 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
         list_of_ind.append(ind)
 
     my_method.replace_index(list_of_ind)
-
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
@@ -2092,10 +2104,12 @@ def default_pie_graphics():
          dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
          ])
     def update_pie_graph_1(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                         Owner,
-                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                         Month, col):
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
         cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                     # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                     City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -2103,12 +2117,14 @@ def default_pie_graphics():
                     Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
                     Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
                     Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
                     Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
                     LLR_E_TR=[LLR_E_TR], Month=[Month])
 
         list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
                           Owner,
                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
                           LLR_E_TR,
@@ -2121,7 +2137,8 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        d = {'Type': ['LLR only', '(E)TR only','LLR/(E)TR'], 'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum() ]}
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
         width = 600
@@ -2191,10 +2208,12 @@ def default_pie_graphics():
          dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
          ])
     def update_pie_graph_2(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                         Owner,
-                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                         Month, col):
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
         cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                     # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                     City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -2202,12 +2221,14 @@ def default_pie_graphics():
                     Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
                     Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
                     Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
                     Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
                     LLR_E_TR=[LLR_E_TR], Month=[Month])
 
         list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
                           Owner,
                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
                           LLR_E_TR,
@@ -2291,10 +2312,12 @@ def default_pie_graphics():
          dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
          ])
     def update_pie_graph_3(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                         Owner,
-                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only, LLR_E_TR,
-                         Month, col):
+                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                           Submarket_Large,
+                           Owner,
+                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
+                           LLR_E_TR,
+                           Month, col):
         cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                     # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                     City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -2302,12 +2325,14 @@ def default_pie_graphics():
                     Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
                     Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
                     Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
+                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
+                    Floor=[Floor],
                     Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
                     LLR_E_TR=[LLR_E_TR], Month=[Month])
 
         list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                          Submarket_Large,
                           Owner,
                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
                           LLR_E_TR,
@@ -2320,7 +2345,8 @@ def default_pie_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        d = {'Type': ['LLR only', '(E)TR only','LLR/(E)TR'], 'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum() ]}
+        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
         width = 600
@@ -2419,7 +2445,7 @@ def default_pie_graphics():
         list_of_values_copy = list(filter(None, list_of_values))
 
         df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['Year'].isin(['2017']))& (df_plot['Country'].isin(['RU']))]
+        data = df_plot[(df_plot['Year'].isin(['2017'])) & (df_plot['Country'].isin(['RU']))]
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
@@ -2523,7 +2549,8 @@ def default_pie_graphics():
         list_of_values_copy = list(filter(None, list_of_values))
 
         df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['Year'].isin(['2018']))& (df_plot['Country'].isin(['RU'])) & (df_plot['Quarter'].isin(['1']))]
+        data = df_plot[
+            (df_plot['Year'].isin(['2018'])) & (df_plot['Country'].isin(['RU'])) & (df_plot['Quarter'].isin(['1']))]
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
@@ -2835,7 +2862,8 @@ def default_pie_graphics():
         list_of_values_copy = list(filter(None, list_of_values))
 
         df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['Year'].isin(['2018']))& (df_plot['City'].isin(['Moscow'])) & (df_plot['Quarter'].isin(['1']))]
+        data = df_plot[
+            (df_plot['Year'].isin(['2018'])) & (df_plot['City'].isin(['Moscow'])) & (df_plot['Quarter'].isin(['1']))]
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
@@ -3654,164 +3682,192 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
         values=["SQM"],
         aggfunc=sum,
         fill_value=0)
+    data = []
+    #df_plot = df_plot.sort_values(by='Agency')
+    list_of_unique = df_plot['Agency'].unique()
+    print(1, list_of_unique)
+    print(2, list_of_unique.tolist())
+    list_of_unique = list_of_unique.tolist()
+    if 'Colliers' in list_of_unique:
+        list_of_unique.remove('Colliers')
+        print(3, list_of_unique)
+        list_of_unique.insert(0,'Colliers')
+        print(4, list_of_unique)
+    #print(list_of_unique)
+    #list_of_unique = list_of_unique.sort_values(by='Agency')
+    for i in range(len(list_of_unique)):
+        trace = go.Bar(y=pv.index,
+                                       x=pv[("SQM", list_of_unique[i])],
+                                       name=list_of_unique[i],
+                                       marker=dict(color=color.dict_colors_of_companies[list_of_unique[i]]),
+                                       width=0.45,
+                                       orientation='h',
+                                       text=list(((pv[("SQM", list_of_unique[i])] / 1000).round()).apply(np.int64)),
+                                       textposition='auto',
+                                       textfont=dict(color=color.white, size=14)
+                                       )
 
-    if len(df_plot['Agency'].unique()) == 6:
-        data = []
+        data.append(trace)
 
-        trace1 = go.Bar(y=pv.index, x=pv[("SQM", 'Colliers')],
-                        name='Colliers',
-                        marker=dict(
-                            color=color.colliers_dark_blue),
-                        width=0.45,
-                        orientation='h',
-                        text=list(((pv[("SQM", 'Colliers')] / 1000).round()).apply(np.int64)),
-                        textposition='auto',
-                        textfont=dict(
-                            color=color.white,
-                            size=14))
-        trace2 = go.Bar(y=pv.index, x=pv[("SQM", 'SAR')],
-                        name='SAR',
-                        marker=dict(
-                            color=color.colliers_light_blue),
-                        width=0.45,
-                        orientation='h',
-                        text=list(((pv[("SQM", 'SAR')] / 1000).round()).apply(np.int64)),
-                        textposition='auto',
-                        textfont=dict(
-                            color=color.white,
-                            size=14))
-        trace3 = go.Bar(y=pv.index, x=pv[("SQM", 'CW')],
-                        name='CW',
-                        marker=dict(
-                            color=color.colliers_extra_light_blue),
-                        width=0.45, orientation='h',
-                        text=list(((pv[("SQM", 'CW')] / 1000).round()).apply(np.int64)),
-                        textposition='auto',
-                        textfont=dict(
-                            color=color.white,
-                            size=14))
-        trace4 = go.Bar(y=pv.index, x=pv[("SQM", 'CBRE')],
-                        name='CBRE',
-                        marker=dict(
-                            color=color.colliers_grey_40),
-                        width=0.45,
-                        orientation='h',
-                        text=list(((pv[("SQM", 'CBRE')] / 1000).round()).apply(np.int64)),
-                        textposition='auto',
-                        textfont=dict(
-                            color=color.white,
-                            size=14))
-        trace5 = go.Bar(y=pv.index, x=pv[("SQM", 'JLL')],
-                        name='JLL',
-                        marker=dict(
-                            color=color.colliers_yellow),
-                        width=0.45,
-                        orientation='h',
-                        text=list(((pv[("SQM", 'JLL')] / 1000).round()).apply(np.int64)),
-                        textposition='auto',
-                        textfont=dict(
-                            color=color.colliers_grey_80,
-                            size=14))
-        trace6 = go.Bar(y=pv.index, x=pv[("SQM", 'KF')],
-                        name='KF',
-                        marker=dict(
-                            color=color.colliers_red),
-                        width=0.45,
-                        orientation='h',
-                        text=list(((pv[("SQM", 'KF')] / 1000).round()).apply(np.int64)),
-                        textposition='auto',
-                        textfont=dict(
-                            color=color.white,
-                            size=14))
 
-        data.extend([trace1, trace2, trace3, trace4, trace5, trace6])
 
-    elif len(df_plot['Agency'].unique()) < 6:
-        data = []
-        list_of_unique = df_plot['Agency'].unique()
-        if 'Colliers' in list_of_unique:
-            trace1 = go.Bar(y=pv.index, x=pv[("SQM", 'Colliers')],
-                            name='Colliers',
-                            marker=dict(
-                                color=color.colliers_dark_blue),
-                            width=0.4,
-                            orientation='h',
-                            text=list(((pv[("SQM", 'Colliers')] / 1000).round()).apply(np.int64)),
-                            textposition='auto',
-                            textfont=dict(
-                                color=color.white,
-                                size=12))
-            data.append(trace1)
-
-        if 'SAR' in list_of_unique:
-            trace2 = go.Bar(y=pv.index, x=pv[("SQM", 'SAR')],
-                            name='SAR',
-                            marker=dict(
-                                color=color.colliers_light_blue),
-                            width=0.4,
-                            orientation='h',
-                            text=list(((pv[("SQM", 'SAR')] / 1000).round()).apply(np.int64)),
-                            textposition='auto',
-                            textfont=dict(
-                                color=color.white,
-                                size=12))
-            data.append(trace2)
-
-        if 'CW' in list_of_unique:
-            trace3 = go.Bar(y=pv.index, x=pv[("SQM", 'CW')],
-                            name='CW',
-                            marker=dict(
-                                color=color.colliers_extra_light_blue),
-                            width=0.4,
-                            orientation='h',
-                            text=list(((pv[("SQM", 'CW')] / 1000).round()).apply(np.int64)),
-                            textposition='auto',
-                            textfont=dict(
-                                color=color.white,
-                                size=12))
-            data.append(trace3)
-
-        if 'CBRE' in list_of_unique:
-            trace4 = go.Bar(y=pv.index, x=pv[("SQM", 'CBRE')],
-                            name='CBRE',
-                            marker=dict(
-                                color=color.colliers_grey_40),
-                            width=0.4,
-                            orientation='h',
-                            text=list(((pv[("SQM", 'CBRE')] / 1000).round()).apply(np.int64)),
-                            textposition='auto',
-                            textfont=dict(color=color.white,
-                                          size=12))
-            data.append(trace4)
-
-        if 'JLL' in list_of_unique:
-            trace5 = go.Bar(y=pv.index, x=pv[("SQM", 'JLL')],
-                            name='JLL',
-                            marker=dict(
-                                color=color.colliers_yellow),
-                            width=0.4,
-                            orientation='h',
-                            text=list(((pv[("SQM", 'JLL')] / 1000).round()).apply(np.int64)),
-                            textposition='auto',
-                            textfont=dict(
-                                color=color.colliers_grey_80,
-                                size=12))
-            data.append(trace5)
-
-        if 'KF' in list_of_unique:
-            trace6 = go.Bar(y=pv.index, x=pv[("SQM", 'KF')],
-                            name='KF',
-                            marker=dict(
-                                color=color.colliers_red),
-                            width=0.4,
-                            orientation='h',
-                            text=list(((pv[("SQM", 'KF')] / 1000).round()).apply(np.int64)),
-                            textposition='auto',
-                            textfont=dict(
-                                color=color.white,
-                                size=12,
-                                ))
-            data.append(trace6)
+    # if len(df_plot['Agency'].unique()) == 6:
+    #     data = []
+    #
+    #     trace1 = go.Bar(y=pv.index, x=pv[("SQM", 'Colliers')],
+    #                     name='Colliers',
+    #                     marker=dict(
+    #                         color=color.colliers_dark_blue),
+    #                     width=0.45,
+    #                     orientation='h',
+    #                     text=list(((pv[("SQM", 'Colliers')] / 1000).round()).apply(np.int64)),
+    #                     textposition='auto',
+    #                     textfont=dict(
+    #                         color=color.white,
+    #                         size=14))
+    #     trace2 = go.Bar(y=pv.index, x=pv[("SQM", 'SAR')],
+    #                     name='SAR',
+    #                     marker=dict(
+    #                         color=color.colliers_light_blue),
+    #                     width=0.45,
+    #                     orientation='h',
+    #                     text=list(((pv[("SQM", 'SAR')] / 1000).round()).apply(np.int64)),
+    #                     textposition='auto',
+    #                     textfont=dict(
+    #                         color=color.white,
+    #                         size=14))
+    #     trace3 = go.Bar(y=pv.index, x=pv[("SQM", 'CW')],
+    #                     name='CW',
+    #                     marker=dict(
+    #                         color=color.colliers_extra_light_blue),
+    #                     width=0.45, orientation='h',
+    #                     text=list(((pv[("SQM", 'CW')] / 1000).round()).apply(np.int64)),
+    #                     textposition='auto',
+    #                     textfont=dict(
+    #                         color=color.white,
+    #                         size=14))
+    #     trace4 = go.Bar(y=pv.index, x=pv[("SQM", 'CBRE')],
+    #                     name='CBRE',
+    #                     marker=dict(
+    #                         color=color.colliers_grey_40),
+    #                     width=0.45,
+    #                     orientation='h',
+    #                     text=list(((pv[("SQM", 'CBRE')] / 1000).round()).apply(np.int64)),
+    #                     textposition='auto',
+    #                     textfont=dict(
+    #                         color=color.white,
+    #                         size=14))
+    #     trace5 = go.Bar(y=pv.index, x=pv[("SQM", 'JLL')],
+    #                     name='JLL',
+    #                     marker=dict(
+    #                         color=color.colliers_yellow),
+    #                     width=0.45,
+    #                     orientation='h',
+    #                     text=list(((pv[("SQM", 'JLL')] / 1000).round()).apply(np.int64)),
+    #                     textposition='auto',
+    #                     textfont=dict(
+    #                         color=color.colliers_grey_80,
+    #                         size=14))
+    #     trace6 = go.Bar(y=pv.index, x=pv[("SQM", 'KF')],
+    #                     name='KF',
+    #                     marker=dict(
+    #                         color=color.colliers_red),
+    #                     width=0.45,
+    #                     orientation='h',
+    #                     text=list(((pv[("SQM", 'KF')] / 1000).round()).apply(np.int64)),
+    #                     textposition='auto',
+    #                     textfont=dict(
+    #                         color=color.white,
+    #                         size=14))
+    #
+    #     data.extend([trace1, trace2, trace3, trace4, trace5, trace6])
+    #
+    # elif len(df_plot['Agency'].unique()) < 6:
+    #     data = []
+    #     list_of_unique = df_plot['Agency'].unique()
+    #     if 'Colliers' in list_of_unique:
+    #         trace1 = go.Bar(y=pv.index, x=pv[("SQM", 'Colliers')],
+    #                         name='Colliers',
+    #                         marker=dict(
+    #                             color=color.colliers_dark_blue),
+    #                         width=0.4,
+    #                         orientation='h',
+    #                         text=list(((pv[("SQM", 'Colliers')] / 1000).round()).apply(np.int64)),
+    #                         textposition='auto',
+    #                         textfont=dict(
+    #                             color=color.white,
+    #                             size=12))
+    #         data.append(trace1)
+    #
+    #     if 'SAR' in list_of_unique:
+    #         trace2 = go.Bar(y=pv.index, x=pv[("SQM", 'SAR')],
+    #                         name='SAR',
+    #                         marker=dict(
+    #                             color=color.colliers_light_blue),
+    #                         width=0.4,
+    #                         orientation='h',
+    #                         text=list(((pv[("SQM", 'SAR')] / 1000).round()).apply(np.int64)),
+    #                         textposition='auto',
+    #                         textfont=dict(
+    #                             color=color.white,
+    #                             size=12))
+    #         data.append(trace2)
+    #
+    #     if 'CW' in list_of_unique:
+    #         trace3 = go.Bar(y=pv.index, x=pv[("SQM", 'CW')],
+    #                         name='CW',
+    #                         marker=dict(
+    #                             color=color.colliers_extra_light_blue),
+    #                         width=0.4,
+    #                         orientation='h',
+    #                         text=list(((pv[("SQM", 'CW')] / 1000).round()).apply(np.int64)),
+    #                         textposition='auto',
+    #                         textfont=dict(
+    #                             color=color.white,
+    #                             size=12))
+    #         data.append(trace3)
+    #
+    #     if 'CBRE' in list_of_unique:
+    #         trace4 = go.Bar(y=pv.index, x=pv[("SQM", 'CBRE')],
+    #                         name='CBRE',
+    #                         marker=dict(
+    #                             color=color.colliers_grey_40),
+    #                         width=0.4,
+    #                         orientation='h',
+    #                         text=list(((pv[("SQM", 'CBRE')] / 1000).round()).apply(np.int64)),
+    #                         textposition='auto',
+    #                         textfont=dict(color=color.white,
+    #                                       size=12))
+    #         data.append(trace4)
+    #
+    #     if 'JLL' in list_of_unique:
+    #         trace5 = go.Bar(y=pv.index, x=pv[("SQM", 'JLL')],
+    #                         name='JLL',
+    #                         marker=dict(
+    #                             color=color.colliers_yellow),
+    #                         width=0.4,
+    #                         orientation='h',
+    #                         text=list(((pv[("SQM", 'JLL')] / 1000).round()).apply(np.int64)),
+    #                         textposition='auto',
+    #                         textfont=dict(
+    #                             color=color.colliers_grey_80,
+    #                             size=12))
+    #         data.append(trace5)
+    #
+    #     if 'KF' in list_of_unique:
+    #         trace6 = go.Bar(y=pv.index, x=pv[("SQM", 'KF')],
+    #                         name='KF',
+    #                         marker=dict(
+    #                             color=color.colliers_red),
+    #                         width=0.4,
+    #                         orientation='h',
+    #                         text=list(((pv[("SQM", 'KF')] / 1000).round()).apply(np.int64)),
+    #                         textposition='auto',
+    #                         textfont=dict(
+    #                             color=color.white,
+    #                             size=12,
+    #                             ))
+    #         data.append(trace6)
 
     list_of_ind = []
     for i in range(len(list_of_values_copy)):
@@ -3835,59 +3891,59 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
         format_year = ', '.join(Year)
 
     return {
-        'data': data,
-        'layout':
+            'data': data,
+            'layout': go.Layout(
+                          annotations=[dict(
+                                            x=pv["SQM"].sum(),
+                                            y=pv.index,
+                                            showarrow=False,
+                                            text=' ',
+                                            xref="x",
+                                            yref="y"
+                                            )
+                                      ],
+                          title='{}<br>'
+                                'in {}'.format(format_data, format_year),
+                          autosize=False,
+                          bargap=0.3,
+                          bargroupgap=0,
+                          font=dict(
+                                    color=color.colliers_grey_80,
+                                    family='Arial',
+                                    size=12
+                                   ),
+                          width=width,
+                          height=height,
+                          margin=dict(pad=0),
+                          titlefont=dict(
+                                         color=color.colliers_grey_80,
+                                         family='Arial',
+                                         size=18),
+                      xaxis=dict(
+                            autorange=True,
+                showgrid=True,
+                zeroline=True,
+                showline=True,
+                autotick=True,
+                ticks='',
+                showticklabels=True,
+                # title='Area in sq.m'
+            ),
+            yaxis=dict(autorange=True,
+                       showgrid=True,
+                       zeroline=True,
+                       showline=True,
+                       autotick=False,
+                       ticks='',
+                       showticklabels=True,
+                       # title='Year'
+                       ),
+            legend=dict(orientation="h",
+                        traceorder='normal'),
 
-            go.Layout(
-                annotations=[dict(
-                    x=pv["SQM"].sum(),
-                    y=pv.index,
-                    showarrow=False,
-                    text=' ',
-                    xref="x",
-                    yref="y")],
-                title='{}<br>'
-                      'in {}'.format(format_data, format_year),
-                autosize=False,
-                bargap=0.3,
-                bargroupgap=0,
-                font=dict(
-                    color=color.colliers_grey_80,
-                    family='Arial',
-                    size=12),
-
-                width=width,
-                height=height,
-                margin=dict(pad=0),
-                titlefont=dict(
-                    color=color.colliers_grey_80,
-                    family='Arial',
-                    size=18),
-                xaxis=dict(
-                    autorange=True,
-                    showgrid=True,
-                    zeroline=True,
-                    showline=True,
-                    autotick=True,
-                    ticks='',
-                    showticklabels=True,
-                    # title='Area in sq.m'
-                ),
-                yaxis=dict(autorange=True,
-                           showgrid=True,
-                           zeroline=True,
-                           showline=True,
-                           autotick=False,
-                           ticks='',
-                           showticklabels=True,
-                           # title='Year'
-                           ),
-                legend=dict(orientation="h",
-                            traceorder='normal'),
-
-                barmode='stack'
-            )
-    }
+            barmode='stack'
+        )
+            }
 
 
 @app.callback(
