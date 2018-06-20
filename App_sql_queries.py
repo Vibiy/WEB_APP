@@ -1,6 +1,7 @@
 deals_query = """SELECT "Agency"::text, "SQM"::real, "Year"::text
             FROM "Market_Share"
             WHERE "SQM" NOT LIKE '%w/s' AND "SQM" NOT LIKE '%offices' AND "Country"='RU' AND "Include_in_Market_Share"='Y'"""
+
 tenant_rep_query = """SELECT "Agency"::text, "SQM"::real, "Year"::text
             FROM "Market_Share"
             WHERE "SQM" NOT LIKE '%w/s' AND "SQM" NOT LIKE '%offices' AND "Country"='RU' AND "City"='Moscow' AND  "LLR/TR" IN ('TR','LLR/TR','LLR/ETR','ETR') AND "Include_in_Market_Share"='Y'"""
@@ -37,7 +38,7 @@ table_query_new_all = """SELECT "Include_in_Market_Share","Agency","Country", "C
                                 "Submarket_Large", "Owner", "Date_of_acquiring","Class", "Class_Colliers", 
                                 "Floor", "SQM"::real , "Deal_Size", "Company", "Business_Sector", "Sublease_Agent",
                                  "Type_of_deal", "Type_of_Consultancy", "LLR/TR", "LLR_Only", "E_TR_Only", "LLR/E_TR",
-                                 "Month",  "Year", "Quarter"
+                                 "Month",  "Year"::integer, "Quarter"
 
                       FROM "Market_Share"
                       WHERE "SQM" NOT LIKE '%w/s' AND "SQM" NOT LIKE '%offices'"""
