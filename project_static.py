@@ -47,8 +47,8 @@ list_of_columns_for_gui = [
     "SQM", "Size of deal", "Company", "Business sector", "Sublease agent",
     "Type of deal", "Type of consultancy",
     # "LLR/TR",
-    # "LLR only",
-    # "(E)TR only",
+    # "LLR",
+    # "(E)TR",
     # "LLR/(E)TR",
     "Month", "Year", "Quarter"]
 
@@ -59,7 +59,8 @@ list_of_graphics_for_gui = ["Bar-stacked", "Bar-stacked-horizontal", "Bar-unstac
                             "LLR,(E)TR, LLR/(E)TR-pie-2017-MOS", 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS',
                             "LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS", 'biggest-deal-tab-2017']
 
-list_of_deals_type = ["All deals", "LLR only", "(E)TR only", "LLR/(E)TR only", "All LLR", "All (E)TR"]  # список чеклиста для сортировки сделок из дерева
+list_of_deals_type = ["All deals", "LLR", "(E)TR", "LLR/(E)TR", "All LLR (include double)",
+                      "All (E)TR (include double)"]  # список чеклиста для сортировки сделок из дерева
 
 dbname = 'postgres'  # название базы данных
 host = '10.168.207.102'  # IP адрес хоста, если сервер локальный, "localhost"

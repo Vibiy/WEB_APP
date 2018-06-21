@@ -34,7 +34,7 @@ app.config.suppress_callback_exceptions = True
 app.css.append_css({'external_url': 'https://rawgit.com/Wittgensteen/work_stuff/master/new_buttons.css'})
 
 py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
-#py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
+# py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
 
 app.layout = pages.serve_layout()  # ОСНОВНАЯ СТРАНИЦА ПРИЛОЖЕНИЯ
 
@@ -71,7 +71,7 @@ def interface_button():
                 'display': 'block',
             }
         if n_clicks is not None and n_clicks % 2 != 0:
-            print(n_clicks)
+            # #print(n_clicks)
             style = {
                 'transition': 'left 0.1s',
                 '-webkit-transition': 'left 0.1s',
@@ -1204,10 +1204,8 @@ select_graph_from_check_graphics()  # вызов функции с отобра�
                # значение чеклиста из дерева с выбором столбцов interface-data
                ])
 def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                     Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                     Owner,
-                     Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                     Month, col, data_in):
+                     Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large, Owner,
+                     Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month, col, data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -1226,9 +1224,8 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     cond_1 = cond.copy()  # копия словаря
     list_of_values_copy = list(filter(None,
                                       list_of_values))  # очистка кортежа от пустых элементов (при не выбранном значении value, значение по умолчанию = None
-    print('data_in', data_in)
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             return static.all_deals_query_df[col].to_dict('records')
         # ____________________________________________________________#
@@ -1243,8 +1240,8 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
             return data_to_table[col].to_dict('records')
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -1263,15 +1260,15 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
 
                 else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_to_table = data_to_table.sort_values('Year',
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
             return data_to_table[col].to_dict('records')
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -1289,15 +1286,15 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
                 else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_to_table = data_to_table.sort_values('Year',
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
             return data_to_table[col].to_dict('records')
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        ###print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -1315,15 +1312,15 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
                 else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_to_table = data_to_table.sort_values('Year',
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
             return data_to_table[col].to_dict('records')
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -1346,9 +1343,8 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
                 else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_llr = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
                     data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_to_table = data_to_table.sort_values('Year',
@@ -1356,8 +1352,8 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
             return data_to_table[col].to_dict('records')
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -1380,9 +1376,8 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
 
                 else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_etr = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
                     data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_to_table = data_to_table.sort_values('Year',
@@ -1445,6 +1440,7 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
     cond_1 = cond.copy()
 
     list_of_values_copy = list(filter(None, list_of_values))
+    # print('data_in', data_in)
 
     if 'All deals' in data_in:
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
@@ -1469,7 +1465,7 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
                     sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                                ' ')
 
-    elif 'LLR only' in data_in:
+    if 'LLR' in data_in:
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_sum = int(round(data_to_table["SQM"].sum()))
@@ -1488,14 +1484,14 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
                     sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                                ' ')
                 else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_sum = int(round(data_to_table["SQM"].sum()))
                     # форматирование отображения разрядов числа, на место запятой ставится пробел
                     sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                                ' ')
 
-    elif '(E)TR only' in data_in:
+    if '(E)TR' in data_in:
+        # print('TEST')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_sum = int(round(data_to_table["SQM"].sum()))
@@ -1514,21 +1510,21 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
                     sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                                ' ')
                 else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_sum = int(round(data_to_table["SQM"].sum()))
                     # форматирование отображения разрядов числа, на место запятой ставится пробел
                     sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                                ' ')
 
-    elif 'LLR/(E)TR only' in data_in:
+    if 'LLR/(E)TR' in data_in:
+        # print('TEST 2')
+        # print(static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])])
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_sum = int(round(data_to_table["SQM"].sum()))
             # форматирование отображения разрядов числа, на место запятой ставится пробел
             sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                        ' ')
-
         if len(list_of_values_copy) != 0:
             for i in range(len(list_of_values_copy)):
                 ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
@@ -1540,7 +1536,63 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
                     sqm_sum = '{0:,}'.format(data_sum).replace(',',
                                                                ' ')
                 else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_sum = int(round(data_to_table["SQM"].sum()))
+                    # форматирование отображения разрядов числа, на место запятой ставится пробел
+                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
+                                                               ' ')
+    if 'All LLR (include double) (include double)' in data_in:
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
+            data_sum = int(round(data_to_table["SQM"].sum()))
+            # форматирование отображения разрядов числа, на место запятой ставится пробел
+            sqm_sum = '{0:,}'.format(data_sum).replace(',',
+                                                       ' ')
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table_double = static.all_deals_query_df[
+                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_sum = int(round(data_to_table["SQM"].sum()))
+                    # форматирование отображения разрядов числа, на место запятой ставится пробел
+                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
+                                                               ' ')
+                else:
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_sum = int(round(data_to_table["SQM"].sum()))
+                    # форматирование отображения разрядов числа, на место запятой ставится пробел
+                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
+                                                               ' ')
+    if 'All (E)TR (include double)' in data_in:
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
+            data_sum = int(round(data_to_table["SQM"].sum()))
+            # форматирование отображения разрядов числа, на место запятой ставится пробел
+            sqm_sum = '{0:,}'.format(data_sum).replace(',',
+                                                       ' ')
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table_double = static.all_deals_query_df[
+                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_sum = int(round(data_to_table["SQM"].sum()))
+                    # форматирование отображения разрядов числа, на место запятой ставится пробел
+                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
+                                                               ' ')
+                else:
+
                     data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
                     data_sum = int(round(data_to_table["SQM"].sum()))
                     # форматирование отображения разрядов числа, на место запятой ставится пробел
@@ -1600,7 +1652,7 @@ def update_download_all_link(Year, Country, Agency, City, Property_name, Class, 
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     dash.dependencies.Input('LLR/TR', 'value'),
+     # dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -1612,54 +1664,183 @@ def update_download_all_link(Year, Country, Agency, City, Property_name, Class, 
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     dash.dependencies.Input('LLR_Only', 'value'),
-     dash.dependencies.Input('E_TR_Only', 'value'),
-     dash.dependencies.Input('LLR/E_TR', 'value'),
+     # dash.dependencies.Input('LLR_Only', 'value'),
+     # dash.dependencies.Input('E_TR_Only', 'value'),
+     # dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
-     dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
+     dash.dependencies.Input('interface-columns', 'values'),
+     dash.dependencies.Input('interface-data', 'value')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_download_link(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                         Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                         Submarket_Large, Owner,
-                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                         LLR_E_TR,
-                         Month, col):
+                         Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                         Owner,
+                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
+                         Month, col, data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
                 SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy],
                 Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
                 Submarket_Large=[Submarket_Large],
                 Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
-                Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                LLR_E_TR=[LLR_E_TR], Month=[Month])
+                Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], Month=[Month])
 
     list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                      Owner,
-                      Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                      LLR_E_TR,
+                      Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                      Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
                       Month)
     cond_1 = cond.copy()
 
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if len(list_of_values_copy) == 0:
-        return static.all_deals_query_df.to_dict('records')
+    if 'All deals' in data_in:
+        # #print('Yes, "All deals" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[col].to_dict('records')
+        # ____________________________________________________________#
 
-    # ____________________________________________________________#
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[
+                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
+                else:
+                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
 
-    if len(list_of_values_copy) != 0:
-        for i in range(len(list_of_values_copy)):
-            ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-            if i == 0:
-                data = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-            else:
-                data = data[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-        csv_string = data.to_csv(index=False, encoding='utf-8', sep=';')
-        csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-        return csv_string
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
+
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+
+                else:
+                    data_to_table = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
+
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+                else:
+                    data_to_table = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+    if 'LLR/(E)TR' in data_in:
+        ###print('Yes, "LLR/E_TR only" in data_in ')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
+
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+                else:
+                    data_to_table = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
+            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table_double = static.all_deals_query_df[
+                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+                else:
+                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_llr = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
+                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
+        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
+            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
+            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
+
+        # ____________________________________________________________#
+
+        if len(list_of_values_copy) != 0:
+            for i in range(len(list_of_values_copy)):
+                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
+                if i == 0:
+                    data_to_table_double = static.all_deals_query_df[
+                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+
+                else:
+                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
+                    data_to_table_etr = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
+                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
+                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
+                    data_to_table = data_to_table.sort_values('Year',
+                                                              ascending=False)  # отсортировнный по годам датафрейм
+    print(data_to_table)
+    csv_string = data_to_table.to_csv(index=False, encoding='utf-8', sep=';')
+    csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
+    return csv_string
 
 
 '''
@@ -1718,7 +1899,7 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
     width = 700
     height = 500
-    # print('WxH=', width, height)
+    # #print('WxH=', width, height)
 
     list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                       Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
@@ -1727,7 +1908,7 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     list_of_values_copy = list(filter(None, list_of_values))
 
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             df_plot = static.all_deals_query_df
         # ____________________________________________________________#
@@ -1744,8 +1925,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                     df_plot = data_to_table
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -1769,8 +1950,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -1794,8 +1975,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        # #print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -1819,8 +2000,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -1853,8 +2034,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -1885,17 +2066,6 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                     data_to_table = data_to_table.sort_values('Year',
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
-
-    # __________________________________________________________________________________________________ #
-
-    # if len(list_of_values_copy) != 0:
-    #     for i in range(len(list_of_values_copy)):
-    #         ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-    #         if i == 0:
-    #             data = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-    #         else:
-    #             data = data[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-    #         df_plot = data
 
     pv = pd.pivot_table(  # создание сводной таблицы из текущего датафрейма
         df_plot,  # выбор текущего датафрейма
@@ -2264,11 +2434,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      ])
 def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                             Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                            Submarket_Large,
-                            Owner,
-                            Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                            LLR_E_TR,
-                            Month, col):
+                            Submarket_Large, Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
+                            LLR_Only, E_TR_Only, LLR_E_TR, Month, col):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -2295,11 +2462,13 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
+        format_index = ', '.join(str(e) for e in list_of_ind)
+
         format_year = 'All years'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
-        # print('list_of_ind BEFORE', list_of_ind)
-        # print('list_of_ind AFTER', list_of_ind)
+        # #print('list_of_ind BEFORE', list_of_ind)
+        # #print('list_of_ind AFTER', list_of_ind)
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_index = ', '.join(str(e) for e in list_of_ind)
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
@@ -2307,11 +2476,13 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         my_method.replace_index(list_of_ind)
-        # print('list_of_ind', list_of_ind)
+        # #print('list_of_ind', list_of_ind)
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         for i in Year:
             list_of_values_copy_chain.remove('{}'.format(i))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
+        format_index = ', '.join(str(e) for e in list_of_ind)
+
         format_year = ', '.join(Year)
 
     return format_index + format_data
@@ -2385,10 +2556,10 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2493,10 +2664,10 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2600,10 +2771,10 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes'])) & (df_plot['Country'].isin(['RU']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2707,10 +2878,10 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2815,10 +2986,10 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
@@ -2922,10 +3093,10 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR only', '(E)TR only', 'LLR/(E)TR'],
+        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
 
@@ -3013,7 +3184,7 @@ def default_tables():
 
         all_deals_2017_selected = all_deals_2017[['Agency', 'Property_Name', 'SQM',
                                                   'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
-        # print(all_deals_2017_selected.Property_Name.tolist())
+        # #print(all_deals_2017_selected.Property_Name.tolist())
 
         trace = go.Table(
             columnwidth=[80, 200, 100, 150, 200, 100],
@@ -3482,11 +3653,11 @@ default_tables()
 #     }
 #
 #     img = py.image.get(image_data, format='png')
-#     #print('Data loaded from Plotly')
+#     ##print('Data loaded from Plotly')
 #     #plot_url = py.plot(image_data, filename='my plot', auto_open=False)
-#     #print(plot_url)
+#     ##print(plot_url)
 #     #plot_url_png = plot_url + '.png'
-#     #print(plot_url_png)
+#     ##print(plot_url_png)
 #
 #     plot_bytes_encode = str(base64.b64encode(img))
 #     plot_bytes_encode = plot_bytes_encode[0:-1]
@@ -3509,7 +3680,7 @@ default_tables()
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     #dash.dependencies.Input('LLR/TR', 'value'),
+     # dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -3521,18 +3692,18 @@ default_tables()
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     #dash.dependencies.Input('LLR_Only', 'value'),
-     #dash.dependencies.Input('E_TR_Only', 'value'),
-     #dash.dependencies.Input('LLR/E_TR', 'value'),
+     # dash.dependencies.Input('LLR_Only', 'value'),
+     # dash.dependencies.Input('E_TR_Only', 'value'),
+     # dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),
      dash.dependencies.Input('interface-data', 'value')  # значение чеклиста из дерева с выбором столбцов
      ])
 def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                                 Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address,
-                                Submarket_Large, Owner,
-                                Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                                Month, col, data_in):
+                                Submarket_Large,
+                                Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month,
+                                col, data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -3552,7 +3723,7 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
     list_of_values_copy = list(filter(None, list_of_values))
 
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             df_plot = static.all_deals_query_df
         # ____________________________________________________________#
@@ -3569,8 +3740,8 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                     df_plot = data_to_table
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -3594,8 +3765,8 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -3619,8 +3790,8 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        # #print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -3644,8 +3815,8 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -3678,8 +3849,8 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -3918,7 +4089,7 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     #dash.dependencies.Input('LLR/TR', 'value'),
+     # dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -3930,18 +4101,17 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     #dash.dependencies.Input('LLR_Only', 'value'),
-     #dash.dependencies.Input('E_TR_Only', 'value'),
-     #dash.dependencies.Input('LLR/E_TR', 'value'),
+     # dash.dependencies.Input('LLR_Only', 'value'),
+     # dash.dependencies.Input('E_TR_Only', 'value'),
+     # dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),  # значение чеклиста из дерева с выбором столбцов
      dash.dependencies.Input('interface-data', 'value')
      ])
 def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                            Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address,
-                            Submarket_Large, Owner,
-                            Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                            Month, col, data_in):
+                            Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                            Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month, col,
+                            data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -3959,7 +4129,7 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             df_plot = static.all_deals_query_df
         # ____________________________________________________________#
@@ -3976,8 +4146,8 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                     df_plot = data_to_table
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4001,8 +4171,8 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4026,8 +4196,8 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        # #print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4051,8 +4221,8 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -4085,8 +4255,8 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -4239,7 +4409,7 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     #dash.dependencies.Input('LLR/TR', 'value'),
+     # dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -4251,18 +4421,16 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     #dash.dependencies.Input('LLR_Only', 'value'),
-     #dash.dependencies.Input('E_TR_Only', 'value'),
-     #dash.dependencies.Input('LLR/E_TR', 'value'),
+     # dash.dependencies.Input('LLR_Only', 'value'),
+     # dash.dependencies.Input('E_TR_Only', 'value'),
+     # dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),  # значение чеклиста из дерева с выбором столбцов
      dash.dependencies.Input('interface-data', 'value')
      ])
 def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                     Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                     Owner,
-                     Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                     Month, col, data_in):
+                     Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large, Owner,
+                     Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month, col, data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -4280,7 +4448,7 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     list_of_values_copy = list(filter(None, list_of_values))
 
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             df_plot = static.all_deals_query_df
         # ____________________________________________________________#
@@ -4297,8 +4465,8 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                     df_plot = data_to_table
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4322,8 +4490,8 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4347,8 +4515,8 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        # #print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4372,8 +4540,8 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -4406,8 +4574,8 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -4512,7 +4680,7 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     #dash.dependencies.Input('LLR/TR', 'value'),
+     # dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -4524,18 +4692,17 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     #dash.dependencies.Input('LLR_Only', 'value'),
-     #dash.dependencies.Input('E_TR_Only', 'value'),
-     #dash.dependencies.Input('LLR/E_TR', 'value'),
+     # dash.dependencies.Input('LLR_Only', 'value'),
+     # dash.dependencies.Input('E_TR_Only', 'value'),
+     # dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),  # значение чеклиста из дерева с выбором столбцов
      dash.dependencies.Input('interface-data', 'value')
      ])
 def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                         Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address,
-                         Submarket_Large, Owner,
-                         Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                         Month, col, data_in):
+                         Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                         Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month, col,
+                         data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -4555,7 +4722,7 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
     list_of_values_copy = list(filter(None, list_of_values))
 
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             df_plot = static.all_deals_query_df
         # ____________________________________________________________#
@@ -4572,8 +4739,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                     df_plot = data_to_table
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4597,8 +4764,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4622,8 +4789,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        # #print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4647,8 +4814,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -4681,8 +4848,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -4732,88 +4899,192 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
         aggfunc=sum,
         fill_value=0)
 
-    # из исходного датафрейма с real получить список из str, причем каждыому элементу добавить знак процента
+    # из исходного датафрейма с real получить список из str, причем каждому элементу добавить знак процента
     # чтобы отбросить 0 перевожу в интеджер, потом в строку, к строке + %, эту историю из строки обратно в список
-    trace1 = go.Bar(x=pv1.index, y=pv1[("SQM", 'Colliers')] * 100 / pv2["SQM"].sum(),
-                    name='Colliers',
-                    marker=dict(
-                        color=color.colliers_dark_blue),
-                    width=0.4,
-                    text=(
-                        list(map(lambda x: str(x) + "%",
-                                 list(((pv1[("SQM", 'Colliers')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
-                                     np.int64))))),
-                    textposition='auto',
-                    textfont=dict(
-                        color=color.white,
-                        size=12))
+    if len(df_plot['Agency'].unique()) == 6:
+        data = []
 
-    trace2 = go.Bar(x=pv1.index, y=pv1[("SQM", 'CW')] * 100 / pv2["SQM"].sum(),
-                    name='CW',
-                    marker=dict(
-                        color=color.colliers_extra_light_blue),
-                    width=0.4,
-                    text=(
-                        list(map(lambda x: str(x) + "%",
-                                 list(((pv1[("SQM", 'CW')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
-                                     np.int64))))),
-                    textposition='auto',
-                    textfont=dict(
-                        color=color.white,
-                        size=12))
-    trace3 = go.Bar(x=pv1.index, y=pv1[("SQM", 'CBRE')] * 100 / pv2["SQM"].sum(),
-                    name='CBRE',
-                    marker=dict(
-                        color=color.colliers_grey_40),
-                    width=0.4,
-                    text=(
-                        list(map(lambda x: str(x) + "%",
-                                 list(((pv1[("SQM", 'CBRE')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
-                                     np.int64))))),
-                    textposition='auto',
-                    textfont=dict(
-                        color=color.white,
-                        size=12))
-    trace4 = go.Bar(x=pv1.index, y=pv1[("SQM", 'JLL')] * 100 / pv2["SQM"].sum(),
-                    name='JLL',
-                    marker=dict(
-                        color=color.colliers_yellow),
-                    width=0.4,
-                    text=(
-                        list(map(lambda x: str(x) + "%",
-                                 list(((pv1[("SQM", 'JLL')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
-                                     np.int64))))),
-                    textposition='auto',
-                    textfont=dict(
-                        color=color.colliers_grey_80,
-                        size=12))
-    trace5 = go.Bar(x=pv1.index, y=pv1[("SQM", 'KF')] * 100 / pv2["SQM"].sum(),
-                    name='KF',
-                    marker=dict(
-                        color=color.colliers_red),
-                    width=0.4,
-                    text=(
-                        list(map(lambda x: str(x) + "%",
-                                 list(((pv1[("SQM", 'KF')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
-                                     np.int64))))),
-                    textposition='auto',
-                    textfont=dict(
-                        color=color.white,
-                        size=12))
+        trace1 = go.Bar(x=pv1.index, y=pv1[("SQM", 'Colliers')] * 100 / pv2["SQM"].sum(),
+                        name='Colliers',
+                        marker=dict(
+                            color=color.colliers_dark_blue),
+                        width=0.4,
+                        text=(
+                            list(map(lambda x: str(x) + "%",
+                                     list(((pv1[("SQM", 'Colliers')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                         np.int64))))),
+                        textposition='auto',
+                        textfont=dict(
+                            color=color.white,
+                            size=12))
 
-    trace6 = go.Bar(x=pv1.index, y=pv1[("SQM", 'SAR')] * 100 / pv2["SQM"].sum(),
-                    name='SAR',
-                    marker=dict(
-                        color=color.colliers_light_blue),
-                    width=0.4,
-                    text=(
-                        list(map(lambda x: str(x) + "%",
-                                 list(((pv1[("SQM", 'SAR')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
-                                     np.int64))))),
-                    textposition='auto',
-                    textfont=dict(
-                        color=color.white,
-                        size=12))
+        trace2 = go.Bar(x=pv1.index, y=pv1[("SQM", 'CW')] * 100 / pv2["SQM"].sum(),
+                        name='CW',
+                        marker=dict(
+                            color=color.colliers_extra_light_blue),
+                        width=0.4,
+                        text=(
+                            list(map(lambda x: str(x) + "%",
+                                     list(((pv1[("SQM", 'CW')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                         np.int64))))),
+                        textposition='auto',
+                        textfont=dict(
+                            color=color.white,
+                            size=12))
+        trace3 = go.Bar(x=pv1.index, y=pv1[("SQM", 'CBRE')] * 100 / pv2["SQM"].sum(),
+                        name='CBRE',
+                        marker=dict(
+                            color=color.colliers_grey_40),
+                        width=0.4,
+                        text=(
+                            list(map(lambda x: str(x) + "%",
+                                     list(((pv1[("SQM", 'CBRE')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                         np.int64))))),
+                        textposition='auto',
+                        textfont=dict(
+                            color=color.white,
+                            size=12))
+        trace4 = go.Bar(x=pv1.index, y=pv1[("SQM", 'JLL')] * 100 / pv2["SQM"].sum(),
+                        name='JLL',
+                        marker=dict(
+                            color=color.colliers_yellow),
+                        width=0.4,
+                        text=(
+                            list(map(lambda x: str(x) + "%",
+                                     list(((pv1[("SQM", 'JLL')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                         np.int64))))),
+                        textposition='auto',
+                        textfont=dict(
+                            color=color.colliers_grey_80,
+                            size=12))
+        trace5 = go.Bar(x=pv1.index, y=pv1[("SQM", 'KF')] * 100 / pv2["SQM"].sum(),
+                        name='KF',
+                        marker=dict(
+                            color=color.colliers_red),
+                        width=0.4,
+                        text=(
+                            list(map(lambda x: str(x) + "%",
+                                     list(((pv1[("SQM", 'KF')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                         np.int64))))),
+                        textposition='auto',
+                        textfont=dict(
+                            color=color.white,
+                            size=12))
+
+        trace6 = go.Bar(x=pv1.index, y=pv1[("SQM", 'SAR')] * 100 / pv2["SQM"].sum(),
+                        name='SAR',
+                        marker=dict(
+                            color=color.colliers_light_blue),
+                        width=0.4,
+                        text=(
+                            list(map(lambda x: str(x) + "%",
+                                     list(((pv1[("SQM", 'SAR')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                         np.int64))))),
+                        textposition='auto',
+                        textfont=dict(
+                            color=color.white,
+                            size=12))
+        data.extend([trace1, trace2, trace3, trace4, trace5, trace6])
+
+    elif len(df_plot['Agency'].unique()) < 6:
+        data = []
+        list_of_unique = df_plot['Agency'].unique()
+        if 'Colliers' in list_of_unique:
+            trace1 = go.Bar(x=pv1.index, y=pv1[("SQM", 'Colliers')] * 100 / pv2["SQM"].sum(),
+                            name='Colliers',
+                            marker=dict(
+                                color=color.colliers_dark_blue),
+                            width=0.4,
+                            text=(
+                                list(map(lambda x: str(x) + "%",
+                                         list((
+                                             (pv1[("SQM", 'Colliers')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                             np.int64))))),
+                            textposition='auto',
+                            textfont=dict(
+                                color=color.white,
+                                size=12))
+            data.append(trace1)
+
+        if 'CW' in list_of_unique:
+            trace2 = go.Bar(x=pv1.index, y=pv1[("SQM", 'CW')] * 100 / pv2["SQM"].sum(),
+                            name='CW',
+                            marker=dict(
+                                color=color.colliers_extra_light_blue),
+                            width=0.4,
+                            text=(
+                                list(map(lambda x: str(x) + "%",
+                                         list(((pv1[("SQM", 'CW')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                             np.int64))))),
+                            textposition='auto',
+                            textfont=dict(
+                                color=color.white,
+                                size=12))
+            data.append(trace2)
+
+        if 'CBRE' in list_of_unique:
+            trace3 = go.Bar(x=pv1.index, y=pv1[("SQM", 'CBRE')] * 100 / pv2["SQM"].sum(),
+                            name='CBRE',
+                            marker=dict(
+                                color=color.colliers_grey_40),
+                            width=0.4,
+                            text=(
+                                list(map(lambda x: str(x) + "%",
+                                         list(((pv1[("SQM", 'CBRE')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                             np.int64))))),
+                            textposition='auto',
+                            textfont=dict(
+                                color=color.white,
+                                size=12))
+            data.append(trace3)
+
+        if 'JLL' in list_of_unique:
+            trace4 = go.Bar(x=pv1.index, y=pv1[("SQM", 'JLL')] * 100 / pv2["SQM"].sum(),
+                            name='JLL',
+                            marker=dict(
+                                color=color.colliers_yellow),
+                            width=0.4,
+                            text=(
+                                list(map(lambda x: str(x) + "%",
+                                         list(((pv1[("SQM", 'JLL')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                             np.int64))))),
+                            textposition='auto',
+                            textfont=dict(
+                                color=color.colliers_grey_80,
+                                size=12))
+            data.append(trace4)
+
+        if 'KF' in list_of_unique:
+            trace5 = go.Bar(x=pv1.index, y=pv1[("SQM", 'KF')] * 100 / pv2["SQM"].sum(),
+                            name='KF',
+                            marker=dict(
+                                color=color.colliers_red),
+                            width=0.4,
+                            text=(
+                                list(map(lambda x: str(x) + "%",
+                                         list(((pv1[("SQM", 'KF')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                             np.int64))))),
+                            textposition='auto',
+                            textfont=dict(
+                                color=color.white,
+                                size=12))
+            data.append(trace5)
+
+        if 'SAR' in list_of_unique:
+            trace6 = go.Bar(x=pv1.index, y=pv1[("SQM", 'SAR')] * 100 / pv2["SQM"].sum(),
+                            name='SAR',
+                            marker=dict(
+                                color=color.colliers_light_blue),
+                            width=0.4,
+                            text=(
+                                list(map(lambda x: str(x) + "%",
+                                         list(((pv1[("SQM", 'SAR')] * 100 / pv2["SQM"].sum()).apply(np.round)).apply(
+                                             np.int64))))),
+                            textposition='auto',
+                            textfont=dict(
+                                color=color.white,
+                                size=12))
+            data.append(trace6)
 
     list_of_ind = []
     for i in range(len(list_of_values_copy)):
@@ -4838,7 +5109,7 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
 
     annotations = []
     return {
-        'data': [trace1, trace2, trace3, trace4, trace5, trace6],
+        'data': data,
         'layout':
             go.Layout(
                 title='{}<br>'
@@ -4888,7 +5159,7 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     #dash.dependencies.Input('LLR/TR', 'value'),
+     # dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -4900,9 +5171,9 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     #dash.dependencies.Input('LLR_Only', 'value'),
-     #dash.dependencies.Input('E_TR_Only', 'value'),
-     #dash.dependencies.Input('LLR/E_TR', 'value'),
+     # dash.dependencies.Input('LLR_Only', 'value'),
+     # dash.dependencies.Input('E_TR_Only', 'value'),
+     # dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),  # значение чеклиста из дерева с выбором столбцов
      dash.dependencies.Input('interface-data', 'value')
@@ -4910,9 +5181,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
      ])
 def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                                   Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address,
-                                  Submarket_Large, Owner,
-                                  Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                                  Month, col, data_in):
+                                  Submarket_Large, Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size,
+                                  Sublease_Agent, Month, col, data_in):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -4932,7 +5202,7 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
     list_of_values_copy = list(filter(None, list_of_values))
 
     if 'All deals' in data_in:
-        print('Yes, "All deals" in data_in ')
+        # #print('Yes, "All deals" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             df_plot = static.all_deals_query_df
         # ____________________________________________________________#
@@ -4949,8 +5219,8 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
                     data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
                     df_plot = data_to_table
 
-    if 'LLR only' in data_in:
-        print('Yes, "LLR only" in data_in ')
+    if 'LLR' in data_in:
+        # #print('Yes, "LLR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4974,8 +5244,8 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if '(E)TR only' in data_in:
-        print('Yes, "(E)TR only" in data_in ')
+    if '(E)TR' in data_in:
+        # #print('Yes, "(E)TR" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -4999,8 +5269,8 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'LLR/(E)TR only' in data_in:
-        print('Yes, "LLR/E_TR only" in data_in ')
+    if 'LLR/(E)TR' in data_in:
+        # #print('Yes, "LLR/E_TR only" in data_in ')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
@@ -5024,8 +5294,8 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All LLR' in data_in:
-        print('Yes, "All LLR in data_in')
+    if 'All LLR (include double) (include double)' in data_in:
+        # #print('Yes, "All LLR (include double) (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
@@ -5058,8 +5328,8 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
                                                               ascending=False)  # отсортировнный по годам датафрейм
                     df_plot = data_to_table
 
-    if 'All (E)TR' in data_in:
-        print('Yes, "All (E)TR in data_in')
+    if 'All (E)TR (include double)' in data_in:
+        # #print('Yes, "All (E)TR (include double) in data_in')
         if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
             data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
             data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
@@ -5111,9 +5381,9 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
         aggfunc=sum,
         fill_value=0)
 
-    # print(pv['SQM'].sum())
+    # #print(pv['SQM'].sum())
     pv_sorted = pv.sort_values(by='SQM', ascending=True)
-    # print((list(map(lambda x: x, list((pv_sorted[("SQM")] / 1000).apply(np.int64))))))
+    # #print((list(map(lambda x: x, list((pv_sorted[("SQM")] / 1000).apply(np.int64))))))
     trace2 = go.Bar(x=pv_sorted["SQM"] / 100000,
                     y=pv_sorted.index,
                     marker=dict(
@@ -5164,9 +5434,9 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
     annotations = []
 
     for agency, value in zip(pv_sorted.index, pv_sorted["SQM"] / 1000):
-        # print('value=', value)
-        # print('PV SQM SUM', pv['SQM'].sum() / 1000)
-        # print(str(((value / pv['SQM'].sum())) * 100) + '%'),
+        # #print('value=', value)
+        # #print('PV SQM SUM', pv['SQM'].sum() / 1000)
+        # #print(str(((value / pv['SQM'].sum())) * 100) + '%'),
         annotations.append(dict(
             x=value + 100,
             y=agency,
@@ -5841,10 +6111,8 @@ select_drop_from_check_susp()  # вызов функции с отображен
                ])
 def update_datatable_susp(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large, Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month, col):
+                          Submarket_Large, Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
+                          LLR_Only, E_TR_Only, LLR_E_TR, Month, col):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -5868,23 +6136,23 @@ def update_datatable_susp(Year, Country, Agency, City, Property_Name, Class, SQM
     suspecious_deals_df_equal_sqm = static.all_deals_query_df[
         static.all_deals_query_df.duplicated(['SQM'], keep=False)].sort_values(
         'SQM', ascending=False)
-    print('equal SQM')
-    print(suspecious_deals_df_equal_sqm['SQM'])
+    # print('equal SQM')
+    # print(suspecious_deals_df_equal_sqm['SQM'])
 
     sort_for_dif = static.all_deals_query_df.sort_values('SQM', ascending=False)
     suspecious_deals_df_sqm_diff_less_five = sort_for_dif[sort_for_dif['SQM'].diff() < 5]
-    print('difference between SQM')
-    print(suspecious_deals_df_sqm_diff_less_five)
+    # print('difference between SQM')
+    # print(suspecious_deals_df_sqm_diff_less_five)
 
     suspecious_deals_df_merged_by_equal_and_diff = pd.merge(suspecious_deals_df_equal_sqm,
                                                             suspecious_deals_df_sqm_diff_less_five, how='inner')
-    print('merged')
-    print(suspecious_deals_df_merged_by_equal_and_diff)
+    # print('merged')
+    # print(suspecious_deals_df_merged_by_equal_and_diff)
 
     # suspecious_deals_df_sqm_diff_year = sort_for_dif[sort_for_dif['Year'].diff() <= 1]
     # suspecious_deals_df_sqm_diff_year_sorted = suspecious_deals_df_sqm_diff_year.sort_values('Year', ascending=False)
-    # print('suspecious_deals_df_sqm_diff_year_sorted')
-    # print(suspecious_deals_df_sqm_diff_year_sorted)
+    # #print('suspecious_deals_df_sqm_diff_year_sorted')
+    # #print(suspecious_deals_df_sqm_diff_year_sorted)
 
     sort_for_dif = static.all_deals_query_df.sort_values('Quarter', ascending=False)
     suspecious_deals_df_quar_diff = sort_for_dif[sort_for_dif['Quarter'].diff() <= 2]
@@ -5935,7 +6203,7 @@ def parse_contents(contents, filename):  # чтение загруженного
             df = pd.read_excel((io.BytesIO(decoded)), header=None)
             df.columns = static.list_of_columns
     except Exception as e:
-        print(e)
+        # print(e)
         return html.Div([
             'There was an error processing this file.'
         ])
@@ -5972,7 +6240,7 @@ def save_contents(contents_save, filename_save):  # данные, загруже
             df = pd.read_excel((io.BytesIO(decoded)), header=None)
             json = df.to_json(date_format='iso', orient='split')
     except Exception as e:
-        print(e)
+        # print(e)
         return html.Div([
             'There was an error processing this file.'
         ])
@@ -6001,7 +6269,7 @@ def update_table(jsonified_cleaned_data):
         dff = pd.read_json(jsonified_cleaned_data[0], orient='split')
         dff.columns = static.list_of_columns
         dff.to_sql('Market_Share', static.con, if_exists='append', index=None, index_label=static.list_of_columns)
-        return print('База обновлена')
+        return  # print('База обновлена')
     else:
         print('empty json')
 

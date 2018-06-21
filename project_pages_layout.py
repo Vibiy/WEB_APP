@@ -510,7 +510,7 @@ def deals_page():
                        'width': '192px',
                        'margin-top': '0px',
                        # 'max-height': '100vh',
-                       'min-height': '220vh',
+                       'min-height': '300vh',
                        # 'position': 'absolute',
                        'display': 'block',
                        }
