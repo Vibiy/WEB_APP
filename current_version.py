@@ -12,8 +12,8 @@ import plotly.graph_objs as go
 import pandas as pd
 import psycopg2 as pg
 import numpy as np
-import colors_and_fonts as color
-import App_sql_queries as sql
+import project_colors_and_fonts as color
+import project_sql as sql
 # import Passwords_and_Usernames as users
 import plotly
 import plotly.plotly as py
@@ -49,7 +49,6 @@ suspicious_deals_layout = pages.suspicious_deals_page()  # РАЗМЕТКА СТ
 
 '''Функция кнопки скрытия элементов интерфейса'''
 
-
 def interface_button():
     """ Эта функция введена искуственно для возможности скрыть блок кода """
 
@@ -71,7 +70,7 @@ def interface_button():
                 'display': 'block',
             }
         if n_clicks is not None and n_clicks % 2 != 0:
-            # #print(n_clicks)
+            # ##print(n_clicks)
             style = {
                 'transition': 'left 0.1s',
                 '-webkit-transition': 'left 0.1s',
@@ -197,7 +196,6 @@ def interface_button():
             style = 1905
         return style
 
-
 interface_button()
 
 '''
@@ -205,7 +203,6 @@ interface_button()
 На вход принимается значение чеклиста 'select columns'
 Если значение выбрано, то отрисовывается новый блок со списком, как в дереве
 '''
-
 
 @app.callback(dash.dependencies.Output('interface-columns', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
@@ -223,12 +220,10 @@ def show_tree_columns(val):
                     }
     return children
 
-
 '''
 Функция отображение выпадающих списков по значению checklist`а
 Эта функция введена искуственно для возможности скрыть блок кода
 '''
-
 
 def select_drop_from_check_columns():
     @app.callback(dash.dependencies.Output('Include_in_Market_Share_Div', 'style'),
@@ -752,14 +747,12 @@ def select_drop_from_check_columns():
             ])
         return style_Month
 
-
 select_drop_from_check_columns()  # вызов функции с отображением выпадающих списков
 
 '''
 Отображение tree-like блока со списком графиков
 На вход принимается значение чеклиста 'select graphics'
 '''
-
 
 @app.callback(dash.dependencies.Output('interface-graphics', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
@@ -777,19 +770,17 @@ def show_graphics_tree(val):
                     }
     return children
 
-
 '''
 Отображение tree-like блока со списком типов сделок
 На вход принимается значение чеклиста 'select data'
 '''
-
 
 @app.callback(dash.dependencies.Output('interface-data', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
               [dash.dependencies.Input('tree-checklist-data', 'values')
                # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
                ])
-def show_graphics_tree(val):
+def show_data_tree(val):
     if 'Show' in val:
         children = {'display': 'block',
                     'width': '192px',
@@ -800,12 +791,31 @@ def show_graphics_tree(val):
                     }
     return children
 
+'''
+Отображение tree-like блока со списком статических картинок графиков
+На вход принимается значение чеклиста 'select data'
+'''
+
+@app.callback(dash.dependencies.Output('interface-graphics-image', 'labelStyle'),
+              # на вход принимается значение чеклиста 'colums'
+              [dash.dependencies.Input('tree-checklist-graphics-image', 'values')
+               # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
+               ])
+def show_image_tree(val):
+    if 'Show' in val:
+        children = {'display': 'block',
+                    'width': '192px',
+                    'margin': '0 0 0 10px',
+                    }
+    else:
+        children = {'display': 'none'
+                    }
+    return children
 
 '''
 Функция отображения графиков по значению checklist`а
 Эта функция введена искуственно для возможности скрыть блок кода
 '''
-
 
 def select_graph_from_check_graphics():
     @app.callback(dash.dependencies.Output('market-graph-tab', 'style'),
@@ -1143,13 +1153,31 @@ def select_graph_from_check_graphics():
             ])
         return show_text
 
-    @app.callback(dash.dependencies.Output('biggest-deal-tab-2017', 'style'),
+    @app.callback(dash.dependencies.Output('biggest-deal-tab-test', 'style'),
                   [dash.dependencies.Input('interface-graphics', 'values')
                    ])
-    def update_biigest_deal_table_2017(val):
+    def update_biigest_deal_table_test(val):
+        try:
+            if 'biggest-deal-tab-test' in val:
+                show_tab = {'display': 'inline-block',
+                            }
+
+            if 'biggest-deal-tab-test' not in val:
+                show_tab = {'display': 'none',
+                            }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_tab
+
+    @app.callback(dash.dependencies.Output('html-tab-RU-2017-div', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bigest_deal_table_2017(val):
         try:
             if 'biggest-deal-tab-2017' in val:
-                show_tab = {'display': 'inline-block',
+                show_tab = {'display': 'inline',
                             }
 
             if 'biggest-deal-tab-2017' not in val:
@@ -1161,6 +1189,41 @@ def select_graph_from_check_graphics():
             ])
         return show_tab
 
+    @app.callback(dash.dependencies.Output('html-tab-RU-1q2018-div', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bigest_deal_table_1q2018(val):
+        try:
+            if 'biggest-deal-tab-1q2018' in val:
+                show_tab = {'display': 'inline',
+                            }
+
+            if 'biggest-deal-tab-1q2018' not in val:
+                show_tab = {'display': 'none',
+                            }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_tab
+
+    @app.callback(dash.dependencies.Output('html-tab-RU-five-years-div', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bigest_deal_table_2013_2018(val):
+        try:
+            if 'biggest-deal-tab-2013-2018' in val:
+                show_tab = {'display': 'inline',
+                            }
+
+            if 'biggest-deal-tab-2013-2018' not in val:
+                show_tab = {'display': 'none',
+                            }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_tab
 
 select_graph_from_check_graphics()  # вызов функции с отображением графиков и подписей к ним
 
@@ -1169,7 +1232,6 @@ select_graph_from_check_graphics()  # вызов функции с отобра�
 На вход принимается значение выпадающих списков и выбранных элементов в списке слева
 На основе этих значение формируется dataframe, поещаемый в таблицу
 '''
-
 
 @app.callback(dash.dependencies.Output('datatable', 'rows'),
               # здесь на вход принимается значение значение выпадающих списков и на основе этих значение формируется dataframe, поещаемый в таблицу
@@ -1224,170 +1286,12 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     cond_1 = cond.copy()  # копия словаря
     list_of_values_copy = list(filter(None,
                                       list_of_values))  # очистка кортежа от пустых элементов (при не выбранном значении value, значение по умолчанию = None
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            return static.all_deals_query_df[col].to_dict('records')
-        # ____________________________________________________________#
+    data_to_table = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
 
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-            return data_to_table[col].to_dict('records')
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-
-                else:
-                    data_to_table = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-
-    if 'LLR/(E)TR' in data_in:
-        ###print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-            return data_to_table[col].to_dict('records')
-
+    return data_to_table[col].to_dict('records')
 
 '''  Подсчёт суммы по отфильтрованным данным  '''
-
 
 @app.callback(dash.dependencies.Output('sum-string', 'children'),
               [dash.dependencies.Input('Year', 'value'),
@@ -1423,181 +1327,26 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
                Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large, Owner,
                Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
                Month, col, data_in):
-    cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
+    cond = dict(Year=[Year], Country=[Country], Agency=[Agency], City=[City],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                City=[City], Property_Name=[Property_Name], Class=[Class],
-                SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy],
-                Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                Submarket_Large=[Submarket_Large],
-                Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
-                Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], Month=[Month])
+                Property_Name=[Property_Name], Class=[Class], SQM=[SQM], Company=[Company],
+                Business_Sector=[Business_Sector], Type_of_Deal=[Type_of_Deal],
+                Type_of_Consultancy=[Type_of_Consultancy], Quarter=[Quarter],
+                Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
+                Submarket_Large=[Submarket_Large], Owner=[Owner], Date_of_acquiring=[Date_of_acquiring],
+                Class_Colliers=[Class_Colliers], Floor=[Floor], Deal_Size=[Deal_Size],
+                Sublease_Agent=[Sublease_Agent], Month=[Month])
     list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                       Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                      Owner,
-                      Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                      Month)
+                      Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month)
     cond_1 = cond.copy()
 
     list_of_values_copy = list(filter(None, list_of_values))
-    # print('data_in', data_in)
 
-    if 'All deals' in data_in:
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_sum = int(round(static.all_deals_query_df["SQM"].sum()))
-            # форматирование отображения разрядов числа, на место запятой ставится пробел
-            sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                       ' ')
+    data_to_table = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
 
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-                else:
-                    data = data[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-
-    if 'LLR' in data_in:
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_sum = int(round(data_to_table["SQM"].sum()))
-            # форматирование отображения разрядов числа, на место запятой ставится пробел
-            sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                       ' ')
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-                else:
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-
-    if '(E)TR' in data_in:
-        # print('TEST')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_sum = int(round(data_to_table["SQM"].sum()))
-            # форматирование отображения разрядов числа, на место запятой ставится пробел
-            sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                       ' ')
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-                else:
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-
-    if 'LLR/(E)TR' in data_in:
-        # print('TEST 2')
-        # print(static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])])
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_sum = int(round(data_to_table["SQM"].sum()))
-            # форматирование отображения разрядов числа, на место запятой ставится пробел
-            sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                       ' ')
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-                else:
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-    if 'All LLR (include double) (include double)' in data_in:
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_sum = int(round(data_to_table["SQM"].sum()))
-            # форматирование отображения разрядов числа, на место запятой ставится пробел
-            sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                       ' ')
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-                else:
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-    if 'All (E)TR (include double)' in data_in:
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_sum = int(round(data_to_table["SQM"].sum()))
-            # форматирование отображения разрядов числа, на место запятой ставится пробел
-            sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                       ' ')
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
-                else:
-
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_sum = int(round(data_to_table["SQM"].sum()))
-                    # форматирование отображения разрядов числа, на место запятой ставится пробел
-                    sqm_sum = '{0:,}'.format(data_sum).replace(',',
-                                                               ' ')
+    data_sum = int(round(data_to_table["SQM"].sum()))
+    sqm_sum = '{0:,}'.format(data_sum).replace(',', ' ')
 
     sum_parameters = 'Type of deal = {0}, sorting options = '.format(str(data_in).strip("[]'"))
     if list_of_values_copy != []:
@@ -1611,9 +1360,7 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
         sum_parameters += 'default'
     return 'Суммарная площадь по сделкам составляет ', sqm_sum, ' кв.м ( ', sum_parameters, ' )'
 
-
 '''  Скачивание csv файла с дампом всей базы данных по сделкам  '''
-
 
 @app.callback(dash.dependencies.Output('download-all-link', 'href'),
               [dash.dependencies.Input('Year', 'value'),
@@ -1636,9 +1383,7 @@ def update_download_all_link(Year, Country, Agency, City, Property_name, Class, 
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
     return csv_string
 
-
 '''  Скачивание csv файла с выбранными данными  '''
-
 
 @app.callback(
     dash.dependencies.Output('download-selected-link', 'href'),
@@ -1694,154 +1439,11 @@ def update_download_link(Year, Country, Agency, City, Property_Name, Class, SQM,
 
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[col].to_dict('records')
-        # ____________________________________________________________#
+    data_to_table = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
 
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-
-                else:
-                    data_to_table = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-    if 'LLR/(E)TR' in data_in:
-        ###print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = data_to_table[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-
-                else:
-                    data_to_table_double = data_to_table[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = data_to_table[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-    print(data_to_table)
     csv_string = data_to_table.to_csv(index=False, encoding='utf-8', sep=';')
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
     return csv_string
-
 
 '''
 Начало блока по отрисовке графиков
@@ -1849,7 +1451,6 @@ Callback`и, отрисовывающие графики, принимают н�
 График принимает те же переменные, как и таблица, сначала фильтруется датафрейм по выбранным данным,
 после этот датафрейм переводится в сводную таблицу в pandas и по значениям сводной таблицы строится график.
 '''
-
 
 @app.callback(
     dash.dependencies.Output('market-graph-tab', 'figure'),
@@ -1899,7 +1500,6 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
     width = 700
     height = 500
-    # #print('WxH=', width, height)
 
     list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                       Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
@@ -1907,165 +1507,8 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            df_plot = static.all_deals_query_df
-        # ____________________________________________________________#
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'LLR/(E)TR' in data_in:
-        # #print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
+    df_plot = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    df_plot = df_plot.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
 
     pv = pd.pivot_table(  # создание сводной таблицы из текущего датафрейма
         df_plot,  # выбор текущего датафрейма
@@ -2344,12 +1787,12 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
-        format_year = 'All years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-        format_year = 'all years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
@@ -2396,7 +1839,6 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                 annotations=annotations
             )
     }
-
 
 @app.callback(
     dash.dependencies.Output('market-graph-tab-string', 'children'),
@@ -2451,9 +1893,13 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
                       Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
                       Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
                       LLR_E_TR, Month)
+
     cond_1 = cond.copy()
+
     list_of_values_copy = list(filter(None, list_of_values))
+
     list_of_ind = []
+
     for i in range(len(list_of_values_copy)):
         ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
         list_of_ind.append(ind)
@@ -2467,8 +1913,8 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
         format_year = 'All years'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
-        # #print('list_of_ind BEFORE', list_of_ind)
-        # #print('list_of_ind AFTER', list_of_ind)
+        # ##print('list_of_ind BEFORE', list_of_ind)
+        # ##print('list_of_ind AFTER', list_of_ind)
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_index = ', '.join(str(e) for e in list_of_ind)
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
@@ -2476,7 +1922,7 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         my_method.replace_index(list_of_ind)
-        # #print('list_of_ind', list_of_ind)
+        # ##print('list_of_ind', list_of_ind)
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         for i in Year:
             list_of_values_copy_chain.remove('{}'.format(i))
@@ -2487,9 +1933,7 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 
     return format_index + format_data
 
-
 '''Функция по отрисовке дефолтных графиков по LLR, ETR, LLT/ETR и таблицы по крупнейшим этим сделкам за этот период'''
-
 
 def default_graphics():
     @app.callback(
@@ -2524,11 +1968,8 @@ def default_graphics():
          ])
     def update_pie_graph_4(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
                            Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large,
-                           Owner,
-                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                           LLR_E_TR,
-                           Month, col):
+                           Submarket_Large, Owner,Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
+                           LLR_Only, E_TR_Only, LLR_E_TR, Month, col):
         cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                     # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                     City=[City], Property_Name=[Property_Name], Class=[Class],
@@ -2548,7 +1989,9 @@ def default_graphics():
                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
                           LLR_E_TR,
                           Month)
+
         cond_1 = cond.copy()
+
         list_of_values_copy = list(filter(None, list_of_values))
 
         df_plot = static.all_deals_query_df.copy()
@@ -2556,9 +1999,9 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2664,9 +2107,9 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2771,9 +2214,9 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes'])) & (df_plot['Country'].isin(['RU']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2878,9 +2321,9 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -2986,9 +2429,9 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -3093,9 +2536,9 @@ def default_graphics():
         data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
         data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
         data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # #print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # #print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # #print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
         d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
              'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
         df_graph = pd.DataFrame(data=d)
@@ -3142,7 +2585,7 @@ default_graphics()  # вызов функции с отображением ба
 
 def default_tables():
     @app.callback(
-        dash.dependencies.Output('biggest-deal-tab-2017', 'figure'),
+        dash.dependencies.Output('biggest-deal-tab-test', 'figure'),
         [dash.dependencies.Input('Year', 'value'),
          dash.dependencies.Input('Country', 'value'),
          dash.dependencies.Input('Agency', 'value'),
@@ -3184,7 +2627,7 @@ def default_tables():
 
         all_deals_2017_selected = all_deals_2017[['Agency', 'Property_Name', 'SQM',
                                                   'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
-        # #print(all_deals_2017_selected.Property_Name.tolist())
+        # ##print(all_deals_2017_selected.Property_Name.tolist())
 
         trace = go.Table(
             columnwidth=[80, 200, 100, 150, 200, 100],
@@ -3653,11 +3096,11 @@ default_tables()
 #     }
 #
 #     img = py.image.get(image_data, format='png')
-#     ##print('Data loaded from Plotly')
+#     ###print('Data loaded from Plotly')
 #     #plot_url = py.plot(image_data, filename='my plot', auto_open=False)
-#     ##print(plot_url)
+#     ###print(plot_url)
 #     #plot_url_png = plot_url + '.png'
-#     ##print(plot_url_png)
+#     ###print(plot_url_png)
 #
 #     plot_bytes_encode = str(base64.b64encode(img))
 #     plot_bytes_encode = plot_bytes_encode[0:-1]
@@ -3722,165 +3165,8 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            df_plot = static.all_deals_query_df
-        # ____________________________________________________________#
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'LLR/(E)TR' in data_in:
-        # #print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
+    df_plot = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    df_plot = df_plot.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
 
     pv = pd.pivot_table(
         df_plot,
@@ -4024,12 +3310,12 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
-        format_year = 'All years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-        format_year = 'all years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
@@ -4075,7 +3361,6 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
                 # barmode='stack'
             )
     }
-
 
 @app.callback(
     dash.dependencies.Output('market-graph-horizontal-tab', 'figure'),
@@ -4128,165 +3413,9 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
                       Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, Month)
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            df_plot = static.all_deals_query_df
-        # ____________________________________________________________#
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
 
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'LLR/(E)TR' in data_in:
-        # #print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
+    df_plot = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    df_plot = df_plot.sort_values('Year', ascending=False)  # отсортированный по годам датафрейм
 
     width = 700
     height = 500
@@ -4327,12 +3456,12 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
-        format_year = 'All years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-        format_year = 'all years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
@@ -4447,165 +3576,8 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            df_plot = static.all_deals_query_df
-        # ____________________________________________________________#
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'LLR/(E)TR' in data_in:
-        # #print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
+    df_plot = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    df_plot = df_plot.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
 
     width = 700
     height = 500
@@ -4641,12 +3613,12 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
-        format_year = 'All years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-        format_year = 'all years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
@@ -4666,7 +3638,6 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
                         traceorder="normal"),
         )
     }
-
 
 @app.callback(
     dash.dependencies.Output('market-graph-percent-tab', 'figure'),
@@ -4721,165 +3692,8 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            df_plot = static.all_deals_query_df
-        # ____________________________________________________________#
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'LLR/(E)TR' in data_in:
-        # #print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
+    df_plot = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    df_plot = df_plot.sort_values('Year', ascending=False)  # отсортированный по годам датафрейм
 
     width = 700
     height = 500
@@ -5093,12 +3907,12 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
-        format_year = 'All years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-        format_year = 'all years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
@@ -5201,175 +4015,8 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
     cond_1 = cond.copy()
     list_of_values_copy = list(filter(None, list_of_values))
 
-    if 'All deals' in data_in:
-        # #print('Yes, "All deals" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            df_plot = static.all_deals_query_df
-        # ____________________________________________________________#
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-
-                    data_to_table = static.all_deals_query_df[
-                        (static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = data_to_table[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-                    df_plot = data_to_table
-
-    if 'LLR' in data_in:
-        # #print('Yes, "LLR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if '(E)TR' in data_in:
-        # #print('Yes, "(E)TR" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'LLR/(E)TR' in data_in:
-        # #print('Yes, "LLR/E_TR only" in data_in ')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All LLR (include double) (include double)' in data_in:
-        # #print('Yes, "All LLR (include double) (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_llr = static.all_deals_query_df[static.all_deals_query_df['LLR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_llr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-    if 'All (E)TR (include double)' in data_in:
-        # #print('Yes, "All (E)TR (include double) in data_in')
-        if len(list_of_values_copy) == 0 or (Year is not None and Year[0] == 'All years'):
-            data_to_table_double = static.all_deals_query_df[static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-            data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-            data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-            data_to_table = data_to_table.sort_values('Year', ascending=False)  # отсортировнный по годам датафрейм
-            df_plot = data_to_table
-        # ____________________________________________________________#
-
-        if len(list_of_values_copy) != 0:
-            for i in range(len(list_of_values_copy)):
-                ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-                if i == 0:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-
-                else:
-                    data_to_table_double = static.all_deals_query_df[
-                        static.all_deals_query_df['LLR/E_TR'].isin(['Yes'])]
-                    data_to_table_etr = static.all_deals_query_df[static.all_deals_query_df['E_TR_Only'].isin(['Yes'])]
-                    data_to_table = pd.concat([data_to_table_double, data_to_table_etr], join='outer')
-                    data_to_table = data_to_table[(data_to_table[ind].isin(list_of_values_copy[i]))]
-                    data_to_table = data_to_table.sort_values('Year',
-                                                              ascending=False)  # отсортировнный по годам датафрейм
-                    df_plot = data_to_table
-    # __________________________________________________________________________________________________ #
-
-    if len(list_of_values_copy) != 0:
-        for i in range(len(list_of_values_copy)):
-            ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
-            if i == 0:
-                data = static.all_deals_query_df[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-            else:
-                data = data[(static.all_deals_query_df[ind].isin(list_of_values_copy[i]))]
-            df_plot = data
+    df_plot = my_method.data_to_table_preparation(data_in, list_of_values_copy, cond_1)
+    df_plot = df_plot.sort_values('Year', ascending=False)  # отсортированный по годам датафрейм
 
     width = 700
     height = 500
@@ -5381,9 +4028,9 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
         aggfunc=sum,
         fill_value=0)
 
-    # #print(pv['SQM'].sum())
+    # ##print(pv['SQM'].sum())
     pv_sorted = pv.sort_values(by='SQM', ascending=True)
-    # #print((list(map(lambda x: x, list((pv_sorted[("SQM")] / 1000).apply(np.int64))))))
+    # ##print((list(map(lambda x: x, list((pv_sorted[("SQM")] / 1000).apply(np.int64))))))
     trace2 = go.Bar(x=pv_sorted["SQM"] / 100000,
                     y=pv_sorted.index,
                     marker=dict(
@@ -5417,12 +4064,12 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
 
     if len(list_of_values_copy) == 0:
         format_data = 'All deals'
-        format_year = 'All years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' not in list_of_ind:  # перепчать этот код!
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
         format_data = ', '.join(str(e) for e in list_of_values_copy_chain)
-        format_year = 'all years'
+        format_year = '2013-2018'
 
     if len(list_of_values_copy) > 0 and 'Year' in list_of_ind:
         list_of_values_copy_chain = list(chain(*list_of_values_copy))
@@ -5434,9 +4081,9 @@ def update_graph_horizontal_total(Year, Country, Agency, City, Property_Name, Cl
     annotations = []
 
     for agency, value in zip(pv_sorted.index, pv_sorted["SQM"] / 1000):
-        # #print('value=', value)
-        # #print('PV SQM SUM', pv['SQM'].sum() / 1000)
-        # #print(str(((value / pv['SQM'].sum())) * 100) + '%'),
+        # ##print('value=', value)
+        # ##print('PV SQM SUM', pv['SQM'].sum() / 1000)
+        # ##print(str(((value / pv['SQM'].sum())) * 100) + '%'),
         annotations.append(dict(
             x=value + 100,
             y=agency,
@@ -6136,23 +4783,23 @@ def update_datatable_susp(Year, Country, Agency, City, Property_Name, Class, SQM
     suspecious_deals_df_equal_sqm = static.all_deals_query_df[
         static.all_deals_query_df.duplicated(['SQM'], keep=False)].sort_values(
         'SQM', ascending=False)
-    # print('equal SQM')
-    # print(suspecious_deals_df_equal_sqm['SQM'])
+    # #print('equal SQM')
+    # #print(suspecious_deals_df_equal_sqm['SQM'])
 
     sort_for_dif = static.all_deals_query_df.sort_values('SQM', ascending=False)
     suspecious_deals_df_sqm_diff_less_five = sort_for_dif[sort_for_dif['SQM'].diff() < 5]
-    # print('difference between SQM')
-    # print(suspecious_deals_df_sqm_diff_less_five)
+    # #print('difference between SQM')
+    # #print(suspecious_deals_df_sqm_diff_less_five)
 
     suspecious_deals_df_merged_by_equal_and_diff = pd.merge(suspecious_deals_df_equal_sqm,
                                                             suspecious_deals_df_sqm_diff_less_five, how='inner')
-    # print('merged')
-    # print(suspecious_deals_df_merged_by_equal_and_diff)
+    # #print('merged')
+    # #print(suspecious_deals_df_merged_by_equal_and_diff)
 
     # suspecious_deals_df_sqm_diff_year = sort_for_dif[sort_for_dif['Year'].diff() <= 1]
     # suspecious_deals_df_sqm_diff_year_sorted = suspecious_deals_df_sqm_diff_year.sort_values('Year', ascending=False)
-    # #print('suspecious_deals_df_sqm_diff_year_sorted')
-    # #print(suspecious_deals_df_sqm_diff_year_sorted)
+    # ##print('suspecious_deals_df_sqm_diff_year_sorted')
+    # ##print(suspecious_deals_df_sqm_diff_year_sorted)
 
     sort_for_dif = static.all_deals_query_df.sort_values('Quarter', ascending=False)
     suspecious_deals_df_quar_diff = sort_for_dif[sort_for_dif['Quarter'].diff() <= 2]
@@ -6175,7 +4822,6 @@ def update_datatable_susp(Year, Country, Agency, City, Property_Name, Class, SQM
 
 
 ''' Обновление базы данных по сделкам  '''
-
 
 @app.callback(
     dash.dependencies.Output('download-example-button', 'href'),
@@ -6203,7 +4849,7 @@ def parse_contents(contents, filename):  # чтение загруженного
             df = pd.read_excel((io.BytesIO(decoded)), header=None)
             df.columns = static.list_of_columns
     except Exception as e:
-        # print(e)
+        # #print(e)
         return html.Div([
             'There was an error processing this file.'
         ])
@@ -6240,7 +4886,7 @@ def save_contents(contents_save, filename_save):  # данные, загруже
             df = pd.read_excel((io.BytesIO(decoded)), header=None)
             json = df.to_json(date_format='iso', orient='split')
     except Exception as e:
-        # print(e)
+        # #print(e)
         return html.Div([
             'There was an error processing this file.'
         ])
@@ -6269,7 +4915,7 @@ def update_table(jsonified_cleaned_data):
         dff = pd.read_json(jsonified_cleaned_data[0], orient='split')
         dff.columns = static.list_of_columns
         dff.to_sql('Market_Share', static.con, if_exists='append', index=None, index_label=static.list_of_columns)
-        return  # print('База обновлена')
+        return  # #print('База обновлена')
     else:
         print('empty json')
 

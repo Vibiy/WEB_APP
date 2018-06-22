@@ -1,4 +1,4 @@
-import colors_and_fonts as color
+import project_colors_and_fonts as color
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table_experiments as dt
@@ -447,7 +447,49 @@ def deals_page():
                                 options=[{'label': i, 'value': i} for i in  # все возможные значения из списка грфиков
                                          static.list_of_graphics_for_gui],
                                 values=["Bar-stacked", "Bar-stacked-percent", "LLR,(E)TR, LLR/(E)TR-pie-2017-RU",
-                                        'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', "LLR,(E)TR, LLR/(E)TR-pie-five-years-RU"],
+                                        'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', "LLR,(E)TR, LLR/(E)TR-pie-five-years-RU",
+                                        'biggest-deal-tab-2017', 'biggest-deal-tab-1q2018',
+                                        'biggest-deal-tab-2013-2018'],
+                                labelStyle={
+                                    'display': 'none',
+                                    'padding-left:': '90px'
+                                }
+                            )
+                        ],
+                        style={
+                            'display': 'inline',
+
+                        }
+                    ),
+
+                    html.Div(
+                        [
+                            dcc.Checklist(  # чеклист с одним значением для дерева выбора картинок-графиков
+                                id='tree-checklist-graphics-image',
+                                # при выборе параметра, открывается список для отрисовки картинок-графиков
+                                options=[
+                                    {'label': 'Select image', 'value': 'Show'}
+                                ],
+                                values=[],
+                                labelStyle={'display': 'block',
+                                            'width': '192px',
+                                            'font-weight': '300'
+                                            }
+                            )
+                        ],
+                        style={
+                            'display': 'inline',
+                            'font-weight': 'bold'
+                        }
+                    ),
+
+                    html.Div(
+                        [
+                            dcc.Checklist(  # чеклист для выбора картинок-графиков на странице
+                                id='interface-graphics-image',
+                                options=[{'label': i, 'value': i} for i in  # все значения из списка картинок-графиков
+                                         static.list_of_static_images],
+                                values=[],
                                 labelStyle={
                                     'display': 'none',
                                     'padding-left:': '90px'
@@ -485,7 +527,8 @@ def deals_page():
                         [
                             dcc.RadioItems(  # чеклист для выбора типов сделок
                                 id='interface-data',
-                                options=[{'label': i, 'value': i} for i in  # все возможные значения из списка типов сделок
+                                options=[{'label': i, 'value': i} for i in
+                                         # все возможные значения из списка типов сделок
                                          static.list_of_deals_type],
                                 value="All deals",
                                 labelStyle={
@@ -499,9 +542,6 @@ def deals_page():
 
                         }
                     ),
-
-
-
 
                 ],
                 id='interface-bar',
@@ -668,7 +708,7 @@ def deals_page():
                                         ],
                                         id='Agency_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'inline-block',
@@ -699,7 +739,7 @@ def deals_page():
                                         ],
                                         id='Country_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'inline-block',
@@ -730,7 +770,7 @@ def deals_page():
                                             )],
                                         id='City_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -762,7 +802,7 @@ def deals_page():
                                         # className='one columns',
                                         id='Property_name_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -794,7 +834,7 @@ def deals_page():
                                         id='Class_Div',
 
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -825,7 +865,7 @@ def deals_page():
                                             )],
                                         # className='one columns',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -857,7 +897,7 @@ def deals_page():
                                         id='Company_Div',
 
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -888,7 +928,7 @@ def deals_page():
                                             )],
                                         id='Business_Sector_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -920,7 +960,7 @@ def deals_page():
                                             )],
                                         id='Type_of_Deal_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -952,7 +992,7 @@ def deals_page():
                                             )],
                                         id='Type_of_Consultancy_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -983,10 +1023,10 @@ def deals_page():
                                             )],
                                         id='LLR/TR_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
-                                            'display': 'inline-block',
+                                            'display': 'none',
                                             #     'float': 'right'
                                         }
                                     ),
@@ -1016,7 +1056,7 @@ def deals_page():
                                         ],
                                         id='Year_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'inline-block',
@@ -1048,7 +1088,7 @@ def deals_page():
                                             )],
                                         id='Quarter',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -1082,7 +1122,7 @@ def deals_page():
                                         ],
                                         id='Include_in_Market_Share_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1115,7 +1155,7 @@ def deals_page():
                                         ],
                                         id='Address_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1148,7 +1188,7 @@ def deals_page():
                                         ],
                                         id='Submarket_Large_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1181,7 +1221,7 @@ def deals_page():
                                         ],
                                         id='Owner_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1213,7 +1253,7 @@ def deals_page():
                                         ],
                                         id='Date_of_acquiring_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1246,7 +1286,7 @@ def deals_page():
                                         ],
                                         id='Class_Colliers_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1280,7 +1320,7 @@ def deals_page():
                                         ],
                                         id='Floor_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1313,7 +1353,7 @@ def deals_page():
                                         ],
                                         id='Deal_Size_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1347,7 +1387,7 @@ def deals_page():
                                         ],
                                         id='Sublease_Agent_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1381,7 +1421,7 @@ def deals_page():
                                         ],
                                         id='LLR_Only_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1414,7 +1454,7 @@ def deals_page():
                                         ],
                                         id='E_TR_Only_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1447,7 +1487,7 @@ def deals_page():
                                         ],
                                         id='LLR/E_TR_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1481,7 +1521,7 @@ def deals_page():
                                         ],
                                         id='Month_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -1491,7 +1531,7 @@ def deals_page():
                                 ],
 
                                 id='drop_testing',
-                                className='row'
+                                # className='row'
                             ),
 
                             html.Div(
@@ -1505,10 +1545,12 @@ def deals_page():
                                         selected_row_indices=[],
                                         # filters=[list_of_columns],
                                         max_rows_in_viewport=10,
-                                        min_height=600,
-                                        min_width=1695,
+                                        min_height='55%',
+                                        min_width='100%',
                                         resizable=True,
-                                        id='datatable'
+                                        id='datatable',
+                                        column_widths=[88, 88, 88, 209, 77, 88, 165, 220, 146, 198, 77, 70]
+
                                     )
                                 ],
                                 style={
@@ -1519,7 +1561,7 @@ def deals_page():
                                      style={'color': color.colliers_grey_10,
                                             'background-color': color.colliers_dark_blue,
                                             'fontSize': 14,
-                                            #'border': 'solid 1px black',
+                                            # 'border': 'solid 1px black',
                                             }
                                      ),
                             html.Div([
@@ -1548,9 +1590,9 @@ def deals_page():
 
                             html.Br(),
 
-                            #  _____________________________________________________________________________________________________________#
+                            # _________________________________________________________________________________________#
 
-                            html.Div(                           # pie 2017 по России + таблицы
+                            html.Div(  # pie 2017 по России + таблицы
                                 [
                                     html.Div(
                                         [
@@ -1567,21 +1609,21 @@ def deals_page():
 
                                     ),
 
-                                    html.Div(                        # div с таблицей по ключевым сделкам 2017 Россия
+                                    html.Div(  # div с таблицей по ключевым сделкам 2017 Россия
                                         [
                                             html.H4(
                                                 children='Ключевые сделки, 2017',
                                                 style={
-                                                    'padding-left': '670px',
-                                                    #'textAlign': 'left',
+                                                    'padding-right': '734px',
+                                                    'float': 'right',
                                                     'color': color.colliers_color
                                                 }
                                             ),
                                             html.H6(
                                                 children='Россия',
                                                 style={
-                                                     'padding-left': '670px',
-                                                    #'textAlign': 'center',
+                                                    'padding-right': '938px',
+                                                    'float': 'right',
                                                     'color': color.colliers_light_blue
                                                 }
                                             ),
@@ -1592,10 +1634,13 @@ def deals_page():
                                                          'float': 'right'}
                                                      ),
                                         ],
-                                        #className='six columns',
+                                        id='html-tab-RU-2017-div',
+                                        style={
+                                            'display': 'none'},
                                     ),
                                 ],
-                                className='twelve columns'
+                                className='twelve columns',
+
                             ),
 
                             #  _______________________________________________________________________________________#
@@ -1621,16 +1666,16 @@ def deals_page():
                                             html.H4(
                                                 children='Ключевые сделки, I кв. 2018',
                                                 style={
-                                                     'padding-left': '670px',
-                                                    #'textAlign': 'center',
+                                                    'padding-right': '686px',
+                                                    'float': 'right',
                                                     'color': color.colliers_color
                                                 }
                                             ),
                                             html.H6(
                                                 children='Россия',
                                                 style={
-                                                     'padding-left': '670px',
-                                                    #'textAlign': 'center',
+                                                    'padding-right': '938px',
+                                                    'float': 'right',
                                                     'color': color.colliers_light_blue
                                                 }
                                             ),
@@ -1641,7 +1686,10 @@ def deals_page():
                                                          'float': 'right'}
                                                      ),
                                         ],
-                                        # className='six columns',
+                                        id='html-tab-RU-1q2018-div',
+                                        style={
+                                            'display': 'none'},
+
                                     ),
                                 ],
                                 className='twelve columns'
@@ -1670,16 +1718,16 @@ def deals_page():
                                             html.H4(
                                                 children='Ключевые сделки, 2013-2018',
                                                 style={
-                                                     'padding-left': '670px',
-                                                    #'textAlign': 'center',
+                                                    'padding-right': '672px',
+                                                    'float': 'right',
                                                     'color': color.colliers_color
                                                 }
                                             ),
                                             html.H6(
                                                 children='Россия',
                                                 style={
-                                                     'padding-left': '670px',
-                                                    #'textAlign': 'center',
+                                                    'padding-right': '938px',
+                                                    'float': 'right',
                                                     'color': color.colliers_light_blue
                                                 }
                                             ),
@@ -1690,14 +1738,15 @@ def deals_page():
                                                          'float': 'right'}
                                                      ),
                                         ],
-                                        # className='six columns',
+                                        id='html-tab-RU-five-years-div',
+                                        style={
+                                            'display': 'none'},
                                     ),
                                 ],
                                 className='twelve columns'
                             ),
 
-
-#  _______________________________________________________________________________________________________________#
+                            #  _______________________________________________________________________________________#
 
                             html.Div(
                                 [
@@ -1751,16 +1800,12 @@ def deals_page():
                                 className='twelve columns'
                             ),
 
-
                             html.Div(
                                 [
-                                    dcc.Graph(id='biggest-deal-tab-2017',
-                                           style={'display': 'none'})
-                                 ],
+                                    dcc.Graph(id='biggest-deal-tab-test',
+                                              style={'display': 'none'})
+                                ],
                                 className='four columns'),
-
-
-
 
                             html.Div(
                                 [
@@ -1890,8 +1935,8 @@ def suspicious_deals_page():
                 style={'backgroundColor': color.colliers_pale_blue,  # цвет фона за блоком с ссылками
                        'width': '192px',
                        # 'margin': '20 0 100 0px',
-                       'max-height': '200vh',
-                       'min-height': '200vh',
+                       'max-height': '300vh',
+                       'min-height': '300vh',
                        # 'position': 'absolute',
                        'display': 'block',
                        }
@@ -2005,7 +2050,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Agency_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2029,7 +2074,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Country_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2053,7 +2098,7 @@ def suspicious_deals_page():
                                             )],
                                         id='City_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2078,7 +2123,7 @@ def suspicious_deals_page():
                                         # className='one columns',
                                         id='Property_name_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2103,7 +2148,7 @@ def suspicious_deals_page():
                                         id='Class_Div_susp',
 
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2127,7 +2172,7 @@ def suspicious_deals_page():
                                             )],
                                         # className='one columns',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2152,7 +2197,7 @@ def suspicious_deals_page():
                                         id='Company_Div_susp',
 
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2176,7 +2221,7 @@ def suspicious_deals_page():
                                             )],
                                         id='Business_Sector_Div',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2201,7 +2246,7 @@ def suspicious_deals_page():
                                             )],
                                         id='Type_of_Deal_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2226,7 +2271,7 @@ def suspicious_deals_page():
                                             )],
                                         id='Type_of_Consultancy_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2250,7 +2295,7 @@ def suspicious_deals_page():
                                             )],
                                         id='LLR/TR_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2276,7 +2321,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Year_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2301,7 +2346,7 @@ def suspicious_deals_page():
                                             )],
                                         id='Quarter_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             #    'padding-left': '10',
                                             #     #'margin-left': '3%',
                                             'display': 'inline-block',
@@ -2328,7 +2373,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Include_in_Market_Share_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2354,7 +2399,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Address_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2380,7 +2425,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Submarket_Large_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2406,7 +2451,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Owner_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2431,7 +2476,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Date_of_acquiring_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2457,7 +2502,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Class_Colliers_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2483,7 +2528,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Floor_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2509,7 +2554,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Deal_Size_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2535,7 +2580,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Sublease_Agent_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2561,7 +2606,7 @@ def suspicious_deals_page():
                                         ],
                                         id='LLR_Only_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2586,7 +2631,7 @@ def suspicious_deals_page():
                                         ],
                                         id='E_TR_Only_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2611,7 +2656,7 @@ def suspicious_deals_page():
                                         ],
                                         id='LLR/E_TR_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
@@ -2637,7 +2682,7 @@ def suspicious_deals_page():
                                         ],
                                         id='Month_Div_susp',
                                         style={
-                                            'width': '7.69%',
+                                            'width': '8.32%',
                                             # 'padding-left': '10',
                                             # 'margin-left': '3%',
                                             'display': 'none',
