@@ -25,6 +25,8 @@ import project_pages_layout as pages
 import project_methods as my_method
 import project_deals_graphics
 
+#print(help(dt.DataTable))
+
 ''' НАЧАЛО ОСНОВНОГО БЛОКА ПРИЛОЖЕНИЯ '''
 
 app = dash.Dash(__name__)
@@ -33,8 +35,8 @@ app.config.suppress_callback_exceptions = True
 ''' Мой файл с гитхаба на rawgit с измененной css разметкой'''
 app.css.append_css({'external_url': 'https://rawgit.com/Wittgensteen/work_stuff/master/new_buttons.css'})
 
-py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
-# py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
+#py.sign_in('Wittgensteen', 'D9dEx9VG7SfqBlkoDvRl')  # вход в аккаунт на plotly Юра
+py.sign_in('Barbrady', 'V11sgDqsmE4XpTsVGoFJ')  # вход в аккаунт на plotly Дима
 
 app.layout = pages.serve_layout()  # ОСНОВНАЯ СТРАНИЦА ПРИЛОЖЕНИЯ
 
@@ -43,11 +45,13 @@ app.layout = pages.serve_layout()  # ОСНОВНАЯ СТРАНИЦА ПРИЛ�
 index_page = pages.index_page()  # РАЗМЕТКА СТРАНИЦЫ 'MAIN'
 page_help_layout = pages.help_page()  # РАЗМЕТКА СТРАНИЦЫ 'HELP'
 page_about_layout = pages.about_page()  # РАЗМЕТКА СТРАНИЦЫ 'ABOUT PROJECT'
-page_4_layout = pages.deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗА ПО СДЕЛКАМ'
-page_5_layout = pages.update_database()  # РАЗМЕТКА СТРАНИЦЫ 'ОБНОВИТЬ БАЗУ'
+page_deals_layout = pages.deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗА ПО СДЕЛКАМ'
+page_update_database_layout = pages.update_database()  # РАЗМЕТКА СТРАНИЦЫ 'ОБНОВИТЬ БАЗУ'
+page_default_graphs_and_tabs = pages.default_graphics_and_tables_page()
 suspicious_deals_layout = pages.suspicious_deals_page()  # РАЗМЕТКА СТРАНИЦЫ 'БАЗА ПО СОМНИТЕЛЬНЫМ СДЕЛКАМ'
 
 '''Функция кнопки скрытия элементов интерфейса'''
+
 
 def interface_button():
     """ Эта функция введена искуственно для возможности скрыть блок кода """
@@ -196,13 +200,752 @@ def interface_button():
             style = 1905
         return style
 
+
 interface_button()
+
+
+# БЛОК КОДА ПО ДЕФОЛТНЫМ ГРАФИКАМ
+
+'''
+Отображение tree-like блока со списком дефолтных графиков
+'''
+
+
+@app.callback(dash.dependencies.Output('interface-default-graphics', 'labelStyle'),
+              # на вход принимается значение чеклиста 'colums'
+              [dash.dependencies.Input('tree-checklist-default-graphics', 'values')   # 'tree-checklist-default-graphics'
+               # если значение выбрано, то отрисовывается новый блок со списком, как в дереве
+               ])
+def show_default_graphics_tree(val):
+    if 'Show' in val:
+        children = {'display': 'block',
+                    'width': '192px',
+                    'margin': '0 0 0 10px',
+                    }
+    else:
+        children = {'display': 'none'
+                    }
+    return children
+
+
+'''
+Функция отображения дефолтных графиков по значению checklist`а
+Эта функция введена искуственно для возможности скрыть блок кода
+'''
+
+
+def select_default_graph_from_check_graphics():
+    @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-2017-RU', 'style'),
+                  [dash.dependencies.Input('interface-default-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_graph_ru(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' in val:
+                show_graph = {'display': 'inline-block',
+                              'padding': '100px 0px 0px 50px'
+                              }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' not in val:
+                show_graph = {'display': 'none',
+                              }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-4-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_ru(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '150px'
+                             }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' not in val:
+                show_text = {'display': 'none',
+                             }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_1q_2018_graph_ru(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
+                show_graph = {'display': 'inline-block',
+                              'padding': '100px 0px 0px 50px'
+                              }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
+                show_graph = {'display': 'none'
+                              }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-5-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_ru(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '150px'
+                             }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
+                show_text = {'display': 'none',
+                             }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-five-years-RU', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_five_years_graph_ru(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' in val:
+                show_graph = {'display': 'inline-block',
+                              'padding': '100px 0px 0px 50px'
+                              }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
+                show_graph = {'display': 'none',
+                              }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-6-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_ru(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '90px'
+                             }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
+                show_text = {'display': 'none',
+                             }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-2017-MOS', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_graph_mos(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' in val:
+                show_graph = {'display': 'inline-block',
+                              }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
+                show_graph = {'display': 'none',
+                              }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-7-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_mos(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                             }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
+                show_text = {'display': 'none',
+                             }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_1q_2018_graph_mos(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
+                show_graph = {'display': 'inline-block',
+                              }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
+                show_graph = {'display': 'none',
+                              }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-8-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_mos(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                             }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
+                show_text = {'display': 'none',
+                             }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_five_years_graph_mos(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
+                show_graph = {'display': 'inline-block',
+                              }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
+                show_graph = {'display': 'none',
+                              }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_graph
+
+    @app.callback(dash.dependencies.Output('pie-9-text', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_llr_etr_pie_2017_text_mos(val):
+        try:
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
+                show_text = {'display': 'inline-block',
+                             'padding-left': '50px'
+                             }
+
+            if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
+                show_text = {'display': 'none',
+                             }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_text
+
+    @app.callback(dash.dependencies.Output('html-tab-RU-2017-div', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bigest_deal_table_2017(val):
+        try:
+            if 'biggest-deal-tab-2017' in val:
+                show_tab = {'display': 'inline',
+                            }
+
+            if 'biggest-deal-tab-2017' not in val:
+                show_tab = {'display': 'none',
+                            }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_tab
+
+    @app.callback(dash.dependencies.Output('html-tab-RU-1q2018-div', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bigest_deal_table_1q2018(val):
+        try:
+            if 'biggest-deal-tab-1q2018' in val:
+                show_tab = {'display': 'inline',
+                            }
+
+            if 'biggest-deal-tab-1q2018' not in val:
+                show_tab = {'display': 'none',
+                            }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_tab
+
+    @app.callback(dash.dependencies.Output('html-tab-RU-five-years-div', 'style'),
+                  [dash.dependencies.Input('interface-graphics', 'values')
+                   ])
+    def update_bigest_deal_table_2013_2018(val):
+        try:
+            if 'biggest-deal-tab-2013-2018' in val:
+                show_tab = {'display': 'inline',
+                            }
+
+            if 'biggest-deal-tab-2013-2018' not in val:
+                show_tab = {'display': 'none',
+                            }
+        except Exception as e:
+            return html.Div([
+                'There was an error'
+            ])
+        return show_tab
+
+
+select_default_graph_from_check_graphics()  # вызов функции с отображением дефолтных графиков и подписей к ним
+
+
+'''Функция по отрисовке дефолтных графиков'''
+
+
+def default_graphics():
+    @app.callback(
+        dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-2017-RU', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ]
+    )
+    def update_pie_graph_4(values):
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2017'])) & (df_plot['Country'].isin(['RU']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2017',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_pie_graph_5(values):
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[
+            (df_plot['Year'].isin(['2018'])) & (df_plot['Country'].isin(['RU'])) & (df_plot['Quarter'].isin(['1']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='1q 2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-five-years-RU', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_pie_graph_6(values):
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Country'].isin(['RU']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes'])) & (df_plot['Country'].isin(['RU']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2013-2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-2017-MOS', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_pie_graph_7(values):
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['Year'].isin(['2017'])) & (df_plot['City'].isin(['Moscow']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2017',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_pie_graph_8(values):
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[
+            (df_plot['Year'].isin(['2018'])) & (df_plot['City'].isin(['Moscow'])) & (df_plot['Quarter'].isin(['1']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='1q 2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+    @app.callback(
+        dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_pie_graph_9(values):
+
+        df_plot = static.all_deals_query_df.copy()
+        data = df_plot[(df_plot['City'].isin(['Moscow']))]
+        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
+        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
+        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
+        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
+        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
+        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
+        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
+             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
+        df_graph = pd.DataFrame(data=d)
+
+        width = 600
+        height = 450
+
+        pv = pd.pivot_table(
+            df_graph,
+            index=["Type"],
+            values=["SQM"],
+            aggfunc=sum,
+            fill_value=0)
+        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
+        pie1 = go.Pie(values=pv["SQM"],
+                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
+                      hoverinfo='label+value+percent',
+                      textinfo='label+percent',
+                      textposition='outside',
+                      textfont=dict(
+                          color=colors_pie,
+                          size=12),
+                      marker=dict(colors=colors_pie,
+                                  line=dict(
+                                      color=color.white,
+                                      width=1
+                                  )
+                                  )
+                      )
+        return {
+            'data': [pie1],
+            'layout': go.Layout(
+                title='2013-2018',
+                width=width,
+                height=height,
+                legend=dict(orientation="h",
+                            traceorder="normal"),
+            )
+        }
+
+
+default_graphics()  # вызов функции с отображением базовых pie графиков
+
+
+'''Функция по отрисовке дефолтных таблиц по крупнейшим этим сделкам за этот период'''
+
+
+def default_tables():
+    @app.callback(
+        dash.dependencies.Output('biggest-deal-tab-test', 'figure'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_biggest_deals_tab(values):
+        all_deals_2017 = static.all_deals_query_df[static.all_deals_query_df['Year'].isin(['2017'])]
+        all_deals_2017 = all_deals_2017.sort_values('SQM', ascending=False)
+
+        all_deals_2017_selected = all_deals_2017[['Agency', 'Property_Name', 'SQM',
+                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
+        # ##print(all_deals_2017_selected.Property_Name.tolist())
+
+        trace = go.Table(
+            columnwidth=[80, 200, 100, 150, 200, 100],
+
+            header=dict(values=["Agency", "Property Name", "Office area", "Company", "Business Sector", "Type of Deal"],
+                        line=dict(color=color.white),
+                        fill=dict(color=color.sar_color),
+                        align=['left'] * 6,
+                        font=dict(color='white', size=12), ),
+
+            cells=dict(values=[all_deals_2017_selected.Agency.tolist(),
+                               all_deals_2017_selected.Property_Name.tolist(),
+                               all_deals_2017_selected.SQM,
+                               all_deals_2017_selected.Company,
+                               all_deals_2017_selected.Business_Sector,
+                               all_deals_2017_selected.Type_of_Deal
+
+                               ],
+                       line=dict(color=color.white),
+                       fill=dict(color='#EDFAFF'),
+                       align=['left'] * 6))
+
+        layout = dict(width=830, height=330)
+        data = [trace]
+        fig = dict(data=data, layout=layout)
+        return fig
+
+    @app.callback(
+        dash.dependencies.Output('html-tab-RU-2017', 'children'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_html_tab(values):
+        all_deals_2017 = static.all_deals_query_df[static.all_deals_query_df['Year'].isin(['2017'])]
+        all_deals_2017 = all_deals_2017.sort_values('SQM', ascending=False)
+        all_deals_2017['SQM'] = all_deals_2017['SQM'].round()
+        all_deals_2017_selected = all_deals_2017[['Agency', 'Property_Name', 'SQM',
+                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
+        return my_method.generate_table_top_deals(all_deals_2017_selected)
+
+    @app.callback(
+        dash.dependencies.Output('html-tab-RU-1q2018', 'children'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_html_tab(values):
+        all_deals_2018 = static.all_deals_query_df[
+            static.all_deals_query_df['Year'].isin(['2018']) & static.all_deals_query_df['Quarter'].isin(['1'])]
+        all_deals_2018 = all_deals_2018.sort_values('SQM', ascending=False)
+        all_deals_2018['SQM'] = all_deals_2018['SQM'].round()
+        all_deals_2018_selected = all_deals_2018[['Agency', 'Property_Name', 'SQM',
+                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
+        return my_method.generate_table_top_deals(all_deals_2018_selected)
+
+    @app.callback(
+        dash.dependencies.Output('html-tab-RU-five-years', 'children'),
+        [dash.dependencies.Input('interface-default-graphics', 'values')
+         ])
+    def update_html_tab(values):
+        all_deals_2018 = static.all_deals_query_df
+        all_deals_2018 = all_deals_2018.sort_values('SQM', ascending=False)
+        all_deals_2018['SQM'] = all_deals_2018['SQM'].round()
+        all_deals_2018_selected = all_deals_2018[['Agency', 'Property_Name', 'SQM',
+                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
+        return my_method.generate_table_top_deals(all_deals_2018_selected)
+
+
+default_tables()  # вызов функции с отображением базовых таблиц
+
+''' Начало блока по отрисовке статических изображений. Код закомментирован до обсуждения  '''
+
+
+# БЛОК КОДА ПО СТРАНИЦЕ СО СДЕЛКАМИ И ГРАФИКАМ К НИМ
 
 '''
 Отображение tree-like блока со списком
 На вход принимается значение чеклиста 'select columns'
 Если значение выбрано, то отрисовывается новый блок со списком, как в дереве
 '''
+
 
 @app.callback(dash.dependencies.Output('interface-columns', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
@@ -220,10 +963,12 @@ def show_tree_columns(val):
                     }
     return children
 
+
 '''
 Функция отображение выпадающих списков по значению checklist`а
 Эта функция введена искуственно для возможности скрыть блок кода
 '''
+
 
 def select_drop_from_check_columns():
     @app.callback(dash.dependencies.Output('Include_in_Market_Share_Div', 'style'),
@@ -235,12 +980,12 @@ def select_drop_from_check_columns():
         try:
             if 'Include_in_Market_Share' in val:
                 style_include = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '150px',
                                  }
 
             if 'Include_in_Market_Share' not in val:
                 style_include = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -255,12 +1000,12 @@ def select_drop_from_check_columns():
         try:
             if 'Agency' in val:
                 style_agency = {'display': 'inline-block',
-                                'width': '7.69%'
+                                'width': '110px',
                                 }
 
             if 'Agency' not in val:
                 style_agency = {'display': 'none',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
         except Exception as e:
             return html.Div([
@@ -275,12 +1020,12 @@ def select_drop_from_check_columns():
         try:
             if 'Country' in val:
                 style_country = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '86px',
                                  }
 
             if 'Country' not in val:
                 style_country = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -295,12 +1040,12 @@ def select_drop_from_check_columns():
         try:
             if 'City' in val:
                 style_city = {'display': 'inline-block',
-                              'width': '7.69%'
+                              'width': '110px',
                               }
 
             if 'City' not in val:
                 style_city = {'display': 'none',
-                              'width': '7.69%'
+                              'width': '80px',
                               }
         except Exception as e:
             return html.Div([
@@ -315,12 +1060,12 @@ def select_drop_from_check_columns():
         try:
             if 'Property_Name' in val:
                 style_property_name = {'display': 'inline-block',
-                                       'width': '7.69%'
+                                       'width': '230px',
                                        }
 
             if 'Property_Name' not in val:
                 style_property_name = {'display': 'none',
-                                       'width': '7.69%'
+                                       'width': '80px',
                                        }
         except Exception as e:
             return html.Div([
@@ -335,12 +1080,12 @@ def select_drop_from_check_columns():
         try:
             if 'Class' in val:
                 style_class = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '76px',
                                }
 
             if 'Class' not in val:
                 style_class = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -355,12 +1100,12 @@ def select_drop_from_check_columns():
         try:
             if 'SQM' in val:
                 style_SQM = {'display': 'inline-block',
-                             'width': '7.69%'
+                             'width': '80px',
                              }
 
             if 'SQM' not in val:
                 style_SQM = {'display': 'none',
-                             'width': '7.69%'
+                             'width': '80px',
                              }
         except Exception as e:
             return html.Div([
@@ -375,12 +1120,12 @@ def select_drop_from_check_columns():
         try:
             if 'SQM' in val:
                 style_Company = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '184px',
                                  }
 
             if 'SQM' not in val:
                 style_Company = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -395,12 +1140,12 @@ def select_drop_from_check_columns():
         try:
             if 'Business_Sector' in val:
                 style_Business_Sector = {'display': 'inline-block',
-                                         'width': '7.69%'
+                                         'width': '250px',
                                          }
 
             if 'Business_Sector' not in val:
                 style_Business_Sector = {'display': 'none',
-                                         'width': '7.69%'
+                                         'width': '80px',
                                          }
         except Exception as e:
             return html.Div([
@@ -415,12 +1160,12 @@ def select_drop_from_check_columns():
         try:
             if 'Type_of_Deal' in val:
                 style_Type_of_Deal = {'display': 'inline-block',
-                                      'width': '7.69%'
+                                      'width': '130px',
                                       }
 
             if 'Type_of_Deal' not in val:
                 style_Type_of_Deal = {'display': 'none',
-                                      'width': '7.69%'
+                                      'width': '80px',
                                       }
         except Exception as e:
             return html.Div([
@@ -435,12 +1180,12 @@ def select_drop_from_check_columns():
         try:
             if 'Type_of_Consultancy' in val:
                 style_Type_of_Consultancy = {'display': 'inline-block',
-                                             'width': '7.69%'
+                                             'width': '170px',
                                              }
 
             if 'Type_of_Consultancy' not in val:
                 style_Type_of_Consultancy = {'display': 'none',
-                                             'width': '7.69%'
+                                             'width': '80px',
                                              }
         except Exception as e:
             return html.Div([
@@ -448,25 +1193,25 @@ def select_drop_from_check_columns():
             ])
         return style_Type_of_Consultancy
 
-    @app.callback(dash.dependencies.Output('LLR/TR_Div', 'style'),
-                  [dash.dependencies.Input('interface-columns', 'values')
-                   ])
-    def update_drop_Type_of_Consultancy(val):
-        try:
-            if 'LLR_TR' in val:
-                style_LLR_TR = {'display': 'inline-block',
-                                'width': '7.69%'
-                                }
-
-            if 'LLR_TR' not in val:
-                style_LLR_TR = {'display': 'none',
-                                'width': '7.69%'
-                                }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return style_LLR_TR
+    # @app.callback(dash.dependencies.Output('LLR/TR_Div', 'style'),
+    #               [dash.dependencies.Input('interface-columns', 'values')
+    #                ])
+    # def update_drop_Type_of_Consultancy(val):
+    #     try:
+    #         if 'LLR_TR' in val:
+    #             style_LLR_TR = {'display': 'inline-block',
+    #                             'width': '80px',
+    #                             }
+    #
+    #         if 'LLR_TR' not in val:
+    #             style_LLR_TR = {'display': 'none',
+    #                             'width': '80px',
+    #                             }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return style_LLR_TR
 
     @app.callback(dash.dependencies.Output('Year_Div', 'style'),
                   [dash.dependencies.Input('interface-columns', 'values')
@@ -475,12 +1220,12 @@ def select_drop_from_check_columns():
         try:
             if 'Year' in val:
                 style_Year = {'display': 'inline-block',
-                              'width': '7.69%'
+                              'width': '90px',
                               }
 
             if 'Year' not in val:
                 style_Year = {'display': 'none',
-                              'width': '7.69%'
+                              'width': '80px',
                               }
         except Exception as e:
             return html.Div([
@@ -495,11 +1240,11 @@ def select_drop_from_check_columns():
         try:
             if 'Quarter' in val:
                 style_Quarter = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '90px',
                                  }
             if 'Quarter' not in val:
                 style_Quarter = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -514,12 +1259,12 @@ def select_drop_from_check_columns():
         try:
             if 'Address' in val:
                 style_Addres = {'display': 'inline-block',
-                                'width': '7.69%'
+                                'width': '250px',
                                 }
 
             if 'Address' not in val:
                 style_Addres = {'display': 'none',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
         except Exception as e:
             return html.Div([
@@ -534,12 +1279,12 @@ def select_drop_from_check_columns():
         try:
             if 'Submarket_Large' in val:
                 style_Submarket_Large = {'display': 'inline-block',
-                                         'width': '7.69%'
+                                         'width': '150px',
                                          }
 
             if 'Submarket_Large' not in val:
                 style_Submarket_Large = {'display': 'none',
-                                         'width': '7.69%'
+                                         'width': '80px',
                                          }
         except Exception as e:
             return html.Div([
@@ -554,12 +1299,12 @@ def select_drop_from_check_columns():
         try:
             if 'Owner' in val:
                 style_Owner = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '150px',
                                }
 
             if 'Owner' not in val:
                 style_Owner = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -574,12 +1319,12 @@ def select_drop_from_check_columns():
         try:
             if 'Date_of_acquiring' in val:
                 style_Date_of_acquiring = {'display': 'inline-block',
-                                           'width': '7.69%'
+                                           'width': '150px',
                                            }
 
             if 'Date_of_acquiring' not in val:
                 style_Date_of_acquiring = {'display': 'none',
-                                           'width': '7.69%'
+                                           'width': '80px',
                                            }
         except Exception as e:
             return html.Div([
@@ -594,12 +1339,12 @@ def select_drop_from_check_columns():
         try:
             if 'Class_Colliers' in val:
                 style_Class_Colliers = {'display': 'inline-block',
-                                        'width': '7.69%'
+                                        'width': '150px',
                                         }
 
             if 'Class_Colliers' not in val:
                 style_Class_Colliers = {'display': 'none',
-                                        'width': '7.69%'
+                                        'width': '80px',
                                         }
         except Exception as e:
             return html.Div([
@@ -614,12 +1359,12 @@ def select_drop_from_check_columns():
         try:
             if 'Floor' in val:
                 style_Floor = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '150px',
                                }
 
             if 'Floor' not in val:
                 style_Floor = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -634,12 +1379,12 @@ def select_drop_from_check_columns():
         try:
             if 'Deal_Size' in val:
                 style_Deal_Size = {'display': 'inline-block',
-                                   'width': '7.69%'
+                                   'width': '150px',
                                    }
 
             if 'Deal_Size' not in val:
                 style_Deal_Size = {'display': 'none',
-                                   'width': '7.69%'
+                                   'width': '80px',
                                    }
         except Exception as e:
             return html.Div([
@@ -654,12 +1399,12 @@ def select_drop_from_check_columns():
         try:
             if 'Sublease_Agent' in val:
                 style_Sublease_Agent = {'display': 'inline-block',
-                                        'width': '7.69%'
+                                        'width': '150px',
                                         }
 
             if 'Sublease_Agent' not in val:
                 style_Sublease_Agent = {'display': 'none',
-                                        'width': '7.69%'
+                                        'width': '80px',
                                         }
         except Exception as e:
             return html.Div([
@@ -667,65 +1412,65 @@ def select_drop_from_check_columns():
             ])
         return style_Sublease_Agent
 
-    @app.callback(dash.dependencies.Output('LLR_Only_Div', 'style'),
-                  [dash.dependencies.Input('interface-columns', 'values')
-                   ])
-    def update_drop_LLR_Only(val):
-        try:
-            if 'LLR_Only' in val:
-                style_LLR_Only = {'display': 'inline-block',
-                                  'width': '7.69%'
-                                  }
-
-            if 'LLR_Only' not in val:
-                style_LLR_Only = {'display': 'none',
-                                  'width': '7.69%'
-                                  }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return style_LLR_Only
-
-    @app.callback(dash.dependencies.Output('E_TR_Only_Div', 'style'),
-                  [dash.dependencies.Input('interface-columns', 'values')
-                   ])
-    def update_drop_E_TR_Only(val):
-        try:
-            if 'E_TR_Only' in val:
-                style_E_TR_Only = {'display': 'inline-block',
-                                   'width': '7.69%'
-                                   }
-
-            if 'E_TR_Only' not in val:
-                style_E_TR_Only = {'display': 'none',
-                                   'width': '7.69%'
-                                   }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return style_E_TR_Only
-
-    @app.callback(dash.dependencies.Output('LLR/E_TR_Div', 'style'),
-                  [dash.dependencies.Input('interface-columns', 'values')
-                   ])
-    def update_drop_LLR_E_TR(val):
-        try:
-            if 'LLR/E_TR' in val:
-                style_LLR_E_TR = {'display': 'inline-block',
-                                  'width': '7.69%'
-                                  }
-
-            if 'LLR/E_TR' not in val:
-                style_LLR_E_TR = {'display': 'none',
-                                  'width': '7.69%'
-                                  }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return style_LLR_E_TR
+    # @app.callback(dash.dependencies.Output('LLR_Only_Div', 'style'),
+    #               [dash.dependencies.Input('interface-columns', 'values')
+    #                ])
+    # def update_drop_LLR_Only(val):
+    #     try:
+    #         if 'LLR_Only' in val:
+    #             style_LLR_Only = {'display': 'inline-block',
+    #                               'width': '80px',
+    #                               }
+    #
+    #         if 'LLR_Only' not in val:
+    #             style_LLR_Only = {'display': 'none',
+    #                               'width': '80px',
+    #                               }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return style_LLR_Only
+    #
+    # @app.callback(dash.dependencies.Output('E_TR_Only_Div', 'style'),
+    #               [dash.dependencies.Input('interface-columns', 'values')
+    #                ])
+    # def update_drop_E_TR_Only(val):
+    #     try:
+    #         if 'E_TR_Only' in val:
+    #             style_E_TR_Only = {'display': 'inline-block',
+    #                                'width': '80px',
+    #                                }
+    #
+    #         if 'E_TR_Only' not in val:
+    #             style_E_TR_Only = {'display': 'none',
+    #                                'width': '80px',
+    #                                }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return style_E_TR_Only
+    #
+    # @app.callback(dash.dependencies.Output('LLR/E_TR_Div', 'style'),
+    #               [dash.dependencies.Input('interface-columns', 'values')
+    #                ])
+    # def update_drop_LLR_E_TR(val):
+    #     try:
+    #         if 'LLR/E_TR' in val:
+    #             style_LLR_E_TR = {'display': 'inline-block',
+    #                               'width': '80px',
+    #                               }
+    #
+    #         if 'LLR/E_TR' not in val:
+    #             style_LLR_E_TR = {'display': 'none',
+    #                               'width': '80px',
+    #                               }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return style_LLR_E_TR
 
     @app.callback(dash.dependencies.Output('Month_Div', 'style'),
                   [dash.dependencies.Input('interface-columns', 'values')
@@ -734,12 +1479,12 @@ def select_drop_from_check_columns():
         try:
             if 'Month' in val:
                 style_Month = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '146px',
                                }
 
             if 'Month' not in val:
                 style_Month = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -747,12 +1492,14 @@ def select_drop_from_check_columns():
             ])
         return style_Month
 
+
 select_drop_from_check_columns()  # вызов функции с отображением выпадающих списков
 
 '''
 Отображение tree-like блока со списком графиков
 На вход принимается значение чеклиста 'select graphics'
 '''
+
 
 @app.callback(dash.dependencies.Output('interface-graphics', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
@@ -770,10 +1517,12 @@ def show_graphics_tree(val):
                     }
     return children
 
+
 '''
 Отображение tree-like блока со списком типов сделок
 На вход принимается значение чеклиста 'select data'
 '''
+
 
 @app.callback(dash.dependencies.Output('interface-data', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
@@ -796,6 +1545,7 @@ def show_data_tree(val):
 На вход принимается значение чеклиста 'select data'
 '''
 
+
 @app.callback(dash.dependencies.Output('interface-graphics-image', 'labelStyle'),
               # на вход принимается значение чеклиста 'colums'
               [dash.dependencies.Input('tree-checklist-graphics-image', 'values')
@@ -812,10 +1562,13 @@ def show_image_tree(val):
                     }
     return children
 
+
+
 '''
 Функция отображения графиков по значению checklist`а
 Эта функция введена искуственно для возможности скрыть блок кода
 '''
+
 
 def select_graph_from_check_graphics():
     @app.callback(dash.dependencies.Output('market-graph-tab', 'style'),
@@ -928,230 +1681,230 @@ def select_graph_from_check_graphics():
             ])
         return show_graph
 
-    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-RU', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_graph_ru(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' in val:
-                show_graph = {'display': 'inline-block',
-                              'padding': '100px 0px 0px 50px'
-                              }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' not in val:
-                show_graph = {'display': 'none',
-                              }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_graph
-
-    @app.callback(dash.dependencies.Output('pie-4-text', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_text_ru(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' in val:
-                show_text = {'display': 'inline-block',
-                             'padding-left': '150px'
-                             }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-RU' not in val:
-                show_text = {'display': 'none',
-                             }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_text
-
-    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_1q_2018_graph_ru(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
-                show_graph = {'display': 'inline-block',
-                              'padding': '100px 0px 0px 50px'
-                              }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
-                show_graph = {'display': 'none'
-                              }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_graph
-
-    @app.callback(dash.dependencies.Output('pie-5-text', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_text_ru(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
-                show_text = {'display': 'inline-block',
-                             'padding-left': '150px'
-                             }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
-                show_text = {'display': 'none',
-                             }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_text
-
-    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-RU', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_five_years_graph_ru(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' in val:
-                show_graph = {'display': 'inline-block',
-                              'padding': '100px 0px 0px 50px'
-                              }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
-                show_graph = {'display': 'none',
-                              }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_graph
-
-    @app.callback(dash.dependencies.Output('pie-6-text', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_text_ru(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' in val:
-                show_text = {'display': 'inline-block',
-                             'padding-left': '90px'
-                             }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
-                show_text = {'display': 'none',
-                             }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_text
-
-    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-MOS', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_graph_mos(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' in val:
-                show_graph = {'display': 'inline-block',
-                              }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
-                show_graph = {'display': 'none',
-                              }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_graph
-
-    @app.callback(dash.dependencies.Output('pie-7-text', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_text_mos(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' in val:
-                show_text = {'display': 'inline-block',
-                             'padding-left': '50px'
-                             }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
-                show_text = {'display': 'none',
-                             }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_text
-
-    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_1q_2018_graph_mos(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
-                show_graph = {'display': 'inline-block',
-                              }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
-                show_graph = {'display': 'none',
-                              }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_graph
-
-    @app.callback(dash.dependencies.Output('pie-8-text', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_text_mos(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
-                show_text = {'display': 'inline-block',
-                             'padding-left': '50px'
-                             }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
-                show_text = {'display': 'none',
-                             }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_text
-
-    @app.callback(dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_five_years_graph_mos(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
-                show_graph = {'display': 'inline-block',
-                              }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
-                show_graph = {'display': 'none',
-                              }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_graph
-
-    @app.callback(dash.dependencies.Output('pie-9-text', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_llr_etr_pie_2017_text_mos(val):
-        try:
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
-                show_text = {'display': 'inline-block',
-                             'padding-left': '50px'
-                             }
-
-            if 'LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
-                show_text = {'display': 'none',
-                             }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_text
+    # @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-2017-RU', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_graph_ru(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' in val:
+    #             show_graph = {'display': 'inline-block',
+    #                           'padding': '100px 0px 0px 50px'
+    #                           }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' not in val:
+    #             show_graph = {'display': 'none',
+    #                           }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_graph
+    #
+    # @app.callback(dash.dependencies.Output('pie-4-text', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_text_ru(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' in val:
+    #             show_text = {'display': 'inline-block',
+    #                          'padding-left': '150px'
+    #                          }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-RU' not in val:
+    #             show_text = {'display': 'none',
+    #                          }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_text
+    #
+    # @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_1q_2018_graph_ru(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
+    #             show_graph = {'display': 'inline-block',
+    #                           'padding': '100px 0px 0px 50px'
+    #                           }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
+    #             show_graph = {'display': 'none'
+    #                           }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_graph
+    #
+    # @app.callback(dash.dependencies.Output('pie-5-text', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_text_ru(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' in val:
+    #             show_text = {'display': 'inline-block',
+    #                          'padding-left': '150px'
+    #                          }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU' not in val:
+    #             show_text = {'display': 'none',
+    #                          }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_text
+    #
+    # @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-five-years-RU', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_five_years_graph_ru(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' in val:
+    #             show_graph = {'display': 'inline-block',
+    #                           'padding': '100px 0px 0px 50px'
+    #                           }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
+    #             show_graph = {'display': 'none',
+    #                           }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_graph
+    #
+    # @app.callback(dash.dependencies.Output('pie-6-text', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_text_ru(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' in val:
+    #             show_text = {'display': 'inline-block',
+    #                          'padding-left': '90px'
+    #                          }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-RU' not in val:
+    #             show_text = {'display': 'none',
+    #                          }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_text
+    #
+    # @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-2017-MOS', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_graph_mos(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' in val:
+    #             show_graph = {'display': 'inline-block',
+    #                           }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
+    #             show_graph = {'display': 'none',
+    #                           }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_graph
+    #
+    # @app.callback(dash.dependencies.Output('pie-7-text', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_text_mos(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' in val:
+    #             show_text = {'display': 'inline-block',
+    #                          'padding-left': '50px'
+    #                          }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-2017-MOS' not in val:
+    #             show_text = {'display': 'none',
+    #                          }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_text
+    #
+    # @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_1q_2018_graph_mos(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
+    #             show_graph = {'display': 'inline-block',
+    #                           }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
+    #             show_graph = {'display': 'none',
+    #                           }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_graph
+    #
+    # @app.callback(dash.dependencies.Output('pie-8-text', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_text_mos(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' in val:
+    #             show_text = {'display': 'inline-block',
+    #                          'padding-left': '50px'
+    #                          }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS' not in val:
+    #             show_text = {'display': 'none',
+    #                          }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_text
+    #
+    # @app.callback(dash.dependencies.Output('LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_five_years_graph_mos(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
+    #             show_graph = {'display': 'inline-block',
+    #                           }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
+    #             show_graph = {'display': 'none',
+    #                           }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_graph
+    #
+    # @app.callback(dash.dependencies.Output('pie-9-text', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_llr_etr_pie_2017_text_mos(val):
+    #     try:
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' in val:
+    #             show_text = {'display': 'inline-block',
+    #                          'padding-left': '50px'
+    #                          }
+    #
+    #         if 'LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS' not in val:
+    #             show_text = {'display': 'none',
+    #                          }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_text
 
     @app.callback(dash.dependencies.Output('biggest-deal-tab-test', 'style'),
                   [dash.dependencies.Input('interface-graphics', 'values')
@@ -1171,67 +1924,70 @@ def select_graph_from_check_graphics():
             ])
         return show_tab
 
-    @app.callback(dash.dependencies.Output('html-tab-RU-2017-div', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_bigest_deal_table_2017(val):
-        try:
-            if 'biggest-deal-tab-2017' in val:
-                show_tab = {'display': 'inline',
-                            }
+    # @app.callback(dash.dependencies.Output('html-tab-RU-2017-div', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_bigest_deal_table_2017(val):
+    #     try:
+    #         if 'biggest-deal-tab-2017' in val:
+    #             show_tab = {'display': 'inline',
+    #                         }
+    #
+    #         if 'biggest-deal-tab-2017' not in val:
+    #             show_tab = {'display': 'none',
+    #                         }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_tab
+    #
+    # @app.callback(dash.dependencies.Output('html-tab-RU-1q2018-div', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_bigest_deal_table_1q2018(val):
+    #     try:
+    #         if 'biggest-deal-tab-1q2018' in val:
+    #             show_tab = {'display': 'inline',
+    #                         }
+    #
+    #         if 'biggest-deal-tab-1q2018' not in val:
+    #             show_tab = {'display': 'none',
+    #                         }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_tab
+    #
+    # @app.callback(dash.dependencies.Output('html-tab-RU-five-years-div', 'style'),
+    #               [dash.dependencies.Input('interface-graphics', 'values')
+    #                ])
+    # def update_bigest_deal_table_2013_2018(val):
+    #     try:
+    #         if 'biggest-deal-tab-2013-2018' in val:
+    #             show_tab = {'display': 'inline',
+    #                         }
+    #
+    #         if 'biggest-deal-tab-2013-2018' not in val:
+    #             show_tab = {'display': 'none',
+    #                         }
+    #     except Exception as e:
+    #         return html.Div([
+    #             'There was an error'
+    #         ])
+    #     return show_tab
 
-            if 'biggest-deal-tab-2017' not in val:
-                show_tab = {'display': 'none',
-                            }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_tab
-
-    @app.callback(dash.dependencies.Output('html-tab-RU-1q2018-div', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_bigest_deal_table_1q2018(val):
-        try:
-            if 'biggest-deal-tab-1q2018' in val:
-                show_tab = {'display': 'inline',
-                            }
-
-            if 'biggest-deal-tab-1q2018' not in val:
-                show_tab = {'display': 'none',
-                            }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_tab
-
-    @app.callback(dash.dependencies.Output('html-tab-RU-five-years-div', 'style'),
-                  [dash.dependencies.Input('interface-graphics', 'values')
-                   ])
-    def update_bigest_deal_table_2013_2018(val):
-        try:
-            if 'biggest-deal-tab-2013-2018' in val:
-                show_tab = {'display': 'inline',
-                            }
-
-            if 'biggest-deal-tab-2013-2018' not in val:
-                show_tab = {'display': 'none',
-                            }
-        except Exception as e:
-            return html.Div([
-                'There was an error'
-            ])
-        return show_tab
 
 select_graph_from_check_graphics()  # вызов функции с отображением графиков и подписей к ним
+
 
 '''
 Вывод строк таблицы
 На вход принимается значение выпадающих списков и выбранных элементов в списке слева
 На основе этих значение формируется dataframe, поещаемый в таблицу
 '''
+
 
 @app.callback(dash.dependencies.Output('datatable', 'rows'),
               # здесь на вход принимается значение значение выпадающих списков и на основе этих значение формируется dataframe, поещаемый в таблицу
@@ -1291,7 +2047,10 @@ def update_datatable(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
 
     return data_to_table[col].to_dict('records')
 
+
+
 '''  Подсчёт суммы по отфильтрованным данным  '''
+
 
 @app.callback(dash.dependencies.Output('sum-string', 'children'),
               [dash.dependencies.Input('Year', 'value'),
@@ -1360,7 +2119,9 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
         sum_parameters += 'default'
     return 'Суммарная площадь по сделкам составляет ', sqm_sum, ' кв.м ( ', sum_parameters, ' )'
 
+
 '''  Скачивание csv файла с дампом всей базы данных по сделкам  '''
+
 
 @app.callback(dash.dependencies.Output('download-all-link', 'href'),
               [dash.dependencies.Input('Year', 'value'),
@@ -1383,7 +2144,9 @@ def update_download_all_link(Year, Country, Agency, City, Property_name, Class, 
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
     return csv_string
 
+
 '''  Скачивание csv файла с выбранными данными  '''
+
 
 @app.callback(
     dash.dependencies.Output('download-selected-link', 'href'),
@@ -1445,12 +2208,14 @@ def update_download_link(Year, Country, Agency, City, Property_Name, Class, SQM,
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
     return csv_string
 
+
 '''
 Начало блока по отрисовке графиков
 Callback`и, отрисовывающие графики, принимают на вход данные выпающих списков.
 График принимает те же переменные, как и таблица, сначала фильтруется датафрейм по выбранным данным,
 после этот датафрейм переводится в сводную таблицу в pandas и по значениям сводной таблицы строится график.
 '''
+
 
 @app.callback(
     dash.dependencies.Output('market-graph-tab', 'figure'),
@@ -1840,6 +2605,7 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
             )
     }
 
+
 @app.callback(
     dash.dependencies.Output('market-graph-tab-string', 'children'),
     # подпись под графиком (возможно стоит перенесть в Div на странице)
@@ -1853,7 +2619,7 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('Business_Sector', 'value'),
      dash.dependencies.Input('Type_of_Deal', 'value'),
      dash.dependencies.Input('Type_of_Consultancy', 'value'),
-     dash.dependencies.Input('LLR/TR', 'value'),
+     #dash.dependencies.Input('LLR/TR', 'value'),
      dash.dependencies.Input('Quarter', 'value'),
      dash.dependencies.Input('Company', 'value'),
      dash.dependencies.Input('Include_in_Market_Share', 'value'),
@@ -1865,9 +2631,9 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      dash.dependencies.Input('Floor', 'value'),
      dash.dependencies.Input('Deal_Size', 'value'),
      dash.dependencies.Input('Sublease_Agent', 'value'),
-     dash.dependencies.Input('LLR_Only', 'value'),
-     dash.dependencies.Input('E_TR_Only', 'value'),
-     dash.dependencies.Input('LLR/E_TR', 'value'),
+     #dash.dependencies.Input('LLR_Only', 'value'),
+     #dash.dependencies.Input('E_TR_Only', 'value'),
+     #dash.dependencies.Input('LLR/E_TR', 'value'),
      dash.dependencies.Input('Month', 'value'),
      dash.dependencies.Input('interface-columns', 'values'),
      # значение чеклиста из дерева с выбором столбцов market-graph-tab-slider-width
@@ -1875,31 +2641,25 @@ def update_graph_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
      # dash.dependencies.Input('market-graph-tab-slider-height', 'value')
      ])
 def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                            Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
+                            Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address,
                             Submarket_Large, Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                            LLR_Only, E_TR_Only, LLR_E_TR, Month, col):
+                            Month, col):
     cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
                 # создание словаря с ключом - названием столбца, значением - выбранным параметрам
                 City=[City], Property_Name=[Property_Name], Class=[Class],
                 SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
+                Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy],
                 Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
                 Submarket_Large=[Submarket_Large],
                 Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers], Floor=[Floor],
-                Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                LLR_E_TR=[LLR_E_TR], Month=[Month])
+                Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], Month=[Month])
 
     list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                      Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
-                      Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                      LLR_E_TR, Month)
-
+                      Type_of_Consultancy, Quarter, Company, Include_in_Market_Share, Address, Submarket_Large,
+                      Owner, Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,Month)
     cond_1 = cond.copy()
-
     list_of_values_copy = list(filter(None, list_of_values))
-
     list_of_ind = []
-
     for i in range(len(list_of_values_copy)):
         ind = my_method.get_key(cond_1, [list_of_values_copy[i]])
         list_of_ind.append(ind)
@@ -1933,866 +2693,6 @@ def update_graph_tab_string(Year, Country, Agency, City, Property_Name, Class, S
 
     return format_index + format_data
 
-'''Функция по отрисовке дефолтных графиков по LLR, ETR, LLT/ETR и таблицы по крупнейшим этим сделкам за этот период'''
-
-def default_graphics():
-    @app.callback(
-        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-RU', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_pie_graph_4(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large, Owner,Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent,
-                           LLR_Only, E_TR_Only, LLR_E_TR, Month, col):
-        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
-                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                    City=[City], Property_Name=[Property_Name], Class=[Class],
-                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
-                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                    Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
-                    Floor=[Floor],
-                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                    LLR_E_TR=[LLR_E_TR], Month=[Month])
-
-        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large,
-                          Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month)
-
-        cond_1 = cond.copy()
-
-        list_of_values_copy = list(filter(None, list_of_values))
-
-        df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['Year'].isin(['2017'])) & (df_plot['Country'].isin(['RU']))]
-        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
-        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
-        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
-             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
-        df_graph = pd.DataFrame(data=d)
-
-        width = 600
-        height = 450
-
-        pv = pd.pivot_table(
-            df_graph,
-            index=["Type"],
-            values=["SQM"],
-            aggfunc=sum,
-            fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
-        pie1 = go.Pie(values=pv["SQM"],
-                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
-                      hoverinfo='label+value+percent',
-                      textinfo='label+percent',
-                      textposition='outside',
-                      textfont=dict(
-                          color=colors_pie,
-                          size=12),
-                      marker=dict(colors=colors_pie,
-                                  line=dict(
-                                      color=color.white,
-                                      width=1
-                                  )
-                                  )
-                      )
-        return {
-            'data': [pie1],
-            'layout': go.Layout(
-                title='2017',
-                width=width,
-                height=height,
-                legend=dict(orientation="h",
-                            traceorder="normal"),
-            )
-        }
-
-    @app.callback(
-        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_pie_graph_5(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large,
-                           Owner,
-                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                           LLR_E_TR,
-                           Month, col):
-        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
-                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                    City=[City], Property_Name=[Property_Name], Class=[Class],
-                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
-                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                    Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
-                    Floor=[Floor],
-                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                    LLR_E_TR=[LLR_E_TR], Month=[Month])
-
-        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large,
-                          Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month)
-        cond_1 = cond.copy()
-        list_of_values_copy = list(filter(None, list_of_values))
-
-        df_plot = static.all_deals_query_df.copy()
-        data = df_plot[
-            (df_plot['Year'].isin(['2018'])) & (df_plot['Country'].isin(['RU'])) & (df_plot['Quarter'].isin(['1']))]
-        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
-        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
-        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
-             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
-        df_graph = pd.DataFrame(data=d)
-
-        width = 600
-        height = 450
-
-        pv = pd.pivot_table(
-            df_graph,
-            index=["Type"],
-            values=["SQM"],
-            aggfunc=sum,
-            fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
-        pie1 = go.Pie(values=pv["SQM"],
-                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
-                      hoverinfo='label+value+percent',
-                      textinfo='label+percent',
-                      textposition='outside',
-                      textfont=dict(
-                          color=colors_pie,
-                          size=12),
-                      marker=dict(colors=colors_pie,
-                                  line=dict(
-                                      color=color.white,
-                                      width=1
-                                  )
-                                  )
-                      )
-        return {
-            'data': [pie1],
-            'layout': go.Layout(
-                title='1q 2018',
-                width=width,
-                height=height,
-                legend=dict(orientation="h",
-                            traceorder="normal"),
-            )
-        }
-
-    @app.callback(
-        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-RU', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_pie_graph_6(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large,
-                           Owner,
-                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                           LLR_E_TR,
-                           Month, col):
-        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
-                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                    City=[City], Property_Name=[Property_Name], Class=[Class],
-                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
-                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                    Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
-                    Floor=[Floor],
-                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                    LLR_E_TR=[LLR_E_TR], Month=[Month])
-
-        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large,
-                          Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month)
-        cond_1 = cond.copy()
-        list_of_values_copy = list(filter(None, list_of_values))
-
-        df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['Country'].isin(['RU']))]
-        data_llr_only = data[(data['LLR_Only'].isin(['Yes'])) & (df_plot['Country'].isin(['RU']))]
-        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
-        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
-             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
-        df_graph = pd.DataFrame(data=d)
-
-        width = 600
-        height = 450
-
-        pv = pd.pivot_table(
-            df_graph,
-            index=["Type"],
-            values=["SQM"],
-            aggfunc=sum,
-            fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
-        pie1 = go.Pie(values=pv["SQM"],
-                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
-                      hoverinfo='label+value+percent',
-                      textinfo='label+percent',
-                      textposition='outside',
-                      textfont=dict(
-                          color=colors_pie,
-                          size=12),
-                      marker=dict(colors=colors_pie,
-                                  line=dict(
-                                      color=color.white,
-                                      width=1
-                                  )
-                                  )
-                      )
-        return {
-            'data': [pie1],
-            'layout': go.Layout(
-                title='2013-2018',
-                width=width,
-                height=height,
-                legend=dict(orientation="h",
-                            traceorder="normal"),
-            )
-        }
-
-    @app.callback(
-        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-2017-MOS', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_pie_graph_7(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large,
-                           Owner,
-                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                           LLR_E_TR,
-                           Month, col):
-        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
-                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                    City=[City], Property_Name=[Property_Name], Class=[Class],
-                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
-                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                    Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
-                    Floor=[Floor],
-                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                    LLR_E_TR=[LLR_E_TR], Month=[Month])
-
-        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large,
-                          Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month)
-        cond_1 = cond.copy()
-        list_of_values_copy = list(filter(None, list_of_values))
-
-        df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['Year'].isin(['2017'])) & (df_plot['City'].isin(['Moscow']))]
-        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
-        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
-        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
-             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
-        df_graph = pd.DataFrame(data=d)
-
-        width = 600
-        height = 450
-
-        pv = pd.pivot_table(
-            df_graph,
-            index=["Type"],
-            values=["SQM"],
-            aggfunc=sum,
-            fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
-        pie1 = go.Pie(values=pv["SQM"],
-                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
-                      hoverinfo='label+value+percent',
-                      textinfo='label+percent',
-                      textposition='outside',
-                      textfont=dict(
-                          color=colors_pie,
-                          size=12),
-                      marker=dict(colors=colors_pie,
-                                  line=dict(
-                                      color=color.white,
-                                      width=1
-                                  )
-                                  )
-                      )
-        return {
-            'data': [pie1],
-            'layout': go.Layout(
-                title='2017',
-                width=width,
-                height=height,
-                legend=dict(orientation="h",
-                            traceorder="normal"),
-            )
-        }
-
-    @app.callback(
-        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_pie_graph_8(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large,
-                           Owner,
-                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                           LLR_E_TR,
-                           Month, col):
-        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
-                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                    City=[City], Property_Name=[Property_Name], Class=[Class],
-                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
-                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                    Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
-                    Floor=[Floor],
-                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                    LLR_E_TR=[LLR_E_TR], Month=[Month])
-
-        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large,
-                          Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month)
-        cond_1 = cond.copy()
-        list_of_values_copy = list(filter(None, list_of_values))
-
-        df_plot = static.all_deals_query_df.copy()
-        data = df_plot[
-            (df_plot['Year'].isin(['2018'])) & (df_plot['City'].isin(['Moscow'])) & (df_plot['Quarter'].isin(['1']))]
-        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
-        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
-        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
-             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
-        df_graph = pd.DataFrame(data=d)
-
-        width = 600
-        height = 450
-
-        pv = pd.pivot_table(
-            df_graph,
-            index=["Type"],
-            values=["SQM"],
-            aggfunc=sum,
-            fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
-        pie1 = go.Pie(values=pv["SQM"],
-                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
-                      hoverinfo='label+value+percent',
-                      textinfo='label+percent',
-                      textposition='outside',
-                      textfont=dict(
-                          color=colors_pie,
-                          size=12),
-                      marker=dict(colors=colors_pie,
-                                  line=dict(
-                                      color=color.white,
-                                      width=1
-                                  )
-                                  )
-                      )
-        return {
-            'data': [pie1],
-            'layout': go.Layout(
-                title='1q 2018',
-                width=width,
-                height=height,
-                legend=dict(orientation="h",
-                            traceorder="normal"),
-            )
-        }
-
-    @app.callback(
-        dash.dependencies.Output('LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_pie_graph_9(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                           Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                           Submarket_Large,
-                           Owner,
-                           Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                           LLR_E_TR,
-                           Month, col):
-        cond = dict(Year=[Year], Country=[Country], Agency=[Agency],
-                    # создание словаря с ключом - названием столбца, значением - выбранным параметрам
-                    City=[City], Property_Name=[Property_Name], Class=[Class],
-                    SQM=[SQM], Company=[Company], Business_Sector=[Business_Sector],
-                    Type_of_Deal=[Type_of_Deal], Type_of_Consultancy=[Type_of_Consultancy], LLR_TR=[LLR_TR],
-                    Quarter=[Quarter], Include_in_Market_Share=[Include_in_Market_Share], Address=[Address],
-                    Submarket_Large=[Submarket_Large],
-                    Owner=[Owner], Date_of_acquiring=[Date_of_acquiring], Class_Colliers=[Class_Colliers],
-                    Floor=[Floor],
-                    Deal_Size=[Deal_Size], Sublease_Agent=[Sublease_Agent], LLR_Only=[LLR_Only], E_TR_Only=[E_TR_Only],
-                    LLR_E_TR=[LLR_E_TR], Month=[Month])
-
-        list_of_values = (Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                          Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                          Submarket_Large,
-                          Owner,
-                          Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                          LLR_E_TR,
-                          Month)
-        cond_1 = cond.copy()
-        list_of_values_copy = list(filter(None, list_of_values))
-
-        df_plot = static.all_deals_query_df.copy()
-        data = df_plot[(df_plot['City'].isin(['Moscow']))]
-        data_llr_only = data[(data['LLR_Only'].isin(['Yes']))]
-        data_e_tr_only = data[(data['E_TR_Only'].isin(['Yes']))]
-        data_llr_e_tr_only = data[(data['LLR/E_TR'].isin(['Yes']))]
-        # ##print('data_llr_only_sum', data_llr_only["SQM"].sum())
-        # ##print('data_e_tr_only', data_e_tr_only["SQM"].sum())
-        # ##print('data_llr_e_tr_only', data_llr_e_tr_only["SQM"].sum())
-        d = {'Type': ['LLR', '(E)TR', 'LLR/(E)TR'],
-             'SQM': [data_llr_only["SQM"].sum(), data_e_tr_only["SQM"].sum(), data_llr_e_tr_only["SQM"].sum()]}
-        df_graph = pd.DataFrame(data=d)
-
-        width = 600
-        height = 450
-
-        pv = pd.pivot_table(
-            df_graph,
-            index=["Type"],
-            values=["SQM"],
-            aggfunc=sum,
-            fill_value=0)
-        colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_light_blue]
-        pie1 = go.Pie(values=pv["SQM"],
-                      labels=['LLR', '(E)TR', 'LLR/(E)TR'],
-                      hoverinfo='label+value+percent',
-                      textinfo='label+percent',
-                      textposition='outside',
-                      textfont=dict(
-                          color=colors_pie,
-                          size=12),
-                      marker=dict(colors=colors_pie,
-                                  line=dict(
-                                      color=color.white,
-                                      width=1
-                                  )
-                                  )
-                      )
-        return {
-            'data': [pie1],
-            'layout': go.Layout(
-                title='2013-2018',
-                width=width,
-                height=height,
-                legend=dict(orientation="h",
-                            traceorder="normal"),
-            )
-        }
-
-
-default_graphics()  # вызов функции с отображением базовых pie графиков
-
-
-def default_tables():
-    @app.callback(
-        dash.dependencies.Output('biggest-deal-tab-test', 'figure'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_biggest_deals_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                                 Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                                 Submarket_Large,
-                                 Owner,
-                                 Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only,
-                                 E_TR_Only,
-                                 LLR_E_TR,
-                                 Month, col):
-        all_deals_2017 = static.all_deals_query_df[static.all_deals_query_df['Year'].isin(['2017'])]
-        all_deals_2017 = all_deals_2017.sort_values('SQM', ascending=False)
-
-        all_deals_2017_selected = all_deals_2017[['Agency', 'Property_Name', 'SQM',
-                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
-        # ##print(all_deals_2017_selected.Property_Name.tolist())
-
-        trace = go.Table(
-            columnwidth=[80, 200, 100, 150, 200, 100],
-
-            header=dict(values=["Agency", "Property Name", "Office area", "Company", "Business Sector", "Type of Deal"],
-                        line=dict(color=color.white),
-                        fill=dict(color=color.sar_color),
-                        align=['left'] * 6,
-                        font=dict(color='white', size=12), ),
-
-            cells=dict(values=[all_deals_2017_selected.Agency.tolist(),
-                               all_deals_2017_selected.Property_Name.tolist(),
-                               all_deals_2017_selected.SQM,
-                               all_deals_2017_selected.Company,
-                               all_deals_2017_selected.Business_Sector,
-                               all_deals_2017_selected.Type_of_Deal
-
-                               ],
-                       line=dict(color=color.white),
-                       fill=dict(color='#EDFAFF'),
-                       align=['left'] * 6))
-
-        layout = dict(width=830, height=330)
-        data = [trace]
-        fig = dict(data=data, layout=layout)
-        return fig
-
-    @app.callback(
-        dash.dependencies.Output('html-tab-RU-2017', 'children'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_html_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                        Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                        Submarket_Large,
-                        Owner,
-                        Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                        LLR_E_TR,
-                        Month, col):
-        all_deals_2017 = static.all_deals_query_df[static.all_deals_query_df['Year'].isin(['2017'])]
-        all_deals_2017 = all_deals_2017.sort_values('SQM', ascending=False)
-        all_deals_2017['SQM'] = all_deals_2017['SQM'].round()
-        all_deals_2017_selected = all_deals_2017[['Agency', 'Property_Name', 'SQM',
-                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
-        return my_method.generate_table_top_deals(all_deals_2017_selected)
-
-    @app.callback(
-        dash.dependencies.Output('html-tab-RU-1q2018', 'children'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_html_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                        Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                        Submarket_Large,
-                        Owner,
-                        Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                        LLR_E_TR,
-                        Month, col):
-        all_deals_2018 = static.all_deals_query_df[
-            static.all_deals_query_df['Year'].isin(['2018']) & static.all_deals_query_df['Quarter'].isin(['1'])]
-        all_deals_2018 = all_deals_2018.sort_values('SQM', ascending=False)
-        all_deals_2018['SQM'] = all_deals_2018['SQM'].round()
-        all_deals_2018_selected = all_deals_2018[['Agency', 'Property_Name', 'SQM',
-                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
-        return my_method.generate_table_top_deals(all_deals_2018_selected)
-
-    @app.callback(
-        dash.dependencies.Output('html-tab-RU-five-years', 'children'),
-        [dash.dependencies.Input('Year', 'value'),
-         dash.dependencies.Input('Country', 'value'),
-         dash.dependencies.Input('Agency', 'value'),
-         dash.dependencies.Input('City', 'value'),
-         dash.dependencies.Input('Property_name', 'value'),
-         dash.dependencies.Input('Class', 'value'),
-         dash.dependencies.Input('SQM', 'value'),
-         dash.dependencies.Input('Business_Sector', 'value'),
-         dash.dependencies.Input('Type_of_Deal', 'value'),
-         dash.dependencies.Input('Type_of_Consultancy', 'value'),
-         dash.dependencies.Input('LLR/TR', 'value'),
-         dash.dependencies.Input('Quarter', 'value'),
-         dash.dependencies.Input('Company', 'value'),
-         dash.dependencies.Input('Include_in_Market_Share', 'value'),
-         dash.dependencies.Input('Address', 'value'),
-         dash.dependencies.Input('Submarket_Large', 'value'),
-         dash.dependencies.Input('Owner', 'value'),
-         dash.dependencies.Input('Date_of_acquiring', 'value'),
-         dash.dependencies.Input('Class_Colliers', 'value'),
-         dash.dependencies.Input('Floor', 'value'),
-         dash.dependencies.Input('Deal_Size', 'value'),
-         dash.dependencies.Input('Sublease_Agent', 'value'),
-         dash.dependencies.Input('LLR_Only', 'value'),
-         dash.dependencies.Input('E_TR_Only', 'value'),
-         dash.dependencies.Input('LLR/E_TR', 'value'),
-         dash.dependencies.Input('Month', 'value'),
-         dash.dependencies.Input('interface-columns', 'values')  # значение чеклиста из дерева с выбором столбцов
-         ])
-    def update_html_tab(Year, Country, Agency, City, Property_Name, Class, SQM, Business_Sector, Type_of_Deal,
-                        Type_of_Consultancy, LLR_TR, Quarter, Company, Include_in_Market_Share, Address,
-                        Submarket_Large,
-                        Owner,
-                        Date_of_acquiring, Class_Colliers, Floor, Deal_Size, Sublease_Agent, LLR_Only, E_TR_Only,
-                        LLR_E_TR,
-                        Month, col):
-        all_deals_2018 = static.all_deals_query_df[
-            static.all_deals_query_df['Year'].isin(['2018']) & static.all_deals_query_df['Quarter'].isin(['1'])]
-        all_deals_2018 = all_deals_2018.sort_values('SQM', ascending=False)
-        all_deals_2018['SQM'] = all_deals_2018['SQM'].round()
-        all_deals_2018_selected = all_deals_2018[['Agency', 'Property_Name', 'SQM',
-                                                  'Company', 'Business_Sector', 'Type_of_Deal']].head(10)
-        return my_method.generate_table_top_deals(all_deals_2018_selected)
-
-
-default_tables()
-
-''' Начало блока по отрисовке статических изображений. Код закомментирован до обсуждения  '''
 
 
 # @app.callback(
@@ -3362,6 +3262,7 @@ def update_graph_tab_none_stack(Year, Country, Agency, City, Property_Name, Clas
             )
     }
 
+
 @app.callback(
     dash.dependencies.Output('market-graph-horizontal-tab', 'figure'),
     [dash.dependencies.Input('Year', 'value'),
@@ -3525,7 +3426,6 @@ def update_graph_horizontal(Year, Country, Agency, City, Property_Name, Class, S
         )
     }
 
-
 @app.callback(
     dash.dependencies.Output('market-pie-graph-tab', 'figure'),
     [dash.dependencies.Input('Year', 'value'),
@@ -3588,9 +3488,12 @@ def update_pie_graph(Year, Country, Agency, City, Property_Name, Class, SQM, Bus
         values=["SQM"],
         aggfunc=sum,
         fill_value=0)
+    all_sqm = df_plot.SQM.sum()
+    mylist = list(round(i) for i in pv["SQM"]/all_sqm*100)
+    print(mylist)
     colors_pie = [color.colliers_dark_blue, color.colliers_extra_light_blue, color.colliers_grey_40,
                   color.colliers_yellow, color.colliers_red, color.colliers_light_blue]
-    pie1 = go.Pie(values=pv["SQM"],
+    pie1 = go.Pie(values= pv["SQM"],
                   labels=['Colliers', 'CW', 'CBRE', 'JLL', 'KF', 'SAR'],
                   hoverinfo='label+value+percent',
                   textinfo='label+percent',
@@ -3961,6 +3864,7 @@ def update_graph_percent(Year, Country, Agency, City, Property_Name, Class, SQM,
     }
 
 
+
 @app.callback(
     dash.dependencies.Output('market-graph-horizontal-total-tab', 'figure'),
     [dash.dependencies.Input('Year', 'value'),
@@ -4211,12 +4115,12 @@ def select_drop_from_check_susp():
         try:
             if 'Include_in_Market_Share' in val:
                 style_include = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
 
             if 'Include_in_Market_Share' not in val:
                 style_include = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -4231,12 +4135,12 @@ def select_drop_from_check_susp():
         try:
             if 'Agency' in val:
                 style_agency = {'display': 'inline-block',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
 
             if 'Agency' not in val:
                 style_agency = {'display': 'none',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
         except Exception as e:
             return html.Div([
@@ -4251,12 +4155,12 @@ def select_drop_from_check_susp():
         try:
             if 'Country' in val:
                 style_country = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
 
             if 'Country' not in val:
                 style_country = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -4271,12 +4175,12 @@ def select_drop_from_check_susp():
         try:
             if 'City' in val:
                 style_city = {'display': 'inline-block',
-                              'width': '7.69%'
+                              'width': '80px',
                               }
 
             if 'City' not in val:
                 style_city = {'display': 'none',
-                              'width': '7.69%'
+                              'width': '80px',
                               }
         except Exception as e:
             return html.Div([
@@ -4291,12 +4195,12 @@ def select_drop_from_check_susp():
         try:
             if 'Property_Name' in val:
                 style_property_name = {'display': 'inline-block',
-                                       'width': '7.69%'
+                                       'width': '80px',
                                        }
 
             if 'Property_Name' not in val:
                 style_property_name = {'display': 'none',
-                                       'width': '7.69%'
+                                       'width': '80px',
                                        }
         except Exception as e:
             return html.Div([
@@ -4311,12 +4215,12 @@ def select_drop_from_check_susp():
         try:
             if 'Class' in val:
                 style_class = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
 
             if 'Class' not in val:
                 style_class = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -4331,12 +4235,12 @@ def select_drop_from_check_susp():
         try:
             if 'SQM' in val:
                 style_SQM = {'display': 'inline-block',
-                             'width': '7.69%'
+                             'width': '80px',
                              }
 
             if 'SQM' not in val:
                 style_SQM = {'display': 'none',
-                             'width': '7.69%'
+                             'width': '80px',
                              }
         except Exception as e:
             return html.Div([
@@ -4351,12 +4255,12 @@ def select_drop_from_check_susp():
         try:
             if 'SQM' in val:
                 style_Company = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
 
             if 'SQM' not in val:
                 style_Company = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -4371,12 +4275,12 @@ def select_drop_from_check_susp():
         try:
             if 'Business_Sector' in val:
                 style_Business_Sector = {'display': 'inline-block',
-                                         'width': '7.69%'
+                                         'width': '80px',
                                          }
 
             if 'Business_Sector' not in val:
                 style_Business_Sector = {'display': 'none',
-                                         'width': '7.69%'
+                                         'width': '80px',
                                          }
         except Exception as e:
             return html.Div([
@@ -4391,12 +4295,12 @@ def select_drop_from_check_susp():
         try:
             if 'Type_of_Deal' in val:
                 style_Type_of_Deal = {'display': 'inline-block',
-                                      'width': '7.69%'
+                                      'width': '80px',
                                       }
 
             if 'Type_of_Deal' not in val:
                 style_Type_of_Deal = {'display': 'none',
-                                      'width': '7.69%'
+                                      'width': '80px',
                                       }
         except Exception as e:
             return html.Div([
@@ -4411,12 +4315,12 @@ def select_drop_from_check_susp():
         try:
             if 'Type_of_Consultancy' in val:
                 style_Type_of_Consultancy = {'display': 'inline-block',
-                                             'width': '7.69%'
+                                             'width': '80px',
                                              }
 
             if 'Type_of_Consultancy' not in val:
                 style_Type_of_Consultancy = {'display': 'none',
-                                             'width': '7.69%'
+                                             'width': '80px',
                                              }
         except Exception as e:
             return html.Div([
@@ -4431,12 +4335,12 @@ def select_drop_from_check_susp():
         try:
             if 'LLR_TR' in val:
                 style_LLR_TR = {'display': 'inline-block',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
 
             if 'LLR_TR' not in val:
                 style_LLR_TR = {'display': 'none',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
         except Exception as e:
             return html.Div([
@@ -4451,12 +4355,12 @@ def select_drop_from_check_susp():
         try:
             if 'Year' in val:
                 style_Year = {'display': 'inline-block',
-                              'width': '7.69%'
+                              'width': '80px',
                               }
 
             if 'Year' not in val:
                 style_Year = {'display': 'none',
-                              'width': '7.69%'
+                              'width': '80px',
                               }
         except Exception as e:
             return html.Div([
@@ -4471,11 +4375,11 @@ def select_drop_from_check_susp():
         try:
             if 'Quarter' in val:
                 style_Quarter = {'display': 'inline-block',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
             if 'Quarter' not in val:
                 style_Quarter = {'display': 'none',
-                                 'width': '7.69%'
+                                 'width': '80px',
                                  }
         except Exception as e:
             return html.Div([
@@ -4490,12 +4394,12 @@ def select_drop_from_check_susp():
         try:
             if 'Address' in val:
                 style_Addres = {'display': 'inline-block',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
 
             if 'Address' not in val:
                 style_Addres = {'display': 'none',
-                                'width': '7.69%'
+                                'width': '80px',
                                 }
         except Exception as e:
             return html.Div([
@@ -4510,12 +4414,12 @@ def select_drop_from_check_susp():
         try:
             if 'Submarket_Large' in val:
                 style_Submarket_Large = {'display': 'inline-block',
-                                         'width': '7.69%'
+                                         'width': '80px',
                                          }
 
             if 'Submarket_Large' not in val:
                 style_Submarket_Large = {'display': 'none',
-                                         'width': '7.69%'
+                                         'width': '80px',
                                          }
         except Exception as e:
             return html.Div([
@@ -4530,12 +4434,12 @@ def select_drop_from_check_susp():
         try:
             if 'Owner' in val:
                 style_Owner = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
 
             if 'Owner' not in val:
                 style_Owner = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -4550,12 +4454,12 @@ def select_drop_from_check_susp():
         try:
             if 'Date_of_acquiring' in val:
                 style_Date_of_acquiring = {'display': 'inline-block',
-                                           'width': '7.69%'
+                                           'width': '80px',
                                            }
 
             if 'Date_of_acquiring' not in val:
                 style_Date_of_acquiring = {'display': 'none',
-                                           'width': '7.69%'
+                                           'width': '80px',
                                            }
         except Exception as e:
             return html.Div([
@@ -4570,12 +4474,12 @@ def select_drop_from_check_susp():
         try:
             if 'Class_Colliers' in val:
                 style_Class_Colliers = {'display': 'inline-block',
-                                        'width': '7.69%'
+                                        'width': '80px',
                                         }
 
             if 'Class_Colliers' not in val:
                 style_Class_Colliers = {'display': 'none',
-                                        'width': '7.69%'
+                                        'width': '80px',
                                         }
         except Exception as e:
             return html.Div([
@@ -4590,12 +4494,12 @@ def select_drop_from_check_susp():
         try:
             if 'Floor' in val:
                 style_Floor = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
 
             if 'Floor' not in val:
                 style_Floor = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -4610,12 +4514,12 @@ def select_drop_from_check_susp():
         try:
             if 'Deal_Size' in val:
                 style_Deal_Size = {'display': 'inline-block',
-                                   'width': '7.69%'
+                                   'width': '80px',
                                    }
 
             if 'Deal_Size' not in val:
                 style_Deal_Size = {'display': 'none',
-                                   'width': '7.69%'
+                                   'width': '80px',
                                    }
         except Exception as e:
             return html.Div([
@@ -4630,12 +4534,12 @@ def select_drop_from_check_susp():
         try:
             if 'Sublease_Agent' in val:
                 style_Sublease_Agent = {'display': 'inline-block',
-                                        'width': '7.69%'
+                                        'width': '80px',
                                         }
 
             if 'Sublease_Agent' not in val:
                 style_Sublease_Agent = {'display': 'none',
-                                        'width': '7.69%'
+                                        'width': '80px',
                                         }
         except Exception as e:
             return html.Div([
@@ -4650,12 +4554,12 @@ def select_drop_from_check_susp():
         try:
             if 'LLR_Only' in val:
                 style_LLR_Only = {'display': 'inline-block',
-                                  'width': '7.69%'
+                                  'width': '80px',
                                   }
 
             if 'LLR_Only' not in val:
                 style_LLR_Only = {'display': 'none',
-                                  'width': '7.69%'
+                                  'width': '80px',
                                   }
         except Exception as e:
             return html.Div([
@@ -4670,12 +4574,12 @@ def select_drop_from_check_susp():
         try:
             if 'E_TR_Only' in val:
                 style_E_TR_Only = {'display': 'inline-block',
-                                   'width': '7.69%'
+                                   'width': '80px',
                                    }
 
             if 'E_TR_Only' not in val:
                 style_E_TR_Only = {'display': 'none',
-                                   'width': '7.69%'
+                                   'width': '80px',
                                    }
         except Exception as e:
             return html.Div([
@@ -4690,12 +4594,12 @@ def select_drop_from_check_susp():
         try:
             if 'LLR/E_TR' in val:
                 style_LLR_E_TR = {'display': 'inline-block',
-                                  'width': '7.69%'
+                                  'width': '80px',
                                   }
 
             if 'LLR/E_TR' not in val:
                 style_LLR_E_TR = {'display': 'none',
-                                  'width': '7.69%'
+                                  'width': '80px',
                                   }
         except Exception as e:
             return html.Div([
@@ -4710,12 +4614,12 @@ def select_drop_from_check_susp():
         try:
             if 'Month' in val:
                 style_Month = {'display': 'inline-block',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
 
             if 'Month' not in val:
                 style_Month = {'display': 'none',
-                               'width': '7.69%'
+                               'width': '80px',
                                }
         except Exception as e:
             return html.Div([
@@ -4823,6 +4727,7 @@ def update_datatable_susp(Year, Country, Agency, City, Property_Name, Class, SQM
 
 ''' Обновление базы данных по сделкам  '''
 
+
 @app.callback(
     dash.dependencies.Output('download-example-button', 'href'),
     # формирования файла-шаблона с первой строкой - названием столбцов таблицы
@@ -4926,12 +4831,14 @@ def update_table(jsonified_cleaned_data):
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/page-4':
-        return page_4_layout
-    elif pathname == '/page-5':
-        return page_5_layout
+    if pathname == '/page-deals':
+        return page_deals_layout
+    elif pathname == '/page-update-database':
+        return page_update_database_layout
     elif pathname == '/suspicious_deals':
         return suspicious_deals_layout
+    elif pathname == '/page-default-graphs':
+        return page_default_graphs_and_tabs
     elif pathname == '/page-help':
         return page_help_layout
     elif pathname == '/page-about':
@@ -4941,4 +4848,4 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='10.168.207.102')
