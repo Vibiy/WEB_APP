@@ -3,13 +3,13 @@ import psycopg2 as pg
 import sqlalchemy
 import project_sql as sql
 
-country = ("All countries", "Russia", "Ukraine", "Belarus", "Kazakhstan ",
+country = ("Russia", "Ukraine", "Belarus", "Kazakhstan ",
            "Azerbaijan")  # кортеж со списком стран доля выпадающего списка
-country_ind = ("All countries", "RU", "UA", "BY", "KZ", "AZ")  # кортеж со списком стран доля выпадающего списка
-years = (#"All years",
-         "2013", "2014", "2015", "2016", "2017", "2018")  # кортеж со списком годов доля выпадающего списка
+country_ind = ("RU", "UA", "BY", "KZ", "AZ")  # кортеж со списком стран доля выпадающего списка
+years = (  # "All years",
+    "2013", "2014", "2015", "2016", "2017", "2018")  # кортеж со списком годов доля выпадающего списка
 Agency = (
-    "All agency", "Colliers", "KF", "JLL", "CW", "SAR", "CBRE")  # кортеж со списком компаний доля выпадающего списка
+    "Colliers", "KF", "JLL", "CW", "SAR", "CBRE")  # кортеж со списком компаний доля выпадающего списка
 agency_list = ['Colliers', 'CBRE', 'CW', 'JLL', 'KF', 'SAR']  # список с компаниями для отрисовки
 Agency_tab = ("Colliers", "KF", "JLL", "CW", "SAR", "CBRE")  # кортеж со списком компаний доля выпадающего списка
 list_of_columns = [
@@ -35,7 +35,9 @@ list_of_columns = [
     # "LLR_Only",
     # "E_TR_Only",
     # "LLR/E_TR",
-    "Month", "Year", "Quarter"]
+    "Month",
+    "Year",
+    "Quarter"]
 
 list_of_columns_dataframe = [  # список заголовков таблицы по всем сделкам
     "Include_in_Market_Share",
@@ -43,15 +45,27 @@ list_of_columns_dataframe = [  # список заголовков таблиц�
     "Country",
     "City",
     "Property_Name",
-    "Address", "Submarket_Large", "Owner",
-    "Date_of_acquiring", "Class", "Class_Colliers", "Floor",
-    "SQM", "Deal_Size", "Company", "Business_Sector", "Sublease_Agent",
-    "Type_of_Deal", "Type_of_Consultancy",
+    "Address",
+    "Submarket_Large",
+    "Owner",
+    "Date_of_acquiring",
+    "Class",
+    "Class_Colliers",
+    "Floor",
+    "SQM",
+    "Deal_Size",
+    "Company",
+    "Business_Sector",
+    "Sublease_Agent",
+    "Type_of_Deal",
+    "Type_of_Consultancy",
     "LLR_TR",
     "LLR_Only",
     "E_TR_Only",
     "LLR/E_TR",
-    "Month", "Year", "Quarter"]
+    "Month",
+    "Year",
+    "Quarter"]
 
 list_of_columns_suspicious = [  # список заголовков таблицы по сомнительным сделкам
     'Agency',
@@ -89,7 +103,9 @@ list_of_columns_for_gui = [  # список чеклиста для выбора
     # "LLR",
     # "(E)TR",
     # "LLR/(E)TR",
-    "Month", "Year", "Quarter"]
+    "Month",
+    "Year",
+    "Quarter"]
 
 list_of_graphics_for_gui = [  # список чеклиста для выбора графика из дерева
     "Bar-stacked",
@@ -98,18 +114,19 @@ list_of_graphics_for_gui = [  # список чеклиста для выбор�
     "Pie-chart",
     "Bar-stacked-percent",
     "Bar-horizontal",
-    "LLR,(E)TR, LLR/(E)TR-pie-2017-RU",
-    'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU',
-    "LLR,(E)TR, LLR/(E)TR-pie-five-years-RU",
-    "LLR,(E)TR, LLR/(E)TR-pie-2017-MOS",
-    'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS',
-    "LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS",
-    'biggest-deal-tab-2017',
-    'biggest-deal-tab-1q2018',
-    'biggest-deal-tab-2013-2018',
-    'biggest-deal-tab-test']
+    # "LLR, (E)TR, LLR/(E)TR-pie-2017-RU",
+    # 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU',
+    # "LLR, (E)TR, LLR/(E)TR-pie-five-years-RU",
+    # "LLR, (E)TR, LLR/(E)TR-pie-2017-MOS",
+    # 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS',
+    # "LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS",
+    # 'biggest-deal-tab-2017',
+    # 'biggest-deal-tab-1q2018',
+    # 'biggest-deal-tab-2013-2018',
+    # 'biggest-deal-tab-test'
+]
 
-list_of_deals_type = [             # список чеклиста для сортировки сделок из дерева
+list_of_deals_type = [  # список чеклиста для сортировки сделок из дерева llr/tr
     "All deals",
     "LLR",
     "(E)TR",
@@ -118,6 +135,13 @@ list_of_deals_type = [             # список чеклиста для сор
     "All (E)TR (include double)"
 ]
 
+list_of_deals_type_sale_lease = [   # список чеклиста для сортировки сделок из дерева sale / lease
+    "Sale",
+    "Lease",
+    "Sale and Lease"
+]
+
+
 list_of_static_images = [
     "Bar-stacked",
     "Bar-stacked-horizontal",
@@ -125,12 +149,25 @@ list_of_static_images = [
     "Pie-chart",
     "Bar-stacked-percent",
     "Bar-horizontal",
-    "LLR,(E)TR, LLR/(E)TR-pie-2017-RU",
-    'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-RU',
-    "LLR,(E)TR, LLR/(E)TR-pie-five-years-RU",
-    "LLR,(E)TR, LLR/(E)TR-pie-2017-MOS",
-    'LLR,(E)TR, LLR/(E)TR-pie-1Q2018-MOS',
-    "LLR,(E)TR, LLR/(E)TR-pie-five-years-MOS"]
+    # "LLR, (E)TR, LLR/(E)TR-pie-2017-RU",
+    # 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU',
+    # "LLR, (E)TR, LLR/(E)TR-pie-five-years-RU",
+    # "LLR, (E)TR, LLR/(E)TR-pie-2017-MOS",
+    # 'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS',
+    # "LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS"
+]
+
+list_of_default_graphics = [  # список чеклиста для выбора дефолтных графиков и таблиц из дерева
+    "LLR, (E)TR, LLR/(E)TR-pie-2017-RU",
+    'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-RU',
+    "LLR, (E)TR, LLR/(E)TR-pie-five-years-RU",
+    "LLR, (E)TR, LLR/(E)TR-pie-2017-MOS",
+    'LLR, (E)TR, LLR/(E)TR-pie-1Q2018-MOS',
+    "LLR, (E)TR, LLR/(E)TR-pie-five-years-MOS",
+    'biggest-deal-tab-2017',
+    'biggest-deal-tab-1q2018',
+    'biggest-deal-tab-2013-2018',
+]
 
 dbname = 'postgres'  # название базы данных
 host = '10.168.207.102'  # IP адрес хоста, если сервер локальный, "localhost"
@@ -167,5 +204,9 @@ with conn:
     suspicious_deals_df = pd.DataFrame(suspicious_deals_data)  # Запись в датафрейм
     suspicious_deals_df.columns = list_of_columns_suspicious  # имена столбцов датафрейма по сомнительным сделкам
 
+    #  """SALE/LEASE DATA FRAMES"""
 
+
+    all_deals_query_df[all_deals_query_df['Include_in_Market_Share'].isin(['Y']) & all_deals_query_df['Type_of_Deal'].isin(['Sale', 'Purchase'])]
+    all_deals_query_df[all_deals_query_df['Include_in_Market_Share'].isin(['Y']) & ~all_deals_query_df['Type_of_Deal'].isin(['Sale', 'Purchase'])]
 
