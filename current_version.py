@@ -2324,7 +2324,7 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
     data_sum = int(round(data_to_table["SQM"].sum()))
     sqm_sum = '{0:,}'.format(data_sum).replace(',', ' ')
 
-    sum_parameters = 'Selected: type of deal - {0}; '.format(str(llr_type))
+    sum_parameters = 'Selected: type of deal - {0}, {1}; '.format(str(llr_type), str(sale_type))
     if len(list_of_values_copy) != 0:
         for i in range(len(list_of_values_copy)):
             for j in range(len(list_of_values_copy[i])):
@@ -2334,9 +2334,7 @@ def update_sum(Year, Country, Agency, City, Property_Name, Class, SQM, Business_
                 sum_parameters += '{0}, '.format(list_of_values_copy[i][j].strip("[]'"))
             sum_parameters = sum_parameters.strip(", ")
             sum_parameters += '; '
-        sum_parameters = sum_parameters.strip("; ")
-    else:
-        sum_parameters = sum_parameters.strip("; ")
+    sum_parameters += 'количество сделок - {0}'.format(data_to_table['Include_in_Market_Share'].count())
     return 'Суммарная площадь по сделкам составляет ', sqm_sum, ' кв.м (', sum_parameters, ')'
 
 
